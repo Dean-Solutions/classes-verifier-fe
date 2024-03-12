@@ -1,5 +1,9 @@
 # Create T3 App
 
+W tym projekcie będziemy korzystać z narzędzia commetizen-cli w celu tworzenia spójnych commitów i PR.
+[Link do repo commetizena](https://github.com/commitizen/cz-cli)
+
+
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
 ## What's next? How do I make an app with this?
