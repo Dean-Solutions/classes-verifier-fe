@@ -1,6 +1,6 @@
 export const customColors = {
 	primary: ['#1E6AFF'],
-	seaBlue: ['#175F69'],
+	seaBlue: ['#175F69', '#083135', '#56A3AD'],
 	bg: ['#F8F8F8'],
 	textColor: ['#170F49'],
 	black: ['#09090A'],
@@ -91,9 +91,10 @@ export const customColors = {
 	neutral: [
 		'#FFFFFF',
 		'#FAFAFA',
+		'#F4F4F4',
 		'#F6F6F6',
-		'#ECECEC',
 		'#E9EBF8',
+		'#E3E3E3',
 		'#C4C4C4',
 		'#B6B6B6',
 		'#AAAAAA',
@@ -115,3 +116,4 @@ export const customColors = {
 };
 
 export type CustomColorKeys = keyof typeof customColors;
+

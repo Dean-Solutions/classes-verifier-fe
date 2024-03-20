@@ -1,11 +1,16 @@
 {
 	"Navigation": {
 		"AppName": "Classes Verifier",
-		"Home": "Strona główna",
-		"Classes": "Lista przedmiotów",
-		"Students": "Lista studetnów",
-		"Requests": "Zgłoszenia",
-		"Settings": "Ustawienia",
-		"Logout": "Wyloguj"
+		"home": "Strona główna",
+		"classes": "Lista przedmiotów",
+		"students": "Lista studetnów",
+		"requests": "Zgłoszenia",
+		"settings": "Ustawienia",
+		"logout": "Wyloguj"
+	},
+	"Students": {
+		"headerTitle": "Lista studentów",
+		"searchPlaceholder": "Wyszukaj studenta"
 	}
 }
+

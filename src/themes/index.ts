@@ -6,6 +6,8 @@ import {
 	type MantineThemeOverride,
 } from '@mantine/core';
 import { type CustomColorKeys, customColors } from './colors';
+import { Title } from './components/Title';
+import { Select } from './components/Select';
 
 const globalFont = 'Inter, sans-serif';
 
@@ -101,8 +103,14 @@ export const theme: MantineThemeOverride = {
 		md: rem(14),
 		// body large
 		lg: rem(16),
+		xl: rem(24),
 	},
 	primaryColor: 'blue',
 	primaryShade: 4,
 	colors: customColors as MantineThemeOverride['colors'],
+	components: {
+		Title,
+		Select,
+	},
 };
+

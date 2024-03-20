@@ -25,22 +25,22 @@ export const Navbar = () => {
 
 	const navbarItems = [
 		{
-			label: t('Home'),
+			label: t('home'),
 			link: Routes.Home,
 			icon: <Home />,
 		},
 		{
-			label: t('Requests'),
+			label: t('requests'),
 			link: Routes.Requests,
 			icon: <Bell />,
 		},
 		{
-			label: t('Classes'),
+			label: t('classes'),
 			link: Routes.Classes,
 			icon: <Study />,
 		},
 		{
-			label: t('Students'),
+			label: t('students'),
 			link: Routes.Students,
 			icon: <People />,
 		},
@@ -48,12 +48,12 @@ export const Navbar = () => {
 
 	const bottomNavbarItems = [
 		{
-			label: t('Settings'),
+			label: t('settings'),
 			link: Routes.Settings,
 			icon: <Piechart />,
 		},
 		{
-			label: t('Logout'),
+			label: t('logout'),
 			link: Routes.Logout,
 			icon: <Logout />,
 		},

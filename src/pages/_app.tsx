@@ -21,7 +21,12 @@ const MyApp: AppType<{
 	const router = useRouter();
 
 	return (
-		<MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+		<MantineProvider
+			theme={theme}
+			withGlobalStyles
+			withNormalizeCSS
+			withCSSVariables
+		>
 			<NextIntlClientProvider
 				locale={router.locale}
 				messages={messages}
