@@ -6,15 +6,20 @@ const config = {
 	},
 	plugins: ['@typescript-eslint'],
 	extends: [
-		'next',
 		'next/core-web-vitals',
 		'plugin:@typescript-eslint/recommended-type-checked',
 		'plugin:@typescript-eslint/stylistic-type-checked',
-		'plugin:@typescript-eslint/recommended',
 	],
 	rules: {
 		'@typescript-eslint/array-type': 'off',
 		'@typescript-eslint/consistent-type-definitions': 'off',
+		'@typescript-eslint/explicit-member-accessibility': 'warn',
+		'@typescript-eslint/member-ordering': 'warn',
+		'@typescript-eslint/no-unsafe-assignment': 'warn',
+		'@typescript-eslint/no-unsafe-argument': 'warn',
+		'@typescript-eslint/no-explicit-any': 'warn',
+		'@typescript-eslint/prefer-nullish-coalescing': 'off',
+		'@typescript-eslint/no-unsafe-enum-comparison': 'off',
 
 		'@typescript-eslint/consistent-type-imports': [
 			'warn',
@@ -23,16 +28,22 @@ const config = {
 				fixStyle: 'inline-type-imports',
 			},
 		],
-		'@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+		'@typescript-eslint/no-unused-vars': [
+			'warn',
+			{
+				argsIgnorePattern: '^_',
+			},
+		],
 		'@typescript-eslint/require-await': 'off',
 		'@typescript-eslint/no-misused-promises': [
 			'error',
 			{
-				checksVoidReturn: { attributes: false },
+				checksVoidReturn: {
+					attributes: false,
+				},
 			},
 		],
 	},
 };
-
 module.exports = config;
 
