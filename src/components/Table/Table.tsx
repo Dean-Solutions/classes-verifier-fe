@@ -6,28 +6,28 @@ import {
 	useReactTable,
 	type ColumnDef,
 } from '@tanstack/react-table';
-import useStyles from '@/components/StudentsTable/StudentsTable.styles';
+import useStyles from '@/components/Table/Table.styles';
 import React, { useState } from 'react';
 import { Box, Button, Flex, Text } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { DataFetchErrorReload } from '../common/molecules/DataFetchError/DataFetchError';
 import { TableLoader } from './TableLoader';
 
-type TokensTableProps = {
-	data: Student[];
+type TokensTableProps<T> = {
+	data: T[];
 	isLoading: boolean;
 	isError: boolean;
-	columns: ColumnDef<Student, string>[];
+	columns: ColumnDef<T, string>[];
 };
 
-const StudentsTable = ({
+const Table = <T,>({
 	data,
 	columns,
 	isLoading,
 	isError,
-}: TokensTableProps) => {
+}: TokensTableProps<T>) => {
 	const { classes } = useStyles();
-	const t = useTranslations('Students.Table');
+	const t = useTranslations('Common.Table');
 
 	const [pagination, setPagination] = useState({
 		pageIndex: 0,
@@ -143,4 +143,4 @@ const StudentsTable = ({
 	);
 };
 
-export default React.memo(StudentsTable);
+export default React.memo(Table) as typeof Table;

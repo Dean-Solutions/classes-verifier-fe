@@ -1,10 +1,13 @@
 import { SearchIcon } from '@/Icons/SearchIcon';
 import { useStudentsStore } from '@/store/students.store';
 import { ActionIcon, CloseButton, Input } from '@mantine/core';
-import { useTranslations } from 'next-intl';
 import React from 'react';
 
-const Search = () => {
+type SearchProps = {
+	placeholder: string;
+};
+
+const Search = ({ placeholder }: SearchProps) => {
 	const { searchValue, clearSearchValue, setSearchValue } = useStudentsStore(
 		(state) => ({
 			isSearchEnabled: state.isSearchEnabled,
@@ -16,8 +19,6 @@ const Search = () => {
 	const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value);
 	};
-	const t = useTranslations('Students');
-
 	return (
 		<>
 			<Input
@@ -41,7 +42,7 @@ const Search = () => {
 					},
 				}}
 				icon={<SearchIcon />}
-				placeholder={t('searchPlaceholder')}
+				placeholder={placeholder}
 				rightSection={
 					searchValue && (
 						<ActionIcon
