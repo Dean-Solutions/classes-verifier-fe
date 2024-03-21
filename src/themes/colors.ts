@@ -4,6 +4,7 @@ export const customColors = {
 	bg: ['#F8F8F8'],
 	textColor: ['#170F49'],
 	black: ['#09090A'],
+	metalic: ['#292B32'],
 	blue: [
 		'#E6EFFF',
 		'#B0CEFF',
@@ -69,6 +70,7 @@ export const customColors = {
 		'#FFB1AD',
 		'#FF918A',
 		'#FF6158',
+		'#FF4545',
 		'#FF4136',
 		'#B32E26',
 		'#9C2821',
@@ -108,6 +110,7 @@ export const customColors = {
 		'#575757',
 		'#494949',
 		'#3D3D3D',
+		'#33363F',
 		'#2C2C2C',
 		'#1E1E1E',
 		'#121212',
@@ -116,4 +119,3 @@ export const customColors = {
 };
 
 export type CustomColorKeys = keyof typeof customColors;
-

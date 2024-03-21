@@ -75,7 +75,7 @@ export const Navbar = () => {
 			pl='md'
 			pr='lg'
 			py='xl'
-			bg='neutral.0'
+			bg='neutral.1'
 			sx={(theme) => ({
 				boxShadow: theme.shadows.xl,
 				borderRightColor: theme.colors.neutral[3],

@@ -9,10 +9,13 @@ import { getStaticProps } from '@/pages/index';
 import '@/styles/globals.css';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '@/themes';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const inter = Inter({
 	subsets: ['latin'],
 });
+
+const queryClient = new QueryClient();
 
 const MyApp: AppType<{
 	session: Session | null;
@@ -27,21 +30,22 @@ const MyApp: AppType<{
 			withNormalizeCSS
 			withCSSVariables
 		>
-			<NextIntlClientProvider
-				locale={router.locale}
-				messages={messages}
-				timeZone='Europe/Warsaw'
-			>
-				<SessionProvider session={session}>
-					<main className={inter.className}>
-						<Component {...pageProps} />
-					</main>
-				</SessionProvider>
-			</NextIntlClientProvider>
+			<QueryClientProvider client={queryClient}>
+				<NextIntlClientProvider
+					locale={router.locale}
+					messages={messages}
+					timeZone='Europe/Warsaw'
+				>
+					<SessionProvider session={session}>
+						<main className={inter.className}>
+							<Component {...pageProps} />
+						</main>
+					</SessionProvider>
+				</NextIntlClientProvider>
+			</QueryClientProvider>
 		</MantineProvider>
 	);
 };
 
 export { getStaticProps };
 export default MyApp;
-

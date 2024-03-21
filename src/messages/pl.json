@@ -1,4 +1,11 @@
 {
+	"Common": {
+		"loading": "Ładowanie...",
+		"noData": "Brak danych",
+		"error": "Wystąpił błąd",
+		"retry": "Spróbuj ponownie",
+		"cancel": "Anuluj"
+	},
 	"Navigation": {
 		"AppName": "Classes Verifier",
 		"home": "Strona główna",
@@ -10,7 +17,17 @@
 	},
 	"Students": {
 		"headerTitle": "Lista studentów",
-		"searchPlaceholder": "Wyszukaj studenta"
+		"searchPlaceholder": "Wyszukaj studenta",
+		"selectPlaceholder": "Wybierz tag semestru",
+		"Table": {
+			"firstName": "Imię",
+			"lastName": "Nazwisko",
+			"indexNumber": "Numer albumu",
+			"academicYear": "Rok studiów",
+			"actions": "Akcje",
+			"pagination": "Strona {currentPage} z {pageCount}",
+			"emptyTitle": "Brak studentów",
+			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria"
+		}
 	}
 }
-

@@ -51,9 +51,10 @@ const Search = () => {
 							onClick={clearSearchValue}
 						>
 							<CloseButton
+								color='dark.1'
 								sx={(theme) => ({
 									':hover': {
-										backgroundColor: theme.colors.neutral[4],
+										backgroundColor: theme.colors.neutral[5],
 									},
 								})}
 							/>
