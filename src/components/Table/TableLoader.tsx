@@ -17,9 +17,8 @@ export const TableLoader = ({ isError }: TableLoaderProps) => {
 			align='center'
 			w='100%'
 			mt={24}
-			sx={({ colors, radius }) => ({
+			sx={({ radius }) => ({
 				borderRadius: radius.md,
-				// border: `1px solid ${colors.dark[6]}`,
 				height: `calc(100vh - ${rem(128)})`,
 			})}
 		>

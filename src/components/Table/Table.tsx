@@ -1,4 +1,3 @@
-import { type Student } from '@/types/api.types';
 import {
 	flexRender,
 	getCoreRowModel,
