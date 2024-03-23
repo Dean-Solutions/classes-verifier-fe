@@ -44,5 +44,16 @@
 			"emptyDescription": "Nie znaleziono przedmiotów spełniających podane kryteria",
 			"noDescription": "-- Brak opisu --"
 		}
+	},
+	"HomeStudent": {
+		"headerTitle": "Strona główna",
+		"searchPlaceholder": "Wyszukaj przedmiot",
+		"confirmButton": "Potwierdź poprawność",
+		"errorButton": "Zgłoś błąd"
+	},
+	"HomeDean": {
+		"headerTitle": "Strona główna",
+		"searchPlaceholder": "Wyszukaj przedmiot"
 	}
+
 }
