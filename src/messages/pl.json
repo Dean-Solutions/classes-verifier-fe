@@ -29,5 +29,9 @@
 			"emptyTitle": "Brak studentów",
 			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria"
 		}
+	},
+	"Enrollment": {
+		"headerTitle": "Twoje przedmioty",
+		"acceptAllTitle": "Potwierdź wszystkie"
 	}
 }
