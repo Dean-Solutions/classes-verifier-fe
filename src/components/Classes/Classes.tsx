@@ -4,9 +4,11 @@ import {
     Accordion,
     rem,
     Button,
-    Textarea
+    Textarea,
+    Dialog
 } from '@mantine/core';
 import { useTranslations } from 'next-intl';
+import { useDisclosure } from '@mantine/hooks';
 
 
 export const Classes = () => {
@@ -20,17 +22,16 @@ export const Classes = () => {
     ];
     const t = useTranslations('HomeStudent')
 
+
     return (
         <Flex 
             direction="column"
             h='100%'
             style={{
                 padding: rem(8),
-                
             }}
         >
             <Flex 
-                mih={50} 
                 justify="flex-start" 
                 align="center" 
                 direction="row" 
@@ -44,6 +45,7 @@ export const Classes = () => {
                 >
                     {t('confirmButton')}
                 </Button>
+
             </Flex>
             <Accordion variant="separated">
                 {classes_list.map((item) => (
@@ -52,7 +54,11 @@ export const Classes = () => {
                         value={item.label}
                         bg='neutral.0'
                         mih={rem(70)}   
-                        sx={{ alignContent: 'center' }}
+                        sx={(theme) => ({
+                            boxShadow: theme.shadows.sm,
+                            borderRightColor: theme.colors.neutral[3],
+                            alignContent: 'center'
+                        })}
                     >
                         <Accordion.Control
                             fz='md'    
@@ -65,11 +71,12 @@ export const Classes = () => {
                                 direction='column'
                             >
                                 <Textarea
-                                    placeholder="Opisz krótko swój problem"
+                                    placeholder={t('textPlaceholder')}
                                     variant="filled"
                                     radius="md"
                                     w="100%"
                                     minRows={4}
+                                    maxLength={350}
                                 />
                                 <Button 
                                     color="red" 

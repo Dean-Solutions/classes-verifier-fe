@@ -49,11 +49,16 @@
 		"headerTitle": "Strona główna",
 		"searchPlaceholder": "Wyszukaj przedmiot",
 		"confirmButton": "Potwierdź poprawność",
+		"textPlaceholder": "Opisz krótko swój problem",
 		"errorButton": "Zgłoś błąd"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
 		"searchPlaceholder": "Wyszukaj przedmiot"
+	},
+	"RequestsStudent": {
+		"headerTitle": "Zgłoszenia",
+		"searchPlaceholder": "Wyszukaj request"
 	}
-
+	
 }
