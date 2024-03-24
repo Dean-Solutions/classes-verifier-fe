@@ -15,7 +15,7 @@ const config = {
 		'@typescript-eslint/consistent-type-definitions': 'off',
 		'@typescript-eslint/explicit-member-accessibility': 'warn',
 		'@typescript-eslint/member-ordering': 'warn',
-		'@typescript-eslint/no-unsafe-assignment': 'warn',
+		'@typescript-eslint/no-unsafe-assignment': 'off',
 		'@typescript-eslint/no-unsafe-argument': 'warn',
 		'@typescript-eslint/no-explicit-any': 'warn',
 		'@typescript-eslint/prefer-nullish-coalescing': 'off',
