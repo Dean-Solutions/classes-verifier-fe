@@ -5,6 +5,7 @@ export const customColors = {
 	textColor: ['#170F49'],
 	black: ['#09090A'],
 	metalic: ['#292B32'],
+	orange: ['#FFB931'],
 	blue: [
 		'#E6EFFF',
 		'#B0CEFF',

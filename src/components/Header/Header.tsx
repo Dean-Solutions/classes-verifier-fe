@@ -4,9 +4,10 @@ import Search from '../Search/Search';
 
 type HeaderProps = {
 	title: string;
+	searchPlaceholder: string;
 };
 
-const Header = ({ title }: HeaderProps) => {
+const Header = ({ title, searchPlaceholder }: HeaderProps) => {
 	return (
 		<Flex
 			align='center'
@@ -18,7 +19,7 @@ const Header = ({ title }: HeaderProps) => {
 		>
 			<Title>{title}</Title>
 			<Flex ml='auto' align='center'>
-				<Search />
+				<Search placeholder={searchPlaceholder} />
 			</Flex>
 		</Flex>
 	);

@@ -6,12 +6,13 @@ import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import StudentsTable from '@/components/StudentsTable/StudentsTable';
-import useStudentsTableData from '@/components/StudentsTable/StudentsTableDefs';
+import Table from '@/components/Table/Table';
+import useStudentsTableData from '@/hooks/useStudentsTableDefs';
 import { useGetStudents } from '@/query/students.query';
 import { EmptyState } from '@/components/EmptyState/EmptyState';
 import { useStudentsStore } from '@/store/students.store';
 import { useStudentSearch } from '@/hooks/useStudentSearch';
+import { type Student } from '@/types/api.types';
 
 // TODO Fetch from BE
 const data = [
@@ -34,7 +35,10 @@ export default function Students() {
 	return (
 		<AppLayout>
 			<Flex direction='column' gap='lg'>
-				<Header title={t('headerTitle')} />
+				<Header
+					title={t('headerTitle')}
+					searchPlaceholder={t('searchPlaceholder')}
+				/>
 				<Select
 					w={200}
 					placeholder={t('selectPlaceholder')}
@@ -61,7 +65,7 @@ export default function Students() {
 						description={t('Table.emptyDescription')}
 					/>
 				) : (
-					<StudentsTable
+					<Table<Student>
 						data={filteredStudents || []}
 						isLoading={isLoading}
 						isError={isError}

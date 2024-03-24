@@ -6,3 +6,9 @@ export interface Student {
 	indexNumber: number;
 	academicYear: number;
 }
+
+export interface Course {
+	id: number;
+	name: string;
+	description: string;
+}

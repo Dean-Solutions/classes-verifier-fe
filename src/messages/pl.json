@@ -4,7 +4,10 @@
 		"noData": "Brak danych",
 		"error": "Wystąpił błąd",
 		"retry": "Spróbuj ponownie",
-		"cancel": "Anuluj"
+		"cancel": "Anuluj",
+		"Table": {
+			"pagination": "Strona {currentPage} z {pageCount}"
+		}
 	},
 	"Navigation": {
 		"AppName": "Classes Verifier",
@@ -25,9 +28,21 @@
 			"indexNumber": "Numer albumu",
 			"academicYear": "Rok studiów",
 			"actions": "Akcje",
-			"pagination": "Strona {currentPage} z {pageCount}",
 			"emptyTitle": "Brak studentów",
 			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria"
+		}
+	},
+	"Classes": {
+		"headerTitle": "Lista przedmiotów",
+		"searchPlaceholder": "Wyszukaj przedmiot",
+		"selectPlaceholder": "Wybierz Semestr",
+		"Table": {
+			"name": "Nazwa",
+			"description": "Opis przedmiotu",
+			"actions": "Akcje",
+			"emptyTitle": "Brak przedmiotów",
+			"emptyDescription": "Nie znaleziono przedmiotów spełniających podane kryteria",
+			"noDescription": "-- Brak opisu --"
 		}
 	}
 }
