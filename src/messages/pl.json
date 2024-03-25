@@ -30,6 +30,16 @@
 			"actions": "Akcje",
 			"emptyTitle": "Brak studentów",
 			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria"
+		},
+		"Select": {
+			"addTag": "Dodaj tag semestru"
+		},
+		"AddTagModal": {
+			"title": "Dodaj tag semestru",
+			"description": "Wybierz tag semestru, który chcesz dodać do studenta",
+			"selectPlaceholder": "Wybierz tag semestru",
+			"add": "Dodaj",
+			"cancel": "Anuluj"
 		}
 	},
 	"Classes": {
