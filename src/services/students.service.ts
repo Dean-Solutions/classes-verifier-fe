@@ -16,11 +16,11 @@ export const getStudents = (semesterTag: string) => {
 		academicYear: index,
 	}));
 
-	if (semesterTag === 'INF_23-24') {
+	if (semesterTag === '1') {
 		return Promise.resolve(data_inf_23_24);
 	}
 
-	if (semesterTag === 'INF_22-23') {
+	if (semesterTag === '2') {
 		return Promise.resolve(data_inf_22_23);
 	}
 

@@ -12,3 +12,9 @@ export interface Course {
 	name: string;
 	description: string;
 }
+
+export interface Tag {
+	subjectTagId: number;
+	name: string;
+	description: string;
+}

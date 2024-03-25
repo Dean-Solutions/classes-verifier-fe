@@ -1,10 +1,10 @@
 import { type Student } from '@/types/api.types';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useStudentSearch = (students: Student[], searchValue: string) => {
 	const [filteredStudents, setFilteredStudents] = useState<Student[]>(students);
 
-	useEffect(() => {
+	const filterStudents = useCallback(() => {
 		if (searchValue) {
 			const searchValueLower = searchValue.toLowerCase().trim();
 			const filtered = students.filter((student) => {
@@ -27,7 +27,13 @@ export const useStudentSearch = (students: Student[], searchValue: string) => {
 		} else {
 			setFilteredStudents(students);
 		}
-	}, [searchValue, students]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchValue]);
 
-	return { filteredStudents };
+	useEffect(() => {
+		filterStudents();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchValue]);
+
+	return { filteredStudents, filterStudents };
 };
