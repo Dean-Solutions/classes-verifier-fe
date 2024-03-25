@@ -1,6 +1,6 @@
 import { SearchIcon } from '@/Icons/SearchIcon';
 import { useStudentsStore } from '@/store/students.store';
-import { ActionIcon, CloseButton, Input } from '@mantine/core';
+import { CloseButton, Input } from '@mantine/core';
 import React from 'react';
 
 type SearchProps = {
@@ -45,21 +45,17 @@ const Search = ({ placeholder }: SearchProps) => {
 				placeholder={placeholder}
 				rightSection={
 					searchValue && (
-						<ActionIcon
-							size='xs'
+						<CloseButton
 							variant='subtle'
-							color='dark.1'
 							onClick={clearSearchValue}
-						>
-							<CloseButton
-								color='dark.1'
-								sx={(theme) => ({
-									':hover': {
-										backgroundColor: theme.colors.neutral[5],
-									},
-								})}
-							/>
-						</ActionIcon>
+							size='xs'
+							color='dark.1'
+							sx={(theme) => ({
+								':hover': {
+									backgroundColor: theme.colors.neutral[5],
+								},
+							})}
+						/>
 					)
 				}
 			/>

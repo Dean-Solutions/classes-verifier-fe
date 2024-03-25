@@ -1,4 +1,4 @@
-import { Flex, Title } from '@mantine/core';
+import { Box, Flex, Title } from '@mantine/core';
 import React from 'react';
 import Search from '../Search/Search';
 
@@ -18,9 +18,9 @@ const Header = ({ title, searchPlaceholder }: HeaderProps) => {
 			})}
 		>
 			<Title>{title}</Title>
-			<Flex ml='auto' align='center'>
+			<Box ml='auto'>
 				<Search placeholder={searchPlaceholder} />
-			</Flex>
+			</Box>
 		</Flex>
 	);
 };

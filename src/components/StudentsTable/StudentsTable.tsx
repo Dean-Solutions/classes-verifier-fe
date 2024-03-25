@@ -27,7 +27,7 @@ const StudentsTable = ({
 	isError,
 }: TokensTableProps) => {
 	const { classes } = useStyles();
-	const t = useTranslations('Students.Table');
+	const t = useTranslations('Common.Table');
 
 	const [pagination, setPagination] = useState({
 		pageIndex: 0,
