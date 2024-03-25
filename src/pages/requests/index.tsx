@@ -5,10 +5,11 @@ import React from 'react';
 import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { useTranslations } from 'next-intl';
-import { Requests } from '@/components/Requests/Requests'; 
+import { RequestsStudent } from '@/components/Requests/RequestsStudent'; 
+import { RequestsDean } from '@/components/Requests/RequestsDean'; 
 
 const RequestsPage: NextPage = () => {
-	const t = useTranslations('RequestsStudent');
+	const t = useTranslations('Requests');
 
 	return (
 		<AppLayout>
@@ -17,7 +18,7 @@ const RequestsPage: NextPage = () => {
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				<Requests />
+				<RequestsDean />
 			</Flex>
 		</AppLayout>
 	);

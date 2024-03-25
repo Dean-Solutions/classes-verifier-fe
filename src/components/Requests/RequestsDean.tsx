@@ -12,34 +12,27 @@ import {
 import { useTranslations } from 'next-intl';
 
 
-export const Requests = () => {
-    const spanValue = 4
+export const RequestsDean = () => {
+    const spanValue = 4;
+    const t = useTranslations('Requests');
 
     const requests_list = [
         {
             class: "Inżynieria Oprogramowania",
-            status: "Zrobione",
+            tag: "INF_23_24 | Jakub Świątek | 3 rok",
             descripton: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at scelerisque felis. Mauris arcu magna, ullamcorper ut dignissim non, viverra vel orci. Fusce semper metus a tincidunt condimentum. Cras in leo dapibus, cursus mi quis, porta velit. Phasellus vehicula nibh id tincidunt ornare. Suspendisse sapien mi, rutrum at ex sit amet erat curae."
         },
         {
             class: "Systemy Wbudowane",
-            status: "Dostarczono",
+            tag: "INF_23_24 | Jakub Świątek | 3 rok",
             descripton: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at scelerisque felis. Mauris arcu magna, ullamcorper ut dignissim non, viverra vel orci. Fusce semper metus a tincidunt condimentum. Cras in leo dapibus, cursus mi quis, porta velit. Phasellus vehicula nibh id tincidunt ornare. Suspendisse sapien mi, rutrum at ex sit amet erat curae."
         },
         {
             class: "Systemy Wbudowane",
-            status: "Odrzucono",
+            tag: "INF_23_24 | Jakub Świątek | 3 rok",
             descripton: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at scelerisque felis. Mauris arcu magna, ullamcorper ut dignissim non, viverra vel orci. Fusce semper metus a tincidunt condimentum. Cras in leo dapibus, cursus mi quis, porta velit. Phasellus vehicula nibh id tincidunt ornare. Suspendisse sapien mi, rutrum at ex sit amet erat curae."
         }
-    ]
-
-    type Map = Record<string, string | undefined>;
-
-    const color_map: Map = {
-        Zrobione: "green",
-        Dostarczono: "yellow",
-        Odrzucono: "red"
-    }
+    ];
 
     return (
         <Grid
@@ -65,25 +58,20 @@ export const Requests = () => {
                     >
                         <Text
                             fz="xl"
-                            mt="5%"
+                            mt="2%"
                             ml="5%"
                         >
                             {item.class}
                         </Text>
-                        <Badge 
-                            color={color_map[item.status]}
-                            size="md" 
-                            radius="lg" 
-                            variant="filled"
-                            mb={rem(15)}
-                            ml={rem(15)}
-                            w={120}
+                        <Text
+                            fz="xs"
+                            ml="5%"
                         >
-                            {item.status}
-                        </Badge>
-                        <Divider pb='md' w='90%' ml='5%'/>
+                            {item.tag}
+                        </Text>
+                        <Divider pb='xs' w='90%' ml='5%'/>
                         <ScrollArea
-                            h={250}
+                            h={175}
                             ml={rem(15)}
                             mr={rem(15)}
                         >
@@ -93,10 +81,25 @@ export const Requests = () => {
                                 {item.descripton}
                             </Text>
                         </ScrollArea>
+                        <Flex
+                            justify="flex-end" 
+                            align="center" 
+                            direction="row" 
+                        >
+                            <Button 
+                                color="green" 
+                                radius="md" 
+                                size="xs"
+                                m={rem(10)}
+                                mb={rem(10)}
+                            >
+                                {t('confirmButton')}
+                            </Button>
+                        </Flex>
                     </Flex>
                 </Grid.Col>
             ))}
         </Grid>
-    )
+    );
 
 }

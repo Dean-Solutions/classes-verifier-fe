@@ -56,9 +56,10 @@
 		"headerTitle": "Strona główna",
 		"searchPlaceholder": "Wyszukaj przedmiot"
 	},
-	"RequestsStudent": {
+	"Requests": {
 		"headerTitle": "Zgłoszenia",
-		"searchPlaceholder": "Wyszukaj request"
+		"searchPlaceholder": "Wyszukaj request",
+		"confirmButton": "Zrobione"
 	}
 	
 }
