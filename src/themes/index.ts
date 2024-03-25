@@ -8,6 +8,8 @@ import {
 import { type CustomColorKeys, customColors } from './colors';
 import { Title } from './components/Title';
 import { Select } from './components/Select';
+import { TextInput } from './components/TextInput';
+import { NumberInput } from './components/NumberInput';
 
 const globalFont = 'Inter, sans-serif';
 
@@ -111,6 +113,7 @@ export const theme: MantineThemeOverride = {
 	components: {
 		Title,
 		Select,
+		NumberInput,
+		TextInput,
 	},
 };
-

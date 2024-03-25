@@ -1,7 +1,7 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
 import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
-import { Box, Flex, Select } from '@mantine/core';
+import { Box, Button, Flex, Select, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
 import { useEffect, useState } from 'react';
@@ -17,8 +17,9 @@ import { useGetTags } from '@/query/tags.query';
 import { Logout } from '@/Icons/Logout';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
 import { modals } from '@mantine/modals';
-import { AddStudentModal } from '@/components/common/modals/AddStudentModal';
+import { AddTagModal } from '@/components/common/modals/AddTagModal';
 import { type SelectDataWithFooter } from '@/types/common.types';
+import { AddStudentModal } from '@/components/common/modals/AddStudentModal';
 
 // TODO Fetch from BE
 // const data = [
@@ -46,8 +47,8 @@ export default function Students() {
 	} = useGetStudents(semesterTag || '');
 
 	const { filteredStudents, filterStudents } = useStudentSearch(
-		students || [],
 		searchValue,
+		students,
 	);
 	const t = useTranslations('Students');
 
@@ -60,10 +61,23 @@ export default function Students() {
 		}
 	}, [semesterTags, filterStudents]);
 
-	const openAddTagModal = () => {
+	const openModal = (type: 'TAG' | 'STUDENT') => {
 		modals.open({
-			title: t('AddTagModal.title'),
-			children: <AddStudentModal />,
+			title:
+				type === 'TAG' ? t('AddTagModal.title') : t('AddStudentModal.title'),
+			centered: true,
+			styles(theme) {
+				return {
+					title: {
+						fontWeight: 700,
+						fontSize: theme.fontSizes.lg,
+					},
+					close: {
+						color: theme.colors.dark[7],
+					},
+				};
+			},
+			children: type === 'TAG' ? <AddTagModal /> : <AddStudentModal />,
 		});
 	};
 
@@ -79,7 +93,7 @@ export default function Students() {
 		footer: {
 			isFirst: true,
 			IconComp: <Logout />,
-			onClick: () => openAddTagModal(),
+			onClick: () => openModal('TAG'),
 			color: 'orange.0',
 		},
 	});
@@ -91,28 +105,40 @@ export default function Students() {
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				<Select
-					w={200}
-					placeholder={t('selectPlaceholder')}
-					value={semesterTag}
-					data={tags}
-					itemComponent={SelectDropdownItem}
-					rightSection={
-						<Box
-							sx={{
-								transition: 'transform .2s',
-								transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
-							}}
-						>
-							<ChevronDown fill='var(--mantine-color-neutral-0)' />
-						</Box>
-					}
-					onChange={(value) => setSemesterTag(value || '')}
-					onDropdownOpen={toggle}
-					onDropdownClose={toggle}
-				/>
+				<Flex justify='space-between' align='center'>
+					<Select
+						w={200}
+						placeholder={t('selectPlaceholder')}
+						value={semesterTag}
+						data={tags}
+						itemComponent={SelectDropdownItem}
+						rightSection={
+							<Box
+								sx={{
+									transition: 'transform .2s',
+									transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
+								}}
+							>
+								<ChevronDown fill='var(--mantine-color-neutral-0)' />
+							</Box>
+						}
+						onChange={(value) => setSemesterTag(value || '')}
+						onDropdownOpen={toggle}
+						onDropdownClose={toggle}
+					/>
+					<Button
+						onClick={() => openModal('STUDENT')}
+						sx={{
+							borderRadius: 40,
+						}}
+						leftIcon={<Text fz='lg'>+</Text>}
+					>
+						{t('addStudent')}
+					</Button>
+				</Flex>
 
-				{filteredStudents && filteredStudents.length === 0 ? (
+				{!filteredStudents ||
+				(filteredStudents && filteredStudents.length === 0) ? (
 					<EmptyState
 						title={t('Table.emptyTitle')}
 						description={t('Table.emptyDescription')}

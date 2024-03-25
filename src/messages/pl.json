@@ -22,6 +22,7 @@
 		"headerTitle": "Lista studentów",
 		"searchPlaceholder": "Wyszukaj studenta",
 		"selectPlaceholder": "Wybierz tag semestru",
+		"addStudent": "Dodaj studenta",
 		"Table": {
 			"firstName": "Imię",
 			"lastName": "Nazwisko",
@@ -29,17 +30,34 @@
 			"academicYear": "Rok studiów",
 			"actions": "Akcje",
 			"emptyTitle": "Brak studentów",
-			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria"
+			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria",
+			"empty": "-- BRAK --"
 		},
 		"Select": {
 			"addTag": "Dodaj tag semestru"
 		},
 		"AddTagModal": {
 			"title": "Dodaj tag semestru",
-			"description": "Wybierz tag semestru, który chcesz dodać do studenta",
+			"tagLabel": "Tag semestru",
+			"tagPlaceholder": "INF_24-25",
 			"selectPlaceholder": "Wybierz tag semestru",
-			"add": "Dodaj",
-			"cancel": "Anuluj"
+			"addBtn": "Dodaj",
+			"descriptionLabel": "Opis",
+			"descriptionPlaceholder": "Opis tagu"
+		},
+		"AddStudentModal": {
+			"title": "Dodaj Studenta",
+			"firstNameLabel": "Imię",
+			"firstNamePlaceholder": "Jan",
+			"lastNameLabel": "Nazwisko",
+			"lastNamePlaceholder": "Kowalski",
+			"indexNumberLabel": "Numer albumu",
+			"indexNumberPlaceholder": "123456",
+			"emailLabel": "Email",
+			"emailPlaceholder": "123456@student.agh.edu.pl",
+			"semesterLabel": "Semestr",
+			"semesterPlaceholder": "2",
+			"addBtn": "Dodaj"
 		}
 	},
 	"Classes": {

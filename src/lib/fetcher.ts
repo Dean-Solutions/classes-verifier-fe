@@ -39,7 +39,6 @@ export async function fetcher<T>(
 			return Promise.reject(new Error(JSON.stringify(data)));
 		}
 	} catch (error) {
-		console.log('xDD', error);
 		return Promise.reject(error);
 	}
 }
