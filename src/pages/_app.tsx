@@ -31,21 +31,21 @@ const MyApp: AppType<{
 			withNormalizeCSS
 			withCSSVariables
 		>
-			<ModalsProvider>
-				<QueryClientProvider client={queryClient}>
-					<NextIntlClientProvider
-						locale={router.locale}
-						messages={messages}
-						timeZone='Europe/Warsaw'
-					>
-						<SessionProvider session={session}>
+			<QueryClientProvider client={queryClient}>
+				<NextIntlClientProvider
+					locale={router.locale}
+					messages={messages}
+					timeZone='Europe/Warsaw'
+				>
+					<SessionProvider session={session}>
+						<ModalsProvider>
 							<main className={inter.className}>
 								<Component {...pageProps} />
 							</main>
-						</SessionProvider>
-					</NextIntlClientProvider>
-				</QueryClientProvider>
-			</ModalsProvider>
+						</ModalsProvider>
+					</SessionProvider>
+				</NextIntlClientProvider>
+			</QueryClientProvider>
 		</MantineProvider>
 	);
 };

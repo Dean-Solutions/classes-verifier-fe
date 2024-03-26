@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetTags = () => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_CLASSES],
+		queryKey: [QueryKeys.GET_TAGS],
 		queryFn: () => getTags() as Promise<Tag[]>,
 		staleTime: ONE_HOUR,
 	});
@@ -13,7 +13,7 @@ export const useGetTags = () => {
 
 export const useGetTagById = (tagId: string) => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_CLASSES, { tagId }],
+		queryKey: [QueryKeys.GET_TAGS, { tagId }],
 		queryFn: () => getTags(tagId) as Promise<Tag>,
 		staleTime: ONE_HOUR,
 	});

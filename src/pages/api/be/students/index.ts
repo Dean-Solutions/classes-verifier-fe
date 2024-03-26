@@ -8,6 +8,6 @@ export default async function handler(
 	await serverFetcher({
 		req,
 		res,
-		path: 'tags',
+		path: 'students',
 	});
 }
