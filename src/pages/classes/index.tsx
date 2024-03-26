@@ -11,7 +11,7 @@ import Table from '@/components/Table/Table';
 import { useGetClasses } from '@/query/classes.query';
 import { type Course } from '@/types/api.types';
 import useClassesTableData from '@/hooks/useClassesTableDefs';
-import AddClass from "@/components/AddClass/AddClass";
+import AddSubject from "@/components/AddSubject/AddSubject";
 
 const data = [
 	{ label: 'Semestr 1', value: 'Semestr 1' },
@@ -32,7 +32,7 @@ export default function Classes() {
 
 	return (
 		<AppLayout>
-			{windowVisible && <AddClass windowVisible={setWindowVisible}></AddClass>}
+			{windowVisible && <AddSubject windowVisible={setWindowVisible}></AddSubject>}
 			<Flex direction='column' gap='lg'>
 				<Header
 					title={t('headerTitle')}

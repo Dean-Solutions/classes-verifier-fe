@@ -1,3 +1,7 @@
+import {fetcher} from "@/lib/fetcher";
+import {Course, Tag} from "@/types/api.types";
+import {Endpoints} from "@/types/endpoints.types";
+
 export const getClasses = (semesterTag: string) => {
 	// TODO Fetch from backend
 	const data_inf_sem_1 = Array.from({ length: 40 }, (_, index) => ({
@@ -22,3 +26,4 @@ export const getClasses = (semesterTag: string) => {
 
 	return Promise.resolve([]);
 };
+

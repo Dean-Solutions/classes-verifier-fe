@@ -1,13 +1,14 @@
 import {Flex, Overlay, TextInput, Group, Button, Box, Textarea} from "@mantine/core";
 import {useForm} from "@mantine/form";
-import {Dispatch, SetStateAction, useState} from "react";
+import {Dispatch, SetStateAction} from "react";
+import {addSubject} from "@/services/subjects.service";
 
 
-const AddClass = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<boolean>>}) => {
+const AddSubject = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<boolean>>}) => {
     const addSubjectForm = useForm({
         initialValues: {
             subjectName: "",
-            subjectSemester: "",
+            subjectSemester: -1,
             subjectDescription: "",
         },
 
@@ -16,7 +17,7 @@ const AddClass = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<boolea
                 if (value == null){
                     return "Podaj numer semestru!";
                 }
-                const parsedValue = parseInt(value);
+                const parsedValue = value;
                 if (!parsedValue){
                     return "Numer semestru musi być liczbą!"
                 }
@@ -42,8 +43,9 @@ const AddClass = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<boolea
                     <form  onSubmit={
                         addSubjectForm.onSubmit((values) => {
                             if (addSubjectForm.validate().hasErrors) return;
-                            submitAddNewClass(values);
-                            windowVisible(false);
+                            submitAddNewSubject(values)
+                                .catch((e) => console.error(e))
+                                .finally(() => windowVisible(false));
                         })
                     }>
 
@@ -89,14 +91,18 @@ const AddClass = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<boolea
     )
 }
 
-function submitAddNewClass(values:{
+async function submitAddNewSubject(values:{
     subjectName: string,
-    subjectSemester: string | number,
+    subjectSemester: number,
     subjectDescription: string,
 }) {
     console.log(values.subjectName)
     console.log(values.subjectSemester)
     console.log(values.subjectDescription)
+
+    const response = await addSubject(values);
+
+    console.log(response)
 }
 
-export default AddClass;
+export default AddSubject;
