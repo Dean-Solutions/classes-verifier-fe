@@ -34,6 +34,12 @@ export const RequestsDean = () => {
         }
     ];
 
+    const [items, setItems] = useState(requests_list);
+
+    const onRequestDone = (indexToDelete: number) => {
+        setItems(prevItems => prevItems.filter((_, index) => index !== indexToDelete));
+    }
+
     return (
         <Grid
             h='100%'
@@ -41,10 +47,10 @@ export const RequestsDean = () => {
                 padding: rem(8),
             }}
         >
-            {requests_list.map((item) => (
+            {items.map((item, index) => (
                 <Grid.Col 
                     span={spanValue}
-                    key={item.class}
+                    key={index}
                 >
                     <Flex
                         h={rem(300)}
@@ -92,6 +98,7 @@ export const RequestsDean = () => {
                                 size="xs"
                                 m={rem(10)}
                                 mb={rem(10)}
+                                onClick={() => onRequestDone(index)}
                             >
                                 {t('confirmButton')}
                             </Button>

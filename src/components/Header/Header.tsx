@@ -1,6 +1,7 @@
-import { Flex, Title } from '@mantine/core';
+import { Flex, Title, Button } from '@mantine/core';
 import React from 'react';
 import Search from '../Search/Search';
+import { useStudentsStore } from '@/store/students.store';
 
 type HeaderProps = {
 	title: string;
@@ -8,6 +9,8 @@ type HeaderProps = {
 };
 
 const Header = ({ title, searchPlaceholder }: HeaderProps) => {
+	const {toggleRole} = useStudentsStore((state) => ({toggleRole: state.toggleRole}));
+
 	return (
 		<Flex
 			align='center'
@@ -18,7 +21,11 @@ const Header = ({ title, searchPlaceholder }: HeaderProps) => {
 			})}
 		>
 			<Title>{title}</Title>
-			<Flex ml='auto' align='center'>
+			<Flex ml='auto' align='center' gap="md">
+				{/* TODO to remove in S2 */}
+				<Button
+				onClick={toggleRole}
+				>Change role</Button> 
 				<Search placeholder={searchPlaceholder} />
 			</Flex>
 		</Flex>

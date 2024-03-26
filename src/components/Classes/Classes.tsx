@@ -5,7 +5,9 @@ import {
     rem,
     Button,
     Textarea,
-    Dialog
+    Modal,
+    Text,
+    CheckIcon
 } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { useDisclosure } from '@mantine/hooks';
@@ -20,16 +22,24 @@ export const Classes = () => {
         {label: "Inżynieria Bezpieczeństwa"},
         {label: "Technologie Internetu Rzeczy"}
     ];
-    const t = useTranslations('HomeStudent')
+    const t = useTranslations('HomeStudent');
+    const c = useTranslations('Common');
 
+    const [opened, { toggle, close }] = useDisclosure(false);
+    
+    const [confirmed, setConfirmed] = useState(false);
+
+    const onConfirm = () => {
+      setConfirmed(true);
+      close;
+    };
 
     return (
+        <>
         <Flex 
             direction="column"
             h='100%'
-            style={{
-                padding: rem(8),
-            }}
+            p={rem(8)}
         >
             <Flex 
                 justify="flex-start" 
@@ -42,10 +52,10 @@ export const Classes = () => {
                     size="md"
                     m={rem(10)}
                     mb={rem(20)}
+                    onClick={toggle}
                 >
                     {t('confirmButton')}
                 </Button>
-
             </Flex>
             <Accordion variant="separated">
                 {classes_list.map((item) => (
@@ -63,7 +73,20 @@ export const Classes = () => {
                         <Accordion.Control
                             fz='md'    
                         >
-                            {item.label}
+                            <Flex
+                                direction='row'
+                                justify='space-between'
+                            >
+                                {item.label}
+                                {confirmed == true ? 
+                                <CheckIcon 
+                                    color="lime"
+                                    style={{ 
+                                        width: '20px', 
+                                        height: '20px'
+                                    }}
+                                /> : null}
+                            </Flex>
                         </Accordion.Control>
                         <Accordion.Panel>
                             <Flex
@@ -93,5 +116,70 @@ export const Classes = () => {
                 ))}
             </Accordion>
         </Flex>
+
+        <Modal
+            opened={opened}
+            onClose={close} 
+            centered
+            withCloseButton={false}
+        >
+            <Flex
+                direction="column"
+            >
+                <Text
+                    fz="xl"
+                    mt="2%"
+                    fw={700}
+                    align='center'
+                >
+                    {t('warning')}
+                </Text>
+                <Text
+                    fz="md"
+                    ml="5%"
+                    mr="5%"
+                    mt={rem(10)}
+                >
+                    {t('warningText1')} 
+                </Text>
+                <Text
+                    fz="md"
+                    ml="5%"
+                    mr="5%"
+                    mt={rem(10)}
+                >
+                    {t('warningText2')} 
+                </Text>
+                <Flex
+                    direction="row"
+                    w="90%"
+                    ml="5%"
+                    justify="center"
+                >
+                    <Button 
+                        color="green" 
+                        radius="md" 
+                        size="md"
+                        m={rem(10)}
+                        mb={rem(5)}
+                        onClick={onConfirm}
+                    >
+                        {c('confirm')}
+                    </Button>
+                    <Button 
+                        color="blue" 
+                        radius="md" 
+                        size="md"
+                        m={rem(10)}
+                        mb={rem(5)}
+                        onClick={close}
+                    >
+                        {c('cancel')}
+                    </Button>
+                </Flex>
+            </Flex>
+        </Modal>
+        </>
+
     );
 };
