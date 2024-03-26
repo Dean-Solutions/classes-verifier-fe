@@ -64,6 +64,7 @@
 		"headerTitle": "Lista przedmiotów",
 		"searchPlaceholder": "Wyszukaj przedmiot",
 		"selectPlaceholder": "Wybierz Semestr",
+		"addClass": "+ Dodaj przedmiot",
 		"Table": {
 			"name": "Nazwa",
 			"description": "Opis przedmiotu",
