@@ -1,19 +1,15 @@
-import { useState } from 'react';
 import {
     Flex,
     rem,
-    Button,
     Grid,
     Text,
     Divider,
     Badge,
     ScrollArea
 } from '@mantine/core';
-import { useTranslations } from 'next-intl';
 
 
 export const RequestsStudent = () => {
-    const spanValue = 4
 
     const requests_list = [
         {
@@ -36,21 +32,18 @@ export const RequestsStudent = () => {
     type Map = Record<string, string | undefined>;
 
     const color_map: Map = {
-        Zrobione: "green",
-        Dostarczono: "yellow",
-        Odrzucono: "red"
+        Zrobione: "green.0",
+        Dostarczono: "yellow.0",
+        Odrzucono: "red.0"
     }
 
     return (
         <Grid
-            h='100%'
-            style={{
-                padding: rem(8),
-            }}
+            p={8}
         >
             {requests_list.map((item) => (
                 <Grid.Col 
-                    span={spanValue}
+                    span={4}
                     key={item.class}
                 >
                     <Flex

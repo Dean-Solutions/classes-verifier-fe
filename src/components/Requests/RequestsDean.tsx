@@ -6,14 +6,12 @@ import {
     Grid,
     Text,
     Divider,
-    Badge,
     ScrollArea
 } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 
 
 export const RequestsDean = () => {
-    const spanValue = 4;
     const t = useTranslations('Requests');
 
     const requests_list = [
@@ -42,18 +40,15 @@ export const RequestsDean = () => {
 
     return (
         <Grid
-            h='100%'
-            style={{
-                padding: rem(8),
-            }}
+            p={8}
         >
             {items.map((item, index) => (
                 <Grid.Col 
-                    span={spanValue}
+                    span={4}
                     key={index}
                 >
                     <Flex
-                        h={rem(300)}
+                        h={300}
                         bg='neutral.0'
                         direction='column'
                         sx={(theme) => ({
@@ -93,7 +88,7 @@ export const RequestsDean = () => {
                             direction="row" 
                         >
                             <Button 
-                                color="green" 
+                                color="green.0" 
                                 radius="md" 
                                 size="xs"
                                 m={rem(10)}

@@ -38,8 +38,7 @@ export const Classes = () => {
         <>
         <Flex 
             direction="column"
-            h='100%'
-            p={rem(8)}
+            p={8}
         >
             <Flex 
                 justify="flex-start" 
@@ -47,11 +46,11 @@ export const Classes = () => {
                 direction="row" 
             >
                 <Button 
-                    color="green" 
+                    color="green.0" 
                     radius="md" 
                     size="md"
-                    m={rem(10)}
-                    mb={rem(20)}
+                    m={10}
+                    mb={20}
                     onClick={toggle}
                 >
                     {t('confirmButton')}
@@ -77,15 +76,20 @@ export const Classes = () => {
                                 direction='row'
                                 justify='space-between'
                             >
-                                {item.label}
-                                {confirmed == true ? 
+                                <Text
+                                    fz='md'
+                                    fw={550}
+                                >
+                                    {item.label}
+                                </Text>
+                                {confirmed &&  
                                 <CheckIcon 
                                     color="lime"
                                     style={{ 
                                         width: '20px', 
                                         height: '20px'
                                     }}
-                                /> : null}
+                                />}
                             </Flex>
                         </Accordion.Control>
                         <Accordion.Panel>
@@ -102,11 +106,11 @@ export const Classes = () => {
                                     maxLength={350}
                                 />
                                 <Button 
-                                    color="red" 
+                                    color="red.0" 
                                     radius="md" 
                                     size="sm"
-                                    m={rem(8)}
-                                    sx={{ width: rem(100) }}
+                                    m={8}
+                                    w={100}
                                 >
                                     {t('errorButton')}
                                 </Button>
