@@ -42,7 +42,7 @@ const AddClass = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<boolea
                     <form  onSubmit={
                         addSubjectForm.onSubmit((values) => {
                             if (addSubjectForm.validate().hasErrors) return;
-                            submitAddNewClass(values, addSubjectForm.validate().hasErrors);
+                            submitAddNewClass(values);
                             windowVisible(false);
                         })
                     }>
@@ -93,11 +93,7 @@ function submitAddNewClass(values:{
     subjectName: string,
     subjectSemester: string | number,
     subjectDescription: string,
-}, hasErrors: boolean) {
-    if (hasErrors) {
-        console.log("Has errors");
-        return;
-    }
+}) {
     console.log(values.subjectName)
     console.log(values.subjectSemester)
     console.log(values.subjectDescription)
