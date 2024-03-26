@@ -5,6 +5,7 @@
 		"error": "Wystąpił błąd",
 		"retry": "Spróbuj ponownie",
 		"cancel": "Anuluj",
+		"confirm": "Potwierdź",
 		"Table": {
 			"pagination": "Strona {currentPage} z {pageCount}"
 		}
@@ -13,7 +14,7 @@
 		"AppName": "Classes Verifier",
 		"home": "Strona główna",
 		"classes": "Lista przedmiotów",
-		"students": "Lista studetnów",
+		"students": "Lista studentów",
 		"requests": "Zgłoszenia",
 		"settings": "Ustawienia",
 		"logout": "Wyloguj"
@@ -73,5 +74,25 @@
 			"emptyDescription": "Nie znaleziono przedmiotów spełniających podane kryteria",
 			"noDescription": "-- Brak opisu --"
 		}
+	},
+	"HomeStudent": {
+		"headerTitle": "Strona główna",
+		"searchPlaceholder": "Wyszukaj przedmiot",
+		"confirmButton": "Potwierdź poprawność",
+		"textPlaceholder": "Opisz krótko swój problem",
+		"errorButton": "Zgłoś błąd",
+		"warning": "Uwaga!",
+		"warningText1": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr",
+		"warningText2": "Czy wszystkie przedmioty zostały przypisane poprawnie?"
+	},
+	"HomeDean": {
+		"headerTitle": "Strona główna",
+		"searchPlaceholder": "Wyszukaj przedmiot"
+	},
+	"Requests": {
+		"headerTitle": "Zgłoszenia",
+		"searchPlaceholder": "Wyszukaj request",
+		"confirmButton": "Zrobione"
 	}
+	
 }
