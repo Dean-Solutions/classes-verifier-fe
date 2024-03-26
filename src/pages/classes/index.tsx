@@ -11,6 +11,7 @@ import Table from '@/components/Table/Table';
 import { useGetClasses } from '@/query/classes.query';
 import { type Course } from '@/types/api.types';
 import useClassesTableData from '@/hooks/useClassesTableDefs';
+import AddClass from "@/components/AddClass/AddClass";
 
 const data = [
 	{ label: 'Semestr 1', value: 'Semestr 1' },
@@ -27,9 +28,11 @@ export default function Classes() {
 	const [semesterTag, setSemesterTag] = useState<string>(data[0]?.value || '');
 	const { data: classes, isLoading, isError } = useGetClasses(semesterTag);
 	const classesColumnDefs = useClassesTableData();
+	const [windowVisible, setWindowVisible] = useState(false)
 
 	return (
 		<AppLayout>
+			{windowVisible && <AddClass windowVisible={setWindowVisible}></AddClass>}
 			<Flex direction='column' gap='lg'>
 				<Header
 					title={t('headerTitle')}
@@ -56,7 +59,7 @@ export default function Classes() {
 					onDropdownClose={toggle}
 					/>
 
-					<Button radius="70px" p="10px, 16px, 10px, 16px" h="70px" w="165px">{t("addClass")}</Button>
+					<Button onClick={() => setWindowVisible(true)} radius="70px" p="10px, 16px, 10px, 16px" h="70px" w="165px">{t("addClass")}</Button>
 				</Flex>
 
 				{classes && classes.length === 0 ? (
