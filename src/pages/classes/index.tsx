@@ -1,5 +1,5 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
-import { Box, Flex, Select } from '@mantine/core';
+import {Box, Button, Flex, Select} from '@mantine/core';
 import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { useTranslations } from 'next-intl';
@@ -35,7 +35,8 @@ export default function Classes() {
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				<Select
+				<Flex direction='row' gap='lg' justify="space-between" align='center'>
+					<Select
 					w={200}
 					placeholder={t('selectPlaceholder')}
 					value={semesterTag}
@@ -53,7 +54,11 @@ export default function Classes() {
 					onChange={(value) => setSemesterTag(value || '')}
 					onDropdownOpen={toggle}
 					onDropdownClose={toggle}
-				/>
+					/>
+
+					<Button radius="70px" p="10px, 16px, 10px, 16px" h="70px" w="165px">{t("addClass")}</Button>
+				</Flex>
+
 				{classes && classes.length === 0 ? (
 					<EmptyState
 						title={t('Table.emptyTitle')}
