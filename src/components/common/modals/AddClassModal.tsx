@@ -1,6 +1,6 @@
 import {Flex, TextInput, Group, Button, Textarea, NumberInput} from "@mantine/core";
 import {useForm, zodResolver} from "@mantine/form";
-import {AddClassFormSchema, AddClassFormType} from "@/types/subject.types";
+import {AddClassFormSchema, AddClassFormType} from "@/types/classes.types";
 import {useAddClass} from "@/mutations/classes.mutate";
 import {useEffect} from "react";
 import {modals} from "@mantine/modals";
