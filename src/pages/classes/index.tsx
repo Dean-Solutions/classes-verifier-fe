@@ -1,5 +1,5 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
-import {Box, Button, Flex, Select} from '@mantine/core';
+import {Box, Button, Flex, Select, Text} from '@mantine/core';
 import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { useTranslations } from 'next-intl';
@@ -77,7 +77,11 @@ export default function Classes() {
 					onDropdownClose={toggle}
 					/>
 
-					<Button onClick={() => openModal()} radius="70px" p="10px, 16px, 10px, 16px" h="70px" w="165px">{t("addClass")}</Button>
+					<Button onClick={() => openModal()}
+							radius="70rem"
+							p="10, 16, 10, 16"
+							leftIcon={<Text fz='lg'>+</Text>}
+					>{t("addClass")}</Button>
 				</Flex>
 
 				{classes && classes.length === 0 ? (
