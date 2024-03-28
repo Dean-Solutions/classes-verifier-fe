@@ -1,6 +1,7 @@
 import {fetcher} from "@/lib/fetcher";
 import {Course, Tag} from "@/types/api.types";
 import {Endpoints} from "@/types/endpoints.types";
+import {AddClassFormType} from "@/types/subject.types";
 
 export const getClasses = (semesterTag: string) => {
 	// TODO Fetch from backend
@@ -26,4 +27,18 @@ export const getClasses = (semesterTag: string) => {
 
 	return Promise.resolve([]);
 };
+
+export const addClass = async (values:AddClassFormType) => {
+	try {
+		if (values) {
+			const toSend = {name: values.subjectName, description: values.subjectDescription}
+			return await fetcher<Course>(`${Endpoints.SUBJECTS}`, {
+				method: 'POST',
+				body: toSend,
+			});
+		}
+	} catch (error) {
+		return Promise.reject(error);
+	}
+}
 

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const AddSubjectFormSchema = z.object({
+export const AddClassFormSchema = z.object({
     subjectName: z.string()
         .min(1, 'Nazwa przedmiotu nie może być pusta!')
         .max(64, 'Zbyt długa nazwa przedmiotu'), //TODO: Check max subject name length
@@ -16,4 +16,4 @@ export const AddSubjectFormSchema = z.object({
 
 });
 
-export type AddSubjectFormType = z.infer<typeof AddSubjectFormSchema>;
+export type AddClassFormType = z.infer<typeof AddClassFormSchema>;

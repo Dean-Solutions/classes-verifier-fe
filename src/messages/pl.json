@@ -66,6 +66,15 @@
 		"searchPlaceholder": "Wyszukaj przedmiot",
 		"selectPlaceholder": "Wybierz Semestr",
 		"addClass": "+ Dodaj przedmiot",
+		"addClassModal": {
+			"title": "Dodaj nowy przedmiot",
+			"classNameLabel": "Nazwa przedmiotu",
+			"classNamePlaceholder": "Przykładowa nazwa przedmiotu",
+			"semesterNumberLabel": "Numer semestru",
+			"semesterNumberPlaceholder": "1",
+			"classDescriptionLabel": "Opis przedmotu",
+			"classDescriptionPlaceholder": "Przykładowy opis przedmiotu"
+		},
 		"Table": {
 			"name": "Nazwa",
 			"description": "Opis przedmiotu",
