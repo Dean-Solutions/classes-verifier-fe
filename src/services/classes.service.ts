@@ -59,7 +59,8 @@ export const editClass = async (value: Course) => {
 	try {
 		if (value) {
 			const toSend = {name: value.name, description: value.description}
-			return await fetcher<Course>(`${Endpoints.SUBJECTS}/${value.id}`, {
+
+			return await fetcher<Course>(`${Endpoints.SUBJECTS}/${value.subjectId}`, {
 				method: 'PUT',
 				body: toSend,
 			});
@@ -73,7 +74,7 @@ export const editClass = async (value: Course) => {
 export const deleteClass = async (value: Course) => {
 	try {
 		if (value) {
-			return await fetcher<Course>(`${Endpoints.SUBJECTS}/${value.id}`, {
+			return await fetcher<Course>(`${Endpoints.SUBJECTS}/${value.subjectId}`, {
 				method: 'DELETE',
 			});
 		}

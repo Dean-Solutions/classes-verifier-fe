@@ -7,10 +7,15 @@ import { Button, Flex, Text } from '@mantine/core';
 import { Trash } from '@/Icons/Trash';
 import { CLASSES_TABLE_COLUMNS } from '@/constants/classes.constants';
 import { Edit } from '@/Icons/Edit';
+import { useDeleteClass, useEditClass} from "@/mutations/classes.mutate";
 
 const useClassesTableData = () => {
 	const t = useTranslations('Classes.Table');
 	const { mutate } = useDeleteStudent();
+
+	const mutEditClass = useEditClass();
+	const mutDeleteClass = useDeleteClass();
+
 
 	const columns: ColumnDef<Course>[] = useMemo(
 		() => [
@@ -48,7 +53,7 @@ const useClassesTableData = () => {
 							radius={80}
 							color='orange.0'
 							onClick={() => {
-								mutate(props.row.original.id);
+								console.log("Edit");
 							}}
 						>
 							<Edit />
@@ -57,7 +62,8 @@ const useClassesTableData = () => {
 							radius={80}
 							color='error.4'
 							onClick={() => {
-								console.log('Edit');
+
+								mutDeleteClass.mutate(props.row.original);
 							}}
 						>
 							<Trash />
