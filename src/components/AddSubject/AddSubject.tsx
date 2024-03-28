@@ -1,29 +1,21 @@
-import {Flex, Overlay, TextInput, Group, Button, Box, Textarea} from "@mantine/core";
-import {useForm} from "@mantine/form";
+import {Flex, Overlay, TextInput, Group, Button, Box, Textarea, NumberInput} from "@mantine/core";
+import {useForm, zodResolver} from "@mantine/form";
 import {Dispatch, SetStateAction} from "react";
 import {addSubject} from "@/services/subjects.service";
+import {AddSubjectFormSchema, AddSubjectFormType} from "@/types/subject.types";
 
 
 const AddSubject = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<boolean>>}) => {
-    const addSubjectForm = useForm({
+    const addSubjectForm = useForm<AddSubjectFormType>({
         initialValues: {
             subjectName: "",
-            subjectSemester: -1,
+            subjectSemester: 1,
             subjectDescription: "",
         },
 
-        validate: {
-            subjectSemester: (value) => {
-                if (value == null){
-                    return "Podaj numer semestru!";
-                }
-                const parsedValue = value;
-                if (!parsedValue){
-                    return "Numer semestru musi być liczbą!"
-                }
-                return parsedValue >= 1 && parsedValue <= 7 ? null : "Zły numer semsetru"
-            }
-        }
+        validate: zodResolver(AddSubjectFormSchema),
+        validateInputOnChange: true,
+        validateInputOnBlur: true,
     });
 
     return (
@@ -58,7 +50,7 @@ const AddSubject = ({windowVisible}: {windowVisible:Dispatch<SetStateAction<bool
                             pb="16px"
                         />
 
-                        <TextInput
+                        <NumberInput
                             withAsterisk
                             label="Semestr"
                             labelProps={{ style: { fontSize: '16px', fontWeight: 'bold' } }}
