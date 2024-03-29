@@ -1,18 +1,9 @@
-import { useState } from 'react';
 import {
     Flex,
     Accordion,
     rem,
-    Button,
-    Textarea,
-    Modal,
     Text,
-    CheckIcon
 } from '@mantine/core';
-import { useTranslations } from 'next-intl';
-import { useDisclosure } from '@mantine/hooks';
-import { useGetClasses } from '@/query/classes.query';
-
 
 export const ClassesDean = () => {
     const classes_list = [
@@ -23,14 +14,11 @@ export const ClassesDean = () => {
         {label: "Inżynieria Bezpieczeństwa"},
         {label: "Technologie Internetu Rzeczy"}
     ];
-    const t = useTranslations('HomeStudent');
-    const c = useTranslations('Common');
-    
+
     return (
         <Flex 
             direction="column"
-            h='100%'
-            p={rem(8)}
+            p={8}
         >
             <Accordion 
                 variant="separated"
@@ -50,7 +38,12 @@ export const ClassesDean = () => {
                         <Accordion.Control
                             fz='md'    
                         >
-                            {item.label}
+                            <Text
+                                fz='md'
+                                fw={700}
+                            >
+                                {item.label}
+                            </Text>
                         </Accordion.Control>
                         <Accordion.Panel>
                             <Flex

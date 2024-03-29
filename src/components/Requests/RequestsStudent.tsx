@@ -1,15 +1,12 @@
-import { useState } from 'react';
 import {
     Flex,
     rem,
-    Button,
     Grid,
     Text,
     Divider,
     Badge,
     ScrollArea
 } from '@mantine/core';
-import { useTranslations } from 'next-intl';
 
 
 export const RequestsStudent = () => {
@@ -36,17 +33,14 @@ export const RequestsStudent = () => {
     type Map = Record<string, string | undefined>;
 
     const color_map: Map = {
-        Zrobione: "green",
-        Dostarczono: "yellow",
-        Odrzucono: "red"
+        Zrobione: "green.0",
+        Dostarczono: "yellow.0",
+        Odrzucono: "red.0"
     }
 
     return (
         <Grid
-            h='100%'
-            style={{
-                padding: rem(8),
-            }}
+            p={8}
         >
             {requests_list.map((item) => (
                 <Grid.Col 
@@ -54,7 +48,7 @@ export const RequestsStudent = () => {
                     key={item.class}
                 >
                     <Flex
-                        h={rem(300)}
+                        h={300}
                         bg='neutral.0'
                         direction='column'
                         sx={(theme) => ({
@@ -75,8 +69,8 @@ export const RequestsStudent = () => {
                             size="md" 
                             radius="lg" 
                             variant="filled"
-                            mb={rem(15)}
-                            ml={rem(15)}
+                            mb={15}
+                            ml={15}
                             w={120}
                         >
                             {item.status}
@@ -84,8 +78,8 @@ export const RequestsStudent = () => {
                         <Divider pb='md' w='90%' ml='5%'/>
                         <ScrollArea
                             h={175}
-                            ml={rem(15)}
-                            mr={rem(15)}
+                            ml={15}
+                            mr={15}
                         >
                             <Text
                                 fz="s"
