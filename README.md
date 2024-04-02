@@ -31,3 +31,15 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
 
+## Docker
+To build Docker image of this project type in command line: docker build -t dean-fe
+
+```console
+docker build -t dean-fe 
+```
+
+Then to run container:
+```console
+docker run -p 8080:8080 test-image
+
+```

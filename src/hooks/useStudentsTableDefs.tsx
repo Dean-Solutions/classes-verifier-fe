@@ -47,7 +47,7 @@ const useStudentsTableData = () => {
 					</Text>
 				),
 				accessorKey: STUDENTS_TABLE_COLUMNS.ACADEMIC_YEAR,
-				cell: (props) => <Text>{props.row.original.academicYear}</Text>,
+				cell: (props) => <Text>{props.row.original.semester}</Text>,
 			},
 			{
 				header: () => (
