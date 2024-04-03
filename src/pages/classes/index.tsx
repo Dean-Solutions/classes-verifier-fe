@@ -45,7 +45,7 @@ export default function Classes() {
 					},
 				};
 			},
-			children: <AddClassModal></AddClassModal>,
+			children: <AddClassModal/>,
 		});
 	};
 
@@ -79,7 +79,8 @@ export default function Classes() {
 
 					<Button onClick={() => openModal()}
 							radius="70rem"
-							p="10, 16, 10, 16"
+							py="xs"
+							px="md"
 							leftIcon={<Text fz='lg'>+</Text>}
 					>{t("addClass")}</Button>
 				</Flex>

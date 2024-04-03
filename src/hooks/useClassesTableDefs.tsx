@@ -1,4 +1,3 @@
-import { useDeleteStudent } from '@/mutations/students.mutate';
 import { useTranslations } from 'next-intl';
 import { type ColumnDef } from '@tanstack/react-table';
 import { type Course } from '@/types/api.types';
@@ -11,9 +10,6 @@ import { useDeleteClass, useEditClass} from "@/mutations/classes.mutate";
 
 const useClassesTableData = () => {
 	const t = useTranslations('Classes.Table');
-	const { mutate } = useDeleteStudent();
-
-	const mutEditClass = useEditClass();
 	const mutDeleteClass = useDeleteClass();
 
 
@@ -61,8 +57,8 @@ const useClassesTableData = () => {
 						<Button
 							radius={80}
 							color='error.4'
+							loading={mutDeleteClass.isPending}
 							onClick={() => {
-
 								mutDeleteClass.mutate(props.row.original);
 							}}
 						>
