@@ -43,7 +43,6 @@ export const Classes = () => {
         <Flex 
             direction="column"
             p={8}
-            p={8}
         >
             <Flex 
                 justify="flex-start" 
@@ -52,12 +51,8 @@ export const Classes = () => {
             >
                 <Button 
                     color="green.0" 
-                    color="green.0" 
                     radius="md" 
                     size="md"
-                    m={10}
-                    mb={20}
-                    onClick={() => openModal()}
                     m={10}
                     mb={20}
                     onClick={() => openModal()}
@@ -92,21 +87,12 @@ export const Classes = () => {
                                     {item.label}
                                 </Text>
                                 {confirmed && ( 
-                            >
-                                <Text
-                                    fz='md'
-                                    fw={700}
-                                >
-                                    {item.label}
-                                </Text>
-                                {confirmed && ( 
                                 <CheckIcon 
                                     color="lime"
                                     style={{ 
                                         width: '20px', 
                                         height: '20px'
                                     }}
-                                />)}
                                 />)}
                             </Flex>
                         </Accordion.Control>
@@ -125,11 +111,8 @@ export const Classes = () => {
                                 />
                                 <Button 
                                     color="red.0" 
-                                    color="red.0" 
                                     radius="md" 
                                     size="sm"
-                                    m={8}
-                                    w={100}
                                     m={8}
                                     w={100}
                                 >
