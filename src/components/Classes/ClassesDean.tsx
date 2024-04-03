@@ -2,10 +2,8 @@ import {
     Flex,
     Accordion,
     rem,
-    Text
+    Text,
 } from '@mantine/core';
-import { useTranslations } from 'next-intl';
-
 
 export const ClassesDean = () => {
     const classes_list = [
@@ -16,9 +14,7 @@ export const ClassesDean = () => {
         {label: "Inżynieria Bezpieczeństwa"},
         {label: "Technologie Internetu Rzeczy"}
     ];
-    const t = useTranslations('HomeStudent');
-    const c = useTranslations('Common');
-    
+
     return (
         <Flex 
             direction="column"
@@ -44,7 +40,7 @@ export const ClassesDean = () => {
                         >
                             <Text
                                 fz='md'
-                                fw={550}
+                                fw={700}
                             >
                                 {item.label}
                             </Text>

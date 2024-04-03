@@ -73,8 +73,8 @@ export const RequestsDean = () => {
                         <Divider pb='xs' w='90%' ml='5%'/>
                         <ScrollArea
                             h={175}
-                            ml={rem(15)}
-                            mr={rem(15)}
+                            ml={15}
+                            mr={15}
                         >
                             <Text
                                 fz="s"
@@ -88,11 +88,11 @@ export const RequestsDean = () => {
                             direction="row" 
                         >
                             <Button 
-                                color="green.0" 
+                                color="green" 
                                 radius="md" 
                                 size="xs"
-                                m={rem(10)}
-                                mb={rem(10)}
+                                m={10}
+                                mb={10}
                                 onClick={() => onRequestDone(index)}
                             >
                                 {t('confirmButton')}

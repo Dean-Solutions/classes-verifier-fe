@@ -21,14 +21,6 @@ import { AddTagModal } from '@/components/common/modals/AddTagModal';
 import { type SelectDataWithFooter } from '@/types/common.types';
 import { AddStudentModal } from '@/components/common/modals/AddStudentModal';
 
-// TODO Fetch from BE
-// const data = [
-// 	{ label: 'INF_23-24', value: 'INF_23-24' },
-// 	{ label: 'INF_22-23', value: 'INF_22-23' },
-// 	{ label: 'INF_21-22', value: 'INF_21-22' },
-// 	{ label: 'INF_20-21', value: 'INF_20-21' },
-// 	{ label: 'INF_19-20', value: 'INF_19-20' },
-// ];
 
 export default function Students() {
 	const [isOpen, { toggle }] = useDisclosure(false);

@@ -1,5 +1,5 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
-import { Box, Flex, Select } from '@mantine/core';
+import {Box, Button, Flex, Select, Text} from '@mantine/core';
 import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { useTranslations } from 'next-intl';
@@ -11,6 +11,8 @@ import Table from '@/components/Table/Table';
 import { useGetClasses } from '@/query/classes.query';
 import { type Course } from '@/types/api.types';
 import useClassesTableData from '@/hooks/useClassesTableDefs';
+import AddClassModal from "@/components/common/modals/AddClassModal";
+import {modals} from "@mantine/modals";
 
 const data = [
 	{ label: 'Semestr 1', value: 'Semestr 1' },
@@ -28,6 +30,25 @@ export default function Classes() {
 	const { data: classes, isLoading, isError } = useGetClasses(semesterTag);
 	const classesColumnDefs = useClassesTableData();
 
+	const openModal = () => {
+		modals.open({
+			title: t("addClassModal.title"),
+			centered: true,
+			styles(theme) {
+				return {
+					title: {
+						fontWeight: 700,
+						fontSize: theme.fontSizes.lg,
+					},
+					close: {
+						color: theme.colors.dark[7],
+					},
+				};
+			},
+			children: <AddClassModal/>,
+		});
+	};
+
 	return (
 		<AppLayout>
 			<Flex direction='column' gap='lg'>
@@ -35,7 +56,8 @@ export default function Classes() {
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				<Select
+				<Flex direction='row' gap='lg' justify="space-between" align='center'>
+					<Select
 					w={200}
 					placeholder={t('selectPlaceholder')}
 					value={semesterTag}
@@ -53,7 +75,16 @@ export default function Classes() {
 					onChange={(value) => setSemesterTag(value || '')}
 					onDropdownOpen={toggle}
 					onDropdownClose={toggle}
-				/>
+					/>
+
+					<Button onClick={() => openModal()}
+							radius="70rem"
+							py="xs"
+							px="md"
+							leftIcon={<Text fz='lg'>+</Text>}
+					>{t("addClass")}</Button>
+				</Flex>
+
 				{classes && classes.length === 0 ? (
 					<EmptyState
 						title={t('Table.emptyTitle')}

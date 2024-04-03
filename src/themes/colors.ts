@@ -6,9 +6,9 @@ export const customColors = {
 	black: ['#09090A'],
 	metalic: ['#292B32'],
 	orange: ['#FFB931'],
-	green: ['#52B505'],
-	red: ["#FF1E1E"],
-	yellow: ["#FFD500"],
+	green: ['#32CD32'],
+	yellow: ['#FFD833'],
+	red: ['#EE0A0A'],
 	blue: [
 		'#E6EFFF',
 		'#B0CEFF',

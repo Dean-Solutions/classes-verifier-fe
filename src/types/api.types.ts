@@ -11,9 +11,10 @@ export interface Student {
 }
 
 export interface Course {
-	id: number;
+	subjectId: number;
 	name: string;
 	description: string;
+	subjectTags: [];
 }
 
 export interface Tag {
