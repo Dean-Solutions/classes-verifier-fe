@@ -1,5 +1,5 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
-import {Box, Button, Flex, Select} from '@mantine/core';
+import {Box, Button, Flex, Select, Text} from '@mantine/core';
 import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { useTranslations } from 'next-intl';
@@ -11,7 +11,8 @@ import Table from '@/components/Table/Table';
 import { useGetClasses } from '@/query/classes.query';
 import { type Course } from '@/types/api.types';
 import useClassesTableData from '@/hooks/useClassesTableDefs';
-import AddSubject from "@/components/AddSubject/AddSubject";
+import AddClassModal from "@/components/common/modals/AddClassModal";
+import {modals} from "@mantine/modals";
 
 const data = [
 	{ label: 'Semestr 1', value: 'Semestr 1' },
@@ -28,11 +29,28 @@ export default function Classes() {
 	const [semesterTag, setSemesterTag] = useState<string>(data[0]?.value || '');
 	const { data: classes, isLoading, isError } = useGetClasses(semesterTag);
 	const classesColumnDefs = useClassesTableData();
-	const [windowVisible, setWindowVisible] = useState(false)
+
+	const openModal = () => {
+		modals.open({
+			title: t("addClassModal.title"),
+			centered: true,
+			styles(theme) {
+				return {
+					title: {
+						fontWeight: 700,
+						fontSize: theme.fontSizes.lg,
+					},
+					close: {
+						color: theme.colors.dark[7],
+					},
+				};
+			},
+			children: <AddClassModal/>,
+		});
+	};
 
 	return (
 		<AppLayout>
-			{windowVisible && <AddSubject windowVisible={setWindowVisible}></AddSubject>}
 			<Flex direction='column' gap='lg'>
 				<Header
 					title={t('headerTitle')}
@@ -59,7 +77,12 @@ export default function Classes() {
 					onDropdownClose={toggle}
 					/>
 
-					<Button onClick={() => setWindowVisible(true)} radius="70px" p="10px, 16px, 10px, 16px" h="70px" w="165px">{t("addClass")}</Button>
+					<Button onClick={() => openModal()}
+							radius="70rem"
+							py="xs"
+							px="md"
+							leftIcon={<Text fz='lg'>+</Text>}
+					>{t("addClass")}</Button>
 				</Flex>
 
 				{classes && classes.length === 0 ? (
