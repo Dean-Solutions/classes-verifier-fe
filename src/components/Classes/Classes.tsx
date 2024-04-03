@@ -23,21 +23,21 @@ export const Classes = () => {
         {label: "Technologie Internetu Rzeczy"}
     ];
     const t = useTranslations('HomeStudent');
+    const c = useTranslations('Common');
     
     const [confirmed, setConfirmed] = useState(false);
 
-    const onConfirm = () => {
-      setConfirmed(true);
-      modals.closeAll();
-    };
-
-    const openModal = () => {
-        modals.open({
-            withCloseButton: false, 
-            centered: true,
-            children: <ConfirmModal onClose={modals.closeAll} onConfirm={onConfirm}/>,
-        })
-    }
+    const openModal = () => modals.openConfirmModal({
+        withCloseButton: false, 
+        centered: true,
+        children: <ConfirmModal title={t('warning')} description={t('warningText')} />,
+        labels: {confirm: c('confirm'), cancel: c('cancel')},
+        confirmProps: {color: 'green.0'},
+        cancelProps: {color: 'blue.5'},
+        onConfirm: () => {
+            setConfirmed(true);
+        }
+    });
 
     return (
         <Flex 

@@ -1,15 +1,12 @@
-import { Button, Flex, Text } from "@mantine/core";
-import { useTranslations } from "next-intl";
+import { Flex, Text, Paper } from "@mantine/core";
 
 interface ModalComponentProps {
-    onClose: () => void;
-    onConfirm: () => void;
+    title: string,
+    description: string
 }
 
-export const ConfirmModal = ({onClose, onConfirm}: ModalComponentProps) => {
-    const t = useTranslations('HomeStudent');
-    const c = useTranslations('Common');
-
+export const ConfirmModal = ({title, description}: ModalComponentProps) => {
+    const paragraphs = description.split("\n\n");
 
     return (
         <Flex
@@ -21,51 +18,22 @@ export const ConfirmModal = ({onClose, onConfirm}: ModalComponentProps) => {
                 fw={700}
                 align='center'
             >
-                {t('warning')}
+                {title}
             </Text>
-            <Text
-                fz="md"
-                ml="5%"
-                mr="5%"
-                mt={10}
-            >
-                {t('warningText1')} 
-            </Text>
-            <Text
-                fz="md"
-                ml="5%"
-                mr="5%"
-                mt={10}
-            >
-                {t('warningText2')} 
-            </Text>
-            <Flex
-                direction="row"
-                w="90%"
-                ml="5%"
-                justify="center"
-            >
-                <Button 
-                    color="green.0" 
-                    radius="md" 
-                    size="md"
-                    m={10}
-                    mb={5}
-                    onClick={onConfirm}
-                >
-                    {c('confirm')}
-                </Button>
-                <Button 
-                    color="blue.5" 
-                    radius="md" 
-                    size="md"
-                    m={10}
-                    mb={5}
-                    onClick={onClose}
-                >
-                    {c('cancel')}
-                </Button>
-            </Flex>
+            <Paper>
+                {paragraphs.map((paragraph, index) => (
+                    <Text
+                        key={index}
+                        fz="md"
+                        ml="5%"
+                        mr="5%"
+                        mt={10}
+                        mb={10}
+                    >
+                        {paragraph} 
+                    </Text>
+                ))}
+            </Paper>
         </Flex>
     );
 }

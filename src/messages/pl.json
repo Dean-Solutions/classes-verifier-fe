@@ -91,8 +91,7 @@
 		"textPlaceholder": "Opisz krótko swój problem",
 		"errorButton": "Zgłoś błąd",
 		"warning": "Uwaga!",
-		"warningText1": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr",
-		"warningText2": "Czy wszystkie przedmioty zostały przypisane poprawnie?"
+		"warningText": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr\n\nCzy wszystkie przedmioty zostały przypisane poprawnie?"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
