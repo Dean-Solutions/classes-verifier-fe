@@ -5,6 +5,7 @@
 		"error": "Wystąpił błąd",
 		"retry": "Spróbuj ponownie",
 		"cancel": "Anuluj",
+		"confirm": "Potwierdź",
 		"Table": {
 			"pagination": "Strona {currentPage} z {pageCount}"
 		}
@@ -13,7 +14,7 @@
 		"AppName": "Classes Verifier",
 		"home": "Strona główna",
 		"classes": "Lista przedmiotów",
-		"students": "Lista studetnów",
+		"students": "Lista studentów",
 		"requests": "Zgłoszenia",
 		"settings": "Ustawienia",
 		"logout": "Wyloguj"
@@ -64,6 +65,16 @@
 		"headerTitle": "Lista przedmiotów",
 		"searchPlaceholder": "Wyszukaj przedmiot",
 		"selectPlaceholder": "Wybierz Semestr",
+		"addClass": "Dodaj przedmiot",
+		"addClassModal": {
+			"title": "Dodaj nowy przedmiot",
+			"classNameLabel": "Nazwa przedmiotu",
+			"classNamePlaceholder": "Przykładowa nazwa przedmiotu",
+			"semesterNumberLabel": "Numer semestru",
+			"semesterNumberPlaceholder": "1",
+			"classDescriptionLabel": "Opis przedmotu",
+			"classDescriptionPlaceholder": "Przykładowy opis przedmiotu"
+		},
 		"Table": {
 			"name": "Nazwa",
 			"description": "Opis przedmiotu",
@@ -72,5 +83,24 @@
 			"emptyDescription": "Nie znaleziono przedmiotów spełniających podane kryteria",
 			"noDescription": "-- Brak opisu --"
 		}
+	},
+	"HomeStudent": {
+		"headerTitle": "Strona główna",
+		"searchPlaceholder": "Wyszukaj przedmiot",
+		"confirmButton": "Potwierdź poprawność",
+		"textPlaceholder": "Opisz krótko swój problem",
+		"errorButton": "Zgłoś błąd",
+		"warning": "Uwaga!",
+		"warningText": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr\n\nCzy wszystkie przedmioty zostały przypisane poprawnie?"
+	},
+	"HomeDean": {
+		"headerTitle": "Strona główna",
+		"searchPlaceholder": "Wyszukaj przedmiot"
+	},
+	"Requests": {
+		"headerTitle": "Zgłoszenia",
+		"searchPlaceholder": "Wyszukaj request",
+		"confirmButton": "Zrobione"
 	}
+	
 }
