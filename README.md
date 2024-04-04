@@ -35,11 +35,11 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 To build Docker image of this project type in command line: docker build -t dean-fe
 
 ```console
-docker build -t dean-fe 
+docker build -t deanSolutions/dean-fe 
 ```
 
 Then to run container:
 ```console
-docker run -p 8080:8080 test-image
+docker run -p 8080:8080 deanSolutions/dean-fe
 
 ```
