@@ -8,4 +8,3 @@ export const AppLayout = ({ children, ...rest }: AppShellProps) => {
 		</AppShell>
 	);
 };
-

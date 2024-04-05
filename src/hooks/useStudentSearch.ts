@@ -35,7 +35,7 @@ export const useStudentSearch = (searchValue: string, students?: Student[]) => {
 	useEffect(() => {
 		filterStudents();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [searchValue]);
+	}, [searchValue, students]);
 
 	return { filteredStudents, filterStudents };
 };

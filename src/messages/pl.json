@@ -19,30 +19,13 @@
 		"settings": "Ustawienia",
 		"logout": "Wyloguj"
 	},
-	"Students": {
-		"headerTitle": "Lista studentów",
-		"searchPlaceholder": "Wyszukaj studenta",
-		"selectPlaceholder": "Wybierz tag semestru",
-		"addStudent": "Dodaj studenta",
-		"Table": {
-			"firstName": "Imię",
-			"lastName": "Nazwisko",
-			"indexNumber": "Numer albumu",
-			"academicYear": "Rok studiów",
-			"actions": "Akcje",
-			"emptyTitle": "Brak studentów",
-			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria",
-			"empty": "-- BRAK --"
-		},
-		"Select": {
-			"addTag": "Dodaj tag semestru"
-		},
+	"Modals": {
 		"AddTagModal": {
 			"title": "Dodaj tag semestru",
 			"tagLabel": "Tag semestru",
 			"tagPlaceholder": "INF_24-25",
 			"selectPlaceholder": "Wybierz tag semestru",
-			"addBtn": "Dodaj",
+			"addBtn": "Dodaj tag",
 			"descriptionLabel": "Opis",
 			"descriptionPlaceholder": "Opis tagu"
 		},
@@ -58,13 +41,29 @@
 			"emailPlaceholder": "123456@student.agh.edu.pl",
 			"semesterLabel": "Semestr",
 			"semesterPlaceholder": "2",
-			"addBtn": "Dodaj"
+			"addBtn": "Dodaj studenta"
+		}
+	},
+	"Students": {
+		"headerTitle": "Lista studentów",
+		"searchPlaceholder": "Wyszukaj studenta",
+		"selectPlaceholder": "Wybierz semestr",
+		"addStudent": "Dodaj studenta",
+		"Table": {
+			"firstName": "Imię",
+			"lastName": "Nazwisko",
+			"indexNumber": "Numer albumu",
+			"academicYear": "Rok studiów",
+			"actions": "Akcje",
+			"emptyTitle": "Brak studentów",
+			"emptyDescription": "Nie znaleziono studentów spełniających podane kryteria",
+			"empty": "-- BRAK --"
 		}
 	},
 	"Classes": {
 		"headerTitle": "Lista przedmiotów",
 		"searchPlaceholder": "Wyszukaj przedmiot",
-		"selectPlaceholder": "Wybierz Semestr",
+		"selectPlaceholder": "Wybierz tag semestru",
 		"addClass": "Dodaj przedmiot",
 		"addClassModal": {
 			"title": "Dodaj nowy przedmiot",
@@ -73,7 +72,10 @@
 			"semesterNumberLabel": "Numer semestru",
 			"semesterNumberPlaceholder": "1",
 			"classDescriptionLabel": "Opis przedmotu",
-			"classDescriptionPlaceholder": "Przykładowy opis przedmiotu"
+			"classDescriptionPlaceholder": "Przykładowy opis przedmiotu",
+			"tagsLabel": "Wybierz tagi",
+			"tagsPlaceholder": "INF_24-25",
+			"addBtn": "Dodaj Przedmiot"
 		},
 		"Table": {
 			"name": "Nazwa",
@@ -82,6 +84,9 @@
 			"emptyTitle": "Brak przedmiotów",
 			"emptyDescription": "Nie znaleziono przedmiotów spełniających podane kryteria",
 			"noDescription": "-- Brak opisu --"
+		},
+		"Select": {
+			"addTag": "Dodaj tag semestru"
 		}
 	},
 	"HomeStudent": {
@@ -102,5 +107,4 @@
 		"searchPlaceholder": "Wyszukaj request",
 		"confirmButton": "Zrobione"
 	}
-	
 }

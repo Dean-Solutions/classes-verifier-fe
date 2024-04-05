@@ -1,12 +1,13 @@
 import { getStudents } from '@/services/students.service';
 import { ONE_HOUR, QueryKeys } from '@/types/query.types';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
-export const useGetStudents = (semesterTag: string) => {
+export const useGetStudents = (tag: string, page: number, size?: number) => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_STUDENTS, { semesterTag }],
-		queryFn: () => getStudents(semesterTag),
+		queryKey: [QueryKeys.GET_STUDENTS, { tag, page }],
+		queryFn: () => getStudents({ tag, page, size }),
 		staleTime: ONE_HOUR,
-		enabled: !!semesterTag,
+		enabled: !!tag,
+		placeholderData: keepPreviousData,
 	});
 };

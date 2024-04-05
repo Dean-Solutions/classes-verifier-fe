@@ -63,7 +63,7 @@ const useStudentsTableData = () => {
 						radius={80}
 						color='error.4'
 						onClick={() => {
-							mutate(props.row.original.indexNumber);
+							mutate(+props.row.original.indexNumber);
 						}}
 					>
 						<Trash />
