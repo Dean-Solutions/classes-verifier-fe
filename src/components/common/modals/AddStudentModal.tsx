@@ -1,4 +1,4 @@
-import { Button, Flex, NumberInput, TextInput } from '@mantine/core';
+import { Button, Flex, NumberInput, Select, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
@@ -8,10 +8,11 @@ import {
 	type AddStudentFormType,
 } from '@/types/students.types';
 import { useAddStudent } from '@/mutations/students.mutate';
+import { semesters } from '@/data/common.data';
 
 export const AddStudentModal = () => {
 	const { mutate: addStudent, isPending, isSuccess, isError } = useAddStudent();
-	const t = useTranslations('Students.AddStudentModal');
+	const t = useTranslations('Modals.AddStudentModal');
 	const form = useForm<AddStudentFormType>({
 		validate: zodResolver(AddStudentFormSchema),
 		validateInputOnChange: true,
@@ -20,6 +21,7 @@ export const AddStudentModal = () => {
 			firstName: '',
 			lastName: '',
 			indexNumber: 1,
+			semester: 1,
 			email: '',
 		},
 	});
@@ -53,6 +55,7 @@ export const AddStudentModal = () => {
 			<NumberInput
 				label={t('indexNumberLabel')}
 				placeholder={t('indexNumberPlaceholder')}
+				maxLength={6}
 				withAsterisk
 				{...form.getInputProps('indexNumber')}
 			/>
@@ -62,9 +65,12 @@ export const AddStudentModal = () => {
 				withAsterisk
 				{...form.getInputProps('email')}
 			/>
-			<NumberInput
+			<Select
 				label={t('semesterLabel')}
 				placeholder={t('semesterPlaceholder')}
+				withAsterisk
+				data={semesters}
+				variant='default'
 				{...form.getInputProps('semester')}
 			/>
 			<Button

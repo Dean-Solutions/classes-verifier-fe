@@ -24,7 +24,7 @@ export default function Home() {
 	const t = useTranslations('Classes');
 	const s = useTranslations('HomeStudent');
 
-	const { role } = useStudentsStore((state) => ({role: state.role}));
+	const { role } = useStudentsStore((state) => ({ role: state.role }));
 	const [isOpen, { toggle }] = useDisclosure(false);
 	const [semesterTag, setSemesterTag] = useState<string>(data[0]?.value || '');
 
@@ -35,30 +35,32 @@ export default function Home() {
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				{role === "dean" ? (
+				{role === 'dean' ? (
 					<>
-					<Select
-						w={200}
-						placeholder={t('selectPlaceholder')}
-						value={semesterTag}
-						data={data}
-						rightSection={
-							<Box
-								sx={{
-									transition: 'transform .2s',
-									transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
-								}}
-							>
-								<ChevronDown fill='var(--mantine-color-neutral-0)' />
-							</Box>
-						}
-						onChange={(value) => setSemesterTag(value || '')}
-						onDropdownOpen={toggle}
-						onDropdownClose={toggle}
-					/>
-					<ClassesDean />
+						<Select
+							w={200}
+							placeholder={t('selectPlaceholder')}
+							value={semesterTag}
+							data={data}
+							rightSection={
+								<Box
+									sx={{
+										transition: 'transform .2s',
+										transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
+									}}
+								>
+									<ChevronDown fill='var(--mantine-color-neutral-0)' />
+								</Box>
+							}
+							onChange={(value) => setSemesterTag(value || '')}
+							onDropdownOpen={toggle}
+							onDropdownClose={toggle}
+						/>
+						<ClassesDean />
 					</>
-				) : <Classes />}
+				) : (
+					<Classes />
+				)}
 			</Flex>
 		</AppLayout>
 	);

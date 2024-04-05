@@ -9,7 +9,7 @@ import { Trash } from '@/Icons/Trash';
 
 const useStudentsTableData = () => {
 	const t = useTranslations('Students.Table');
-	const { mutate } = useDeleteStudent();
+	const { mutate, isPending } = useDeleteStudent();
 
 	const columns: ColumnDef<Student, string>[] = useMemo(
 		() => [
@@ -47,7 +47,7 @@ const useStudentsTableData = () => {
 					</Text>
 				),
 				accessorKey: STUDENTS_TABLE_COLUMNS.ACADEMIC_YEAR,
-				cell: (props) => <Text>{props.row.original.academicYear}</Text>,
+				cell: (props) => <Text>{props.row.original.semester}</Text>,
 			},
 			{
 				header: () => (
@@ -60,8 +60,9 @@ const useStudentsTableData = () => {
 					<Button
 						radius={80}
 						color='error.4'
+						loading={isPending}
 						onClick={() => {
-							mutate(props.row.original.indexNumber);
+							mutate(props.row.original.userId);
 						}}
 					>
 						<Trash />

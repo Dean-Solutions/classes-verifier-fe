@@ -7,7 +7,8 @@
 		"build": "next build",
 		"dev": "next dev",
 		"lint": "next lint",
-		"start": "next start"
+		"start": "next start",
+		"prepare": "husky"
 	},
 	"husky": {
 		"hooks": {
@@ -43,6 +44,9 @@
 		"@typescript-eslint/parser": "^7.1.1",
 		"eslint": "^8.57.0",
 		"eslint-config-next": "^14.1.3",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.1.3",
+		"prettier": "3.2.5",
 		"typescript": "^5.4.2"
 	},
 	"ct3aMetadata": {

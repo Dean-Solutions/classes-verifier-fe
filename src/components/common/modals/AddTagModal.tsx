@@ -8,7 +8,7 @@ import { useAddTags } from '@/mutations/tags.mutate';
 
 export const AddTagModal = () => {
 	const { mutate: addTag, isPending, isError, isSuccess } = useAddTags();
-	const t = useTranslations('Students.AddTagModal');
+	const t = useTranslations('Modals.AddTagModal');
 	const form = useForm<AddTagFormType>({
 		validate: zodResolver(AddTagFormSchema),
 		validateInputOnChange: true,

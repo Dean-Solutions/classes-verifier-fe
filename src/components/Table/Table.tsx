@@ -6,7 +6,7 @@ import {
 	type ColumnDef,
 } from '@tanstack/react-table';
 import useStyles from '@/components/Table/Table.styles';
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Button, Flex, Text } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { DataFetchErrorReload } from '../common/molecules/DataFetchError/DataFetchError';
@@ -17,6 +17,12 @@ type TokensTableProps<T> = {
 	isLoading: boolean;
 	isError: boolean;
 	columns: ColumnDef<T, string>[];
+	pageCount?: number;
+	pagination: {
+		pageIndex: number;
+		pageSize: number;
+	};
+	setPagination: (pagination: { pageIndex: number; pageSize: number }) => void;
 };
 
 const Table = <T,>({
@@ -24,20 +30,20 @@ const Table = <T,>({
 	columns,
 	isLoading,
 	isError,
+	pagination,
+	setPagination,
+	pageCount,
 }: TokensTableProps<T>) => {
 	const { classes } = useStyles();
 	const t = useTranslations('Common.Table');
-
-	const [pagination, setPagination] = useState({
-		pageIndex: 0,
-		pageSize: 15,
-	});
 
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
+		manualPagination: true,
+		pageCount: pageCount || 1,
 		state: {
 			pagination,
 		},
@@ -85,7 +91,7 @@ const Table = <T,>({
 							<Text>
 								{t('pagination', {
 									currentPage: pagination.pageIndex + 1,
-									pageCount: Math.ceil(data.length / pagination.pageSize),
+									pageCount: table.getPageCount(),
 								})}
 							</Text>
 							<Box>

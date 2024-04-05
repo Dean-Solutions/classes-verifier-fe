@@ -10,3 +10,9 @@ export type SelectDataWithFooter = {
 		onClick: () => void;
 	};
 };
+
+export type PaginatedTableParams = {
+	tag: string;
+	page: number;
+	size?: number;
+};
