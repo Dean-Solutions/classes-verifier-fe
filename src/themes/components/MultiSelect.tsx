@@ -13,7 +13,6 @@ export const MultiSelect: ThemeComponent & {
 	sizes: {
 		md: () => ({
 			input: {
-				height: 40,
 				minHeight: 40,
 				fontSize: rem(14),
 			},
