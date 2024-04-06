@@ -9,7 +9,7 @@ export const TextInput: ThemeComponent & {
 		},
 		errorProps: {
 			fz: 'xs',
-			color: 'red',
+			color: 'error',
 		},
 	},
 };

@@ -1,5 +1,6 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
 import { Box, Flex, Select } from '@mantine/core';
+import { Box, Flex, Select } from '@mantine/core';
 import { getStaticProps } from '@/pages/index';
 import { Classes } from '@/components/Classes/Classes';
 import { useTranslations } from 'next-intl';

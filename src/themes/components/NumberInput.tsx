@@ -10,7 +10,7 @@ export const NumberInput: ThemeComponent & {
 		},
 		errorProps: {
 			fz: 'xs',
-			color: 'red',
+			color: 'error',
 		},
 	},
 };

@@ -1,27 +1,27 @@
-import {fetcher} from "@/lib/fetcher";
-import {type Course, type PagableWrapper} from "@/types/api.types";
-import {Endpoints} from "@/types/endpoints.types";
-import {type AddClassFormType} from "@/types/classes.types";
+import { fetcher } from '@/lib/fetcher';
+import { type Course, type PagableWrapper } from '@/types/api.types';
+import { type AddClassFormType } from '@/types/classes.types';
+import { type PaginatedTableParams } from '@/types/common.types';
+import { Endpoints } from '@/types/endpoints.types';
 
-export const getClasses = async (semesterTag: string) => {
-
-	const pageable = {
-		page: 0,
-		size: 10000,
-		sort: ['ASC'],
-	};
-
+export const getClasses = async ({
+	tag,
+	page,
+	size = 15,
+}: PaginatedTableParams) => {
 	const { content } = await fetcher<PagableWrapper<Course[]>>(
-		`${Endpoints.SUBJECTS}?pageable=${JSON.stringify(
-			pageable,
-		)}&tags=${semesterTag}`,
+		`${Endpoints.SUBJECTS}?page=${page}&size=${size}&tags=${tag}`,
 	);
 	return content;
 };
 
-export const addClass = async (values:AddClassFormType) => {
+export const addClass = async (values: AddClassFormType) => {
 	try {
-		const toSend = {name: values.subjectName, description: values.subjectDescription}
+		const toSend = {
+			name: values.subjectName,
+			description: values.subjectDescription,
+			tags: values.subjectTags,
+		};
 		return await fetcher<Course>(Endpoints.SUBJECTS, {
 			method: 'POST',
 			body: toSend,
@@ -29,12 +29,11 @@ export const addClass = async (values:AddClassFormType) => {
 	} catch (error) {
 		return Promise.reject(error);
 	}
-}
-
+};
 
 export const editClass = async (value: Course) => {
 	try {
-		const toSend = {name: value.name, description: value.description}
+		const toSend = { name: value.name, description: value.description };
 
 		return await fetcher<Course>(`${Endpoints.SUBJECTS}/${value.subjectId}`, {
 			method: 'PUT',
@@ -43,8 +42,7 @@ export const editClass = async (value: Course) => {
 	} catch (error) {
 		return Promise.reject(error);
 	}
-}
-
+};
 
 export const deleteClass = async (value: Course) => {
 	try {
@@ -54,5 +52,4 @@ export const deleteClass = async (value: Course) => {
 	} catch (error) {
 		return Promise.reject(error);
 	}
-}
-
+};

@@ -4,7 +4,13 @@ import { rem, type SelectProps, type ThemeComponent } from '@mantine/core';
 export const Select: ThemeComponent & {
 	defaultProps: Partial<SelectProps>;
 } = {
-	defaultProps: { size: 'md' },
+	defaultProps: {
+		size: 'md',
+		errorProps: {
+			fz: 'xs',
+			color: 'error',
+		},
+	},
 	sizes: {
 		md: () => ({
 			input: {
@@ -14,8 +20,33 @@ export const Select: ThemeComponent & {
 			},
 		}),
 	},
-	styles(theme) {
-		return {
+	variants: {
+		default: (theme) => ({
+			dropdown: {
+				border: `1px solid ${theme.colors.gray[4]}`,
+				boxShadow: `0 0 0 1px ${theme.colors.gray[4]}`,
+			},
+			item: {
+				padding: `${rem(10)} ${rem(15)}`,
+				fontSize: rem(14),
+				color: theme.colors.gray[7],
+				borderRadius: 8,
+				'&:last-of-type': {
+					borderBottom: 'none',
+				},
+				'&[data-hovered]': {
+					backgroundColor: theme.colors.blue[0],
+				},
+				'&[data-selected]': {
+					backgroundColor: theme.colors.blue[3],
+					color: theme.white,
+				},
+			},
+			rightSection: {
+				color: theme.colors.gray[5],
+			},
+		}),
+		bigSelect: (theme) => ({
 			dropdown: {
 				background: theme.colors.seaBlue[0],
 				borderRadius: 12,
@@ -27,6 +58,7 @@ export const Select: ThemeComponent & {
 				backgroundColor: theme.colors.seaBlue[0],
 				outline: 'none',
 				border: 'none',
+				borderRadius: 12,
 			},
 			itemsWrapper: {
 				borderRadius: 12,
@@ -54,6 +86,6 @@ export const Select: ThemeComponent & {
 				color: theme.colors.neutral[1],
 				pointerEvents: 'none',
 			},
-		};
+		}),
 	},
 };
