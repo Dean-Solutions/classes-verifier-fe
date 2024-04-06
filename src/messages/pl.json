@@ -95,7 +95,9 @@
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
-		"searchPlaceholder": "Wyszukaj przedmiot"
+		"searchPlaceholder": "Wyszukaj przedmiot",
+		"nameInput": "Imię i nazwisko",
+		"indexInput": "Numer albumu"
 	},
 	"Requests": {
 		"headerTitle": "Zgłoszenia",

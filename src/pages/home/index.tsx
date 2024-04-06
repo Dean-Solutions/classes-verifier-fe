@@ -7,7 +7,6 @@ import Header from '@/components/Header/Header';
 import { useStudentsStore } from '@/store/students.store';
 import { ClassesDean } from '@/components/Classes/ClassesDean';
 import { useState } from 'react';
-import { useGetClasses } from '@/query/classes.query';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
 
@@ -22,7 +21,7 @@ const data = [
 
 export default function Home() {
 	const t = useTranslations('Classes');
-	const s = useTranslations('HomeStudent');
+	const h = useTranslations('HomeStudent');
 
 	const { role } = useStudentsStore((state) => ({role: state.role}));
 	const [isOpen, { toggle }] = useDisclosure(false);
@@ -32,7 +31,7 @@ export default function Home() {
 		<AppLayout>
 			<Flex direction='column' gap='lg'>
 				<Header
-					title={t('headerTitle')}
+					title={h('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
 				{role === "dean" ? (
@@ -56,9 +55,15 @@ export default function Home() {
 						onDropdownOpen={toggle}
 						onDropdownClose={toggle}
 					/>
-					<ClassesDean />
+
+					<ClassesDean
+						semesterTag={semesterTag} 
+					/>
 					</>
-				) : <Classes />}
+				) : <Classes
+						
+					/>
+				}
 			</Flex>
 		</AppLayout>
 	);

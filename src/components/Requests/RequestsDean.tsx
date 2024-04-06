@@ -88,7 +88,7 @@ export const RequestsDean = () => {
                             direction="row" 
                         >
                             <Button 
-                                color="green" 
+                                color="green.0" 
                                 radius="md" 
                                 size="xs"
                                 m={10}

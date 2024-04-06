@@ -1,7 +1,7 @@
 import {fetcher} from "@/lib/fetcher";
-import {Course, type PagableWrapper} from "@/types/api.types";
+import {type Course, type PagableWrapper} from "@/types/api.types";
 import {Endpoints} from "@/types/endpoints.types";
-import {AddClassFormType} from "@/types/classes.types";
+import {type AddClassFormType} from "@/types/classes.types";
 
 export const getClasses = async (semesterTag: string) => {
 
