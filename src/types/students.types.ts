@@ -5,7 +5,7 @@ export const AddTagFormSchema = z.object({
 		.string({
 			errorMap: () => ({ message: 'Tag musi być napisem' }),
 		})
-		.min(3, 'Tag musi mieć przynajmniej 3 znaki')
+		.min(2, 'Tag musi mieć przynajmniej 2 znaki')
 		.max(64, 'Tag musi mieć mniej niż 64 znaki'),
 	description: z.string().optional(),
 });

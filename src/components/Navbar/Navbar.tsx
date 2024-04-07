@@ -19,7 +19,6 @@ import { Piechart } from '@/Icons/Piechart';
 import { Logout } from '@/Icons/Logout';
 import { Logo } from '@/Icons/Logo';
 import { useStudentsStore } from '@/store/students.store';
-import { useStudentsStore } from '@/store/students.store';
 
 export const Navbar = () => {
 	const router = useRouter();

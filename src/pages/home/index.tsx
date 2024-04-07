@@ -1,24 +1,21 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
 import { Box, Flex, Select } from '@mantine/core';
-import { Box, Flex, Select } from '@mantine/core';
 import { getStaticProps } from '@/pages/index';
 import { Classes } from '@/components/Classes/Classes';
 import { useTranslations } from 'next-intl';
 import Header from '@/components/Header/Header';
 import { useStudentsStore } from '@/store/students.store';
 import { ClassesDean } from '@/components/Classes/ClassesDean';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
-
-const data = [
-	{ label: 'Semestr 1', value: 'Semestr 1' },
-	{ label: 'Semestr 2', value: 'Semestr 2' },
-	{ label: 'Semestr 3', value: 'Semestr 3' },
-	{ label: 'Semestr 4', value: 'Semestr 4' },
-	{ label: 'Semestr 5', value: 'Semestr 5' },
-	{ label: 'Semestr 6', value: 'Semestr 6' },
-];
+import { useGetTags } from '@/query/tags.query';
+import { SelectDataWithFooter } from '@/types/common.types';
+import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
+import { useGetClasses } from '@/query/classes.query';
+import { EmptyState } from '@/components/EmptyState/EmptyState';
+import { addStudent } from '@/services/students.service';
+import { useGetStudentByIndex } from '@/query/students.query';
 
 export default function Home() {
 	const t = useTranslations('Classes');
@@ -26,7 +23,35 @@ export default function Home() {
 
 	const { role } = useStudentsStore((state) => ({role: state.role}));
 	const [isOpen, { toggle }] = useDisclosure(false);
-	const [semesterTag, setSemesterTag] = useState<string>(data[0]?.value || '');
+	const [semesterTag, setSemesterTag] = useState<string | undefined>();
+
+	const {
+		data: tags,
+	} = useGetTags();
+	const mappedTags: SelectDataWithFooter[] = useMemo(() => {
+		const data: SelectDataWithFooter[] =
+			tags?.map((tag) => ({
+				label: tag.name,
+				value: tag.name,
+			})) || [];
+	
+		return data;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [tags, t]);
+
+	const { data: classes } = useGetClasses(0, 15, semesterTag);
+
+	// MOCK STUDENT FOR NOW - LOGIN docelowo
+	// const studentMe = {
+	// 	firstName: "Jonathan",
+	// 	lastName: "Joestar",
+	// 	indexNumber: 918273,
+	// 	email: "jojo@student.agh.edu.pl",
+	// 	semester: 6
+	// };
+	// addStudent(studentMe);
+	const { data: student } = useGetStudentByIndex("918273");
+	console.log(student)
 
 	return (
 		<AppLayout>
@@ -41,7 +66,8 @@ export default function Home() {
 						w={200}
 						placeholder={t('selectPlaceholder')}
 						value={semesterTag}
-						data={data}
+						data={mappedTags}
+						itemComponent={SelectDropdownItem}
 						rightSection={
 							<Box
 								sx={{
@@ -55,15 +81,28 @@ export default function Home() {
 						onChange={(value) => setSemesterTag(value || '')}
 						onDropdownOpen={toggle}
 						onDropdownClose={toggle}
+						variant='bigSelect'
 					/>
-
-					<ClassesDean
-						semesterTag={semesterTag} 
-					/>
+					{!classes || classes.length === 0 ? (
+						<EmptyState
+							title={t('Table.emptyTitle')}
+							description={t('Table.emptyDescription')}
+						/>
+					) : (
+						<ClassesDean
+							classes={classes} 
+						/>
+					)}
 					</>
-				) : <Classes
-						
-					/>
+				) : <>
+					{!student ? (
+						<Flex>lol</Flex>
+					) : (
+						<Classes
+							student={student}
+						/>
+					)}
+					</>
 				}
 			</Flex>
 		</AppLayout>

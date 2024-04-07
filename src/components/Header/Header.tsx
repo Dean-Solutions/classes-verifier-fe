@@ -1,8 +1,6 @@
 import { Flex, Title, Button } from '@mantine/core';
-import { Flex, Title, Button } from '@mantine/core';
 import React from 'react';
 import Search from '../Search/Search';
-import { useStudentsStore } from '@/store/students.store';
 import { useStudentsStore } from '@/store/students.store';
 
 type HeaderProps = {

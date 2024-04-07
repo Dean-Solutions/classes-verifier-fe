@@ -16,6 +16,20 @@ export const getStudents = async ({
 	return { content, totalPages, totalElements };
 };
 
+export const getAllStudents = async (page: number, size: number) => {
+	const content = await fetcher<Student[]>
+	(`${Endpoints.STUDENTS}?page=${page}&size=${size}`);
+
+	return content;
+}
+
+export const getStudentByIndex = async (index: string) => {
+	const content = await fetcher<Student>
+	(`${Endpoints.STUDENTS}/index/${index}`);
+
+	return content;
+}
+
 export const deleteStudent = (id: number) => {
 	return fetcher(`${Endpoints.STUDENTS}/${id}`, {
 		method: 'DELETE',

@@ -11,8 +11,18 @@ import {
 import { useTranslations } from 'next-intl';
 import { modals } from '@mantine/modals';
 import { ConfirmModal } from '../common/modals/ConfirmModal';
+import { useGetStudentEnrollments } from '@/query/enrollment.query';
+import { Enrollment, Student } from '@/types/api.types';
 
-export const Classes = () => {
+export const Classes = (p: { student: Student }) => {
+	// create a new student called Jacek Placek - he's a mock student for testing
+    // Jacek Placek; index=111111; email=111@student.agh.edu.pl; semestr=6
+
+	const t = useTranslations('HomeStudent');
+	const c = useTranslations('Common');
+
+	const [confirmed, setConfirmed] = useState(false);
+
 	const classes_list = [
 		{ label: 'Inżynieria Oprogramowania' },
 		{ label: 'Systemy Rozproszone' },
@@ -21,10 +31,10 @@ export const Classes = () => {
 		{ label: 'Inżynieria Bezpieczeństwa' },
 		{ label: 'Technologie Internetu Rzeczy' },
 	];
-	const t = useTranslations('HomeStudent');
-	const c = useTranslations('Common');
 
-	const [confirmed, setConfirmed] = useState(false);
+	const { data: studentEnrollments } = useGetStudentEnrollments(p.student.indexNumber);
+	console.log(studentEnrollments);
+
 
 	const openModal = () =>
 		modals.openConfirmModal({

@@ -30,3 +30,11 @@ export interface Tag {
 	name: string;
 	description: string;
 }
+
+export interface Enrollment {
+	enrollmentId: number;
+	enrollStatus: string;
+	enrollSubject: Course;
+	semester: any;
+	requestEnrollment: any[];
+}

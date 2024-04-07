@@ -1,4 +1,5 @@
-import { getStudents } from '@/services/students.service';
+import { getAllStudents, getStudentByIndex, getStudents } from '@/services/students.service';
+import { Student } from '@/types/api.types';
 import { ONE_HOUR, QueryKeys } from '@/types/query.types';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
@@ -9,5 +10,22 @@ export const useGetStudents = (tag: string, page: number, size?: number) => {
 		staleTime: ONE_HOUR,
 		enabled: !!tag,
 		placeholderData: keepPreviousData,
+	});
+};
+
+export const useGetAllStudents = (page: number, size: number) => {
+	return useQuery({
+		queryKey: [QueryKeys.GET_STUDENTS, { page }],
+		queryFn: () => getAllStudents(page, size),
+		staleTime: ONE_HOUR,
+		enabled: !!page,
+	});
+};
+
+export const useGetStudentByIndex = (index: string) => {
+	return useQuery({
+		queryKey: [QueryKeys.GET_STUDENTS, { index }],
+		queryFn: () => getStudentByIndex(index),
+		staleTime: ONE_HOUR,
 	});
 };

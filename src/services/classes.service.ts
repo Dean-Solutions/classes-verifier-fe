@@ -1,5 +1,5 @@
 import { fetcher } from '@/lib/fetcher';
-import { type Course, type PagableWrapper } from '@/types/api.types';
+import { Student, type Course, type PagableWrapper } from '@/types/api.types';
 import { type AddClassFormType } from '@/types/classes.types';
 import { type PaginatedTableParams } from '@/types/common.types';
 import { Endpoints } from '@/types/endpoints.types';
@@ -15,13 +15,28 @@ export const getClasses = async ({
 	return content;
 };
 
+export const getClassStudents = async (subjectId: number, semesterId?: number) => {
+	let content;
+	if (semesterId) {
+		content = await fetcher<Student[]>(
+			`${Endpoints.SUBJECTS}/${subjectId}/users?semesterId=${semesterId}`,
+		);
+	} else {
+		content = await fetcher<Student[]>(
+			`${Endpoints.SUBJECTS}/${subjectId}/users`,
+		);
+	}
+	return content;
+};
+
 export const addClass = async (values: AddClassFormType) => {
 	try {
 		const toSend = {
 			name: values.subjectName,
 			description: values.subjectDescription,
-			tags: values.subjectTags,
+			tagNames: values.subjectTags,
 		};
+		console.log(toSend);
 		return await fetcher<Course>(Endpoints.SUBJECTS, {
 			method: 'POST',
 			body: toSend,
@@ -53,3 +68,4 @@ export const deleteClass = async (value: Course) => {
 		return Promise.reject(error);
 	}
 };
+

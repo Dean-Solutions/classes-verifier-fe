@@ -68,7 +68,7 @@ export const RequestsDean = () => {
 						</ScrollArea>
 						<Flex justify='flex-end' align='center' direction='row'>
 							<Button
-								color='green'
+								color='green.0'
 								radius='md'
 								size='xs'
 								m={10}
