@@ -16,6 +16,9 @@
 /prisma/db.sqlite
 /prisma/db.sqlite-journal
 
+#IDE
+/.idea
+
 # next.js
 /.next/
 /out/
