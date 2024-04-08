@@ -7,64 +7,59 @@ import {
     ScrollArea,
     Divider,
     Button,
-    TextInput,
     Autocomplete
 } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { Trash } from '@/Icons/Trash';
 import { useState } from 'react';
-import { Course, Student } from '@/types/api.types';
+import { Course } from '@/types/api.types';
 import { useGetAllStudents } from '@/query/students.query';
+import { useAddEnrollment, useDeleteEnrollment } from '@/mutations/enrollment.mutate';
+import { Enroll } from '@/types/enrollments.types';
+import { deleteEnrollment } from '@/services/enrollment.service';
 
-export const ClassesDean = (p: { classes: Course[] }) => {
+type ClassesDeanProps = { classes: Course[] }
+
+export const ClassesDean = (p: ClassesDeanProps ) => {
     const d = useTranslations('HomeDean');
+    const [nameIndexInput, setNameIndexInput] = useState('');
+    const { mutate: addEnrollment } = useAddEnrollment();
+    const [openedClass, setOpenedClass] = useState<string | null>(null);
+    const { mutate } = useDeleteEnrollment();
 
-    const [nameInput, setNameInput] = useState('');
-    const [indexInput, setIndexInput] = useState('');
-
-    interface ClassStudents {
-        class: Course,
-        students: Student[]
-    }
-
-    const classesStudents: ClassStudents[] = [];
-    p.classes.forEach(
-        item => {
-            const { data: students } = useGetClassStudents(item.subjectId);
-            if(students) {
-                classesStudents.push({
-                    class: item, 
-                    students: students
-                });
-            } else {
-                classesStudents.push({
-                    class: item, 
-                    students: []
-                });
-            }
-        }
-    );
+    // problem ze to podejscie sprawia ze sie nie odswieza od razu; trzeba F5 strone zeby wyswietlic
+    // studentow znowu dobrych - nie mam pomyslu jak naprawic to teraz ;//
+    const classesStudents = p.classes.map((item) => ({
+        class: item,
+        students: useGetClassStudents(item.subjectId).data || []
+    }));
     
-    const { data: studentData } = useGetAllStudents(0, 10);
-    const studentNames: string[] = []
-    if(studentData) {
-        studentData.forEach(item => {
-            const studentName = item.firstName + " " + item.lastName; 
-            studentNames.push(studentName);
-        })
-    }
+    const { data: studentData } = useGetAllStudents();
+    const studentNames = studentData?.map(({firstName, lastName, indexNumber}) => 
+        `${firstName} ${lastName} ${indexNumber}`) || []
+
+    console.log(studentData);
 
     const handleStudentForm = () => {
-        const newStudentEnrollment = { name: nameInput, index: parseInt(indexInput) };
+        const student = studentData?.find(item => item.indexNumber === nameIndexInput.split(" ").pop());
+        if(student) {
+            const newEnrollment: Enroll = {
+                userId: student.userId,
+                subjectId: parseInt(openedClass || ""),
+                semesterId: 1,
+                enrollStatus: "ACCEPTED"
+            }
+            addEnrollment(newEnrollment);
+        }
     }
 
     return (
         <Flex direction="column" p={8}>
-            <Accordion  variant="separated">
+            <Accordion variant="separated" value={openedClass} onChange={setOpenedClass}>
                 {classesStudents.map((classStudents) => (
                     <Accordion.Item
                         key={classStudents.class.subjectId}
-                        value={classStudents.class.name}
+                        value={classStudents.class.subjectId.toString()}
                         bg='neutral.0'
                         mih={rem(70)}   
                         sx={(theme) => ({
@@ -92,17 +87,18 @@ export const ClassesDean = (p: { classes: Course[] }) => {
                                         >
                                             <Flex>
                                                 <Text mr={10} fw={700} fz='md'>
-                                                    {student.firstName}
+                                                    {`${student.firstName} ${student.lastName} (${student.indexNumber})`}
                                                 </Text>
-                                                <Text fz='sm'>
-                                                    {student.lastName}
-                                                </Text>
+                                             
                                             </Flex>
                                             <Button
                                                 radius={80}
                                                 color='red.0'
                                                 size='xs'
                                                 mr={33}
+                                                // 405 error na tej metodzie, nw czy ja cos chrzanie czy 
+                                                // nie da sie usuwac enrollmentow
+                                                onClick={() => deleteEnrollment(student.indexNumber)}
                                             >
                                                 <Trash />
                                             </Button>
@@ -119,19 +115,14 @@ export const ClassesDean = (p: { classes: Course[] }) => {
                                 >
                                     <Flex>
                                         <Autocomplete
-                                            placeholder={d('nameInput')}
+                                            placeholder={d('nameIndexInput')}
                                             mr={10}
                                             radius='lg'
                                             limit={3}
+                                            miw={300}
                                             data={studentNames}
-                                            value={nameInput}
-                                            onChange={setNameInput}
-                                        />
-                                        <TextInput
-                                            placeholder={d('indexInput')}
-                                            radius='lg'
-                                            value={indexInput}
-                                            onChange={(event) => setIndexInput(event.currentTarget.value)}
+                                            value={nameIndexInput}
+                                            onChange={setNameIndexInput}
                                         />
                                     </Flex>
                                     <Button
@@ -139,7 +130,7 @@ export const ClassesDean = (p: { classes: Course[] }) => {
                                         color='blue.5'
                                         size='sm'
                                         mr={45}
-                                        onClick={() => handleStudentForm}
+                                        onClick={handleStudentForm}
                                     >
                                         +
                                     </Button>

@@ -16,10 +16,9 @@ export const getStudents = async ({
 	return { content, totalPages, totalElements };
 };
 
-export const getAllStudents = async (page: number, size: number) => {
-	const content = await fetcher<Student[]>
-	(`${Endpoints.STUDENTS}?page=${page}&size=${size}`);
-
+export const getAllStudents = async () => {
+	const {content} = await fetcher<PagableWrapper<Student[]>>
+	(`${Endpoints.STUDENTS}?page=${0}&size=${10_000}`);
 	return content;
 }
 

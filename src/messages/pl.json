@@ -6,7 +6,6 @@
 		"retry": "Spróbuj ponownie",
 		"cancel": "Anuluj",
 		"confirm": "Potwierdź",
-		"confirm": "Potwierdź",
 		"Table": {
 			"pagination": "Strona {currentPage} z {pageCount}"
 		}
@@ -15,7 +14,6 @@
 		"AppName": "Classes Verifier",
 		"home": "Strona główna",
 		"classes": "Lista przedmiotów",
-		"students": "Lista studentów",
 		"students": "Lista studentów",
 		"requests": "Zgłoszenia",
 		"settings": "Ustawienia",
@@ -98,13 +96,15 @@
 		"textPlaceholder": "Opisz krótko swój problem",
 		"errorButton": "Zgłoś błąd",
 		"warning": "Uwaga!",
-		"warningText": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr\n\nCzy wszystkie przedmioty zostały przypisane poprawnie?"
+		"warningText": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr\n\nCzy wszystkie przedmioty zostały przypisane poprawnie?",
+		"emptyTitle": "Brak przedmiotów",
+		"emptyDescription": "Nie znaleziono żadnych przypisanych przedmiotów",
+		"studentNotFound": "Nie znaleziono Cię w bazie studentów"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
 		"searchPlaceholder": "Wyszukaj przedmiot",
-		"nameInput": "Imię i nazwisko",
-		"indexInput": "Numer albumu"
+		"nameIndexInput": "Imię, nazwisko i nr Indeksu"
 	},
 	"Requests": {
 		"headerTitle": "Zgłoszenia",

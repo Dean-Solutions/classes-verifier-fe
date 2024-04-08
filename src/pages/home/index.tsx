@@ -14,7 +14,6 @@ import { SelectDataWithFooter } from '@/types/common.types';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
 import { useGetClasses } from '@/query/classes.query';
 import { EmptyState } from '@/components/EmptyState/EmptyState';
-import { addStudent } from '@/services/students.service';
 import { useGetStudentByIndex } from '@/query/students.query';
 
 export default function Home() {
@@ -42,16 +41,7 @@ export default function Home() {
 	const { data: classes } = useGetClasses(0, 15, semesterTag);
 
 	// MOCK STUDENT FOR NOW - LOGIN docelowo
-	// const studentMe = {
-	// 	firstName: "Jonathan",
-	// 	lastName: "Joestar",
-	// 	indexNumber: 918273,
-	// 	email: "jojo@student.agh.edu.pl",
-	// 	semester: 6
-	// };
-	// addStudent(studentMe);
-	const { data: student } = useGetStudentByIndex("918273");
-	console.log(student)
+	const { data: student } = useGetStudentByIndex("101010");
 
 	return (
 		<AppLayout>
@@ -96,7 +86,9 @@ export default function Home() {
 					</>
 				) : <>
 					{!student ? (
-						<Flex>lol</Flex>
+						<Flex justify='center'>
+							{h('studentNotFound')}
+						</Flex>
 					) : (
 						<Classes
 							student={student}

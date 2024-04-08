@@ -16,6 +16,6 @@ export const useGetClassStudents = (subjectId: number, semesterId?: number) => {
 		queryKey: [QueryKeys.GET_STUDENTS, { subjectId }],
 		queryFn: () => getClassStudents(subjectId, semesterId),
 		staleTime: ONE_HOUR,	
-		enabled: !!subjectId,		
+		enabled: true,		
 	});
 };

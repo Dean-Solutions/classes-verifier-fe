@@ -13,12 +13,12 @@ export const useGetStudents = (tag: string, page: number, size?: number) => {
 	});
 };
 
-export const useGetAllStudents = (page: number, size: number) => {
+export const useGetAllStudents = () => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_STUDENTS, { page }],
-		queryFn: () => getAllStudents(page, size),
+		queryKey: [QueryKeys.GET_STUDENTS],
+		queryFn: () => getAllStudents(),
 		staleTime: ONE_HOUR,
-		enabled: !!page,
+		enabled: true
 	});
 };
 

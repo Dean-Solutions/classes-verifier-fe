@@ -12,30 +12,20 @@ import { useTranslations } from 'next-intl';
 import { modals } from '@mantine/modals';
 import { ConfirmModal } from '../common/modals/ConfirmModal';
 import { useGetStudentEnrollments } from '@/query/enrollment.query';
-import { Enrollment, Student } from '@/types/api.types';
+import { Student } from '@/types/api.types';
+import { EmptyState } from '../EmptyState/EmptyState';
 
-export const Classes = (p: { student: Student }) => {
-	// create a new student called Jacek Placek - he's a mock student for testing
-    // Jacek Placek; index=111111; email=111@student.agh.edu.pl; semestr=6
+type ClassesProps = { student: Student }
+
+export const Classes = (p: ClassesProps) => {
 
 	const t = useTranslations('HomeStudent');
 	const c = useTranslations('Common');
 
 	const [confirmed, setConfirmed] = useState(false);
 
-	const classes_list = [
-		{ label: 'Inżynieria Oprogramowania' },
-		{ label: 'Systemy Rozproszone' },
-		{ label: 'Pracownia Projektowa' },
-		{ label: 'Architektury Komputerów' },
-		{ label: 'Inżynieria Bezpieczeństwa' },
-		{ label: 'Technologie Internetu Rzeczy' },
-	];
-
 	const { data: studentEnrollments } = useGetStudentEnrollments(p.student.indexNumber);
-	console.log(studentEnrollments);
-
-
+	
 	const openModal = () =>
 		modals.openConfirmModal({
 			withCloseButton: false,
@@ -65,53 +55,60 @@ export const Classes = (p: { student: Student }) => {
 					{t('confirmButton')}
 				</Button>
 			</Flex>
-			<Accordion variant='separated'>
-				{classes_list.map((item) => (
-					<Accordion.Item
-						key={item.label}
-						value={item.label}
-						bg='neutral.0'
-						mih={rem(70)}
-						sx={(theme) => ({
-							boxShadow: theme.shadows.sm,
-							borderRightColor: theme.colors.neutral[3],
-							alignContent: 'center',
-						})}
-					>
-						<Accordion.Control fz='md'>
-							<Flex direction='row' justify='space-between'>
-								<Text fz='md' fw={700}>
-									{item.label}
-								</Text>
-								{confirmed && (
-									<CheckIcon
-										color='lime'
-										style={{
-											width: '20px',
-											height: '20px',
-										}}
+			{!studentEnrollments || studentEnrollments.length === 0 ? (
+				<EmptyState
+					title={t('emptyTitle')}
+					description={t('emptyDescription')}
+				/>
+			) : (
+				<Accordion variant='separated'>
+					{studentEnrollments.map((enrollment) => (
+						<Accordion.Item
+							key={enrollment.enrollmentId}
+							value={enrollment.enrollSubject.name}
+							bg='neutral.0'
+							mih={rem(70)}
+							sx={(theme) => ({
+								boxShadow: theme.shadows.sm,
+								borderRightColor: theme.colors.neutral[3],
+								alignContent: 'center',
+							})}
+						>
+							<Accordion.Control fz='md'>
+								<Flex direction='row' justify='space-between'>
+									<Text fz='md' fw={700}>
+										{enrollment.enrollSubject.name}
+									</Text>
+									{confirmed && (
+										<CheckIcon
+											color='lime'
+											style={{
+												width: '20px',
+												height: '20px',
+											}}
+										/>
+									)}
+								</Flex>
+							</Accordion.Control>
+							<Accordion.Panel>
+								<Flex p='xs' direction='column'>
+									<Textarea
+										placeholder={t('textPlaceholder')}
+										variant='filled'
+										radius='md'
+										w='100%'
+										minRows={4}
+										maxLength={350}
 									/>
-								)}
-							</Flex>
-						</Accordion.Control>
-						<Accordion.Panel>
-							<Flex p='xs' direction='column'>
-								<Textarea
-									placeholder={t('textPlaceholder')}
-									variant='filled'
-									radius='md'
-									w='100%'
-									minRows={4}
-									maxLength={350}
-								/>
-								<Button color='red.0' radius='md' size='sm' m={8} w={100}>
-									{t('errorButton')}
-								</Button>
-							</Flex>
-						</Accordion.Panel>
-					</Accordion.Item>
-				))}
-			</Accordion>
+									<Button color='red.0' radius='md' size='sm' m={8} w={100}>
+										{t('errorButton')}
+									</Button>
+								</Flex>
+							</Accordion.Panel>
+						</Accordion.Item>
+					))}
+				</Accordion>
+			)}
 		</Flex>
 	);
 };

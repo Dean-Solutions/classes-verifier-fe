@@ -9,8 +9,6 @@ import {
 } from '@mantine/core';
 
 export const RequestsStudent = () => {
-	const spanValue = 4;
-
 	const requests_list = [
 		{
 			class: 'Inżynieria Oprogramowania',
@@ -43,7 +41,7 @@ export const RequestsStudent = () => {
 	return (
 		<Grid p={8}>
 			{requests_list.map((item) => (
-				<Grid.Col span={spanValue} key={item.class}>
+				<Grid.Col span={4} key={item.class}>
 					<Flex
 						h={300}
 						bg='neutral.0'
