@@ -3,17 +3,10 @@ import { z } from 'zod';
 export const AddTagFormSchema = z.object({
 	name: z
 		.string({
-			errorMap: (error) => {
-				if (error.code === 'too_small') {
-					return { message: 'Tag musi mieć przynajmniej 3 znaki' };
-				} else if (error.code === 'too_big') {
-					return { message: 'Tag musi mieć mniej niż 64 znaki' };
-				}
-				return { message: 'Tag musi być napisem' };
-			},
+			errorMap: () => ({ message: 'Tag musi być napisem' }),
 		})
-		.min(3)
-		.max(64),
+		.min(3, 'Tag musi mieć przynajmniej 3 znaki')
+		.max(64, 'Tag musi mieć mniej niż 64 znaki'),
 	description: z.string().optional(),
 });
 
@@ -22,30 +15,16 @@ export type AddTagFormType = z.infer<typeof AddTagFormSchema>;
 export const AddStudentFormSchema = z.object({
 	firstName: z
 		.string({
-			errorMap: (error) => {
-				if (error.code === 'too_small') {
-					return { message: 'Imię musi mieć przynajmniej 3 znaki' };
-				} else if (error.code === 'too_big') {
-					return { message: 'Imię musi mieć mniej niż 64 znaki' };
-				}
-				return { message: 'Imię musi być napisem' };
-			},
+			errorMap: () => ({ message: 'Imię musi być napisem' }),
 		})
-		.min(3)
-		.max(64),
+		.min(3, 'Imię musi mieć przynajmniej 3 znaki')
+		.max(64, 'Imię musi mieć mniej niż 64 znaki'),
 	lastName: z
 		.string({
-			errorMap: (error) => {
-				if (error.code === 'too_small') {
-					return { message: 'Nazwisko musi mieć przynajmniej 3 znaki' };
-				} else if (error.code === 'too_big') {
-					return { message: 'Nazwisko musi mieć mniej niż 64 znaki' };
-				}
-				return { message: 'Nazwisko musi być napisem' };
-			},
+			errorMap: () => ({ message: 'Nazwisko musi być napisem' }),
 		})
-		.min(3)
-		.max(64),
+		.min(3, 'Nazwisko musi mieć przynajmniej 3 znaki')
+		.max(64, 'Nazwisko musi mieć mniej niż 64 znaki'),
 	indexNumber: z
 		.number({
 			errorMap: (error) => {
@@ -67,20 +46,7 @@ export const AddStudentFormSchema = z.object({
 			},
 		})
 		.email(),
-	semester: z
-		.number({
-			errorMap: (error) => {
-				if (error.code === 'too_small') {
-					return { message: 'Semestr musi być większy niż 0' };
-				} else if (error.code === 'too_big') {
-					return { message: 'Semestr musi być mniejszy niż 8' };
-				}
-				return { message: 'Semestr musi być liczbą' };
-			},
-		})
-		.min(1)
-		.max(8)
-		.optional(),
+	semester: z.string().transform((value) => parseInt(value)),
 	status: z
 		.enum(['AKTYWNY', 'NIE AKTYWNY'])
 		.optional()

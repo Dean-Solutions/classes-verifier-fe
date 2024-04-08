@@ -18,10 +18,12 @@ import { Study } from '@/Icons/Study';
 import { Piechart } from '@/Icons/Piechart';
 import { Logout } from '@/Icons/Logout';
 import { Logo } from '@/Icons/Logo';
+import { useStudentsStore } from '@/store/students.store';
 
 export const Navbar = () => {
 	const router = useRouter();
 	const t = useTranslations('Navigation');
+	const { role } = useStudentsStore((state) => ({ role: state.role }));
 
 	const navbarItems = [
 		{
@@ -45,6 +47,8 @@ export const Navbar = () => {
 			icon: <People />,
 		},
 	];
+
+	const studentNavbarItems = navbarItems.slice(0, 2);
 
 	const bottomNavbarItems = [
 		{
@@ -101,58 +105,111 @@ export const Navbar = () => {
 					</Flex>
 					<Divider pb='xl' />
 					<Flex direction='column' align='center' gap='sm'>
-						{navbarItems.map((item) => (
-							<Link
-								key={item.link}
-								href={item.link}
-								passHref
-								style={{
-									textDecoration: 'none',
-									width: '100%',
-									display: 'block',
-								}}
-							>
-								<Box
-									sx={(theme) => ({
-										borderRadius: rem(8),
-										backgroundColor: isActive(item.link)
-											? theme.colors.primary[0]
-											: 'initial',
-										':hover': !isActive(item.link)
-											? {
-													backgroundColor: theme.colors.neutral[5],
-											  }
-											: {},
-									})}
-									p={'sm'}
-									w={'100%'}
-								>
-									<Flex align='center'>
-										<ActionIcon
-											variant='transparent'
-											size={24}
-											{...(isActive(item.link)
-												? activeStyles
-												: {
-														color: 'black.0',
-												  })}
+						{role === 'dean'
+							? navbarItems.map((item) => (
+									<Link
+										key={item.link}
+										href={item.link}
+										passHref
+										style={{
+											textDecoration: 'none',
+											width: '100%',
+											display: 'block',
+										}}
+									>
+										<Box
+											sx={(theme) => ({
+												borderRadius: rem(8),
+												backgroundColor: isActive(item.link)
+													? theme.colors.primary[0]
+													: 'initial',
+												':hover': !isActive(item.link)
+													? {
+															backgroundColor: theme.colors.neutral[5],
+														}
+													: {},
+											})}
+											p={'sm'}
+											w={'100%'}
 										>
-											{item.icon}
-										</ActionIcon>
-										<Text
-											ml='md'
-											{...(isActive(item.link)
-												? activeStyles
-												: {
-														color: 'black.0',
-												  })}
+											<Flex align='center'>
+												<ActionIcon
+													variant='transparent'
+													size={24}
+													{...(isActive(item.link)
+														? activeStyles
+														: {
+																color: 'black.0',
+															})}
+												>
+													{item.icon}
+												</ActionIcon>
+												<Text
+													ml='md'
+													{...(isActive(item.link)
+														? activeStyles
+														: {
+																color: 'black.0',
+															})}
+												>
+													{item.label}
+												</Text>
+											</Flex>
+										</Box>
+									</Link>
+								))
+							: studentNavbarItems.map((item) => (
+									<Link
+										key={item.link}
+										href={item.link}
+										passHref
+										style={{
+											textDecoration: 'none',
+											width: '100%',
+											display: 'block',
+										}}
+									>
+										<Box
+											sx={(theme) => ({
+												borderRadius: rem(8),
+												backgroundColor: isActive(item.link)
+													? theme.colors.primary[0]
+													: 'initial',
+												':hover': !isActive(item.link)
+													? {
+															backgroundColor: theme.colors.neutral[5],
+														}
+													: {},
+											})}
+											p={'sm'}
+											w={'100%'}
 										>
-											{item.label}
-										</Text>
-									</Flex>
-								</Box>
-							</Link>
-						))}
+											<Flex align='center'>
+												<ActionIcon
+													variant='transparent'
+													size={24}
+													{...(isActive(item.link)
+														? activeStyles
+														: {
+																color: 'black.0',
+															})}
+												>
+													{item.icon}
+												</ActionIcon>
+												<Text
+													ml='md'
+													{...(isActive(item.link)
+														? activeStyles
+														: {
+																color: 'black.0',
+															})}
+												>
+													{item.label}
+												</Text>
+											</Flex>
+										</Box>
+									</Link>
+								))}
 					</Flex>
 				</Box>
 				<Box>
@@ -180,7 +237,7 @@ export const Navbar = () => {
 											? {
 													color: 'neutral.0',
 													backgroundColor: theme.colors.neutral[5],
-											  }
+												}
 											: {},
 									})}
 									p='md'

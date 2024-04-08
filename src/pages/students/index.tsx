@@ -4,7 +4,7 @@ import Header from '@/components/Header/Header';
 import { Box, Button, Flex, Select, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Table from '@/components/Table/Table';
 import useStudentsTableData from '@/hooks/useStudentsTableDefs';
@@ -13,58 +13,45 @@ import { EmptyState } from '@/components/EmptyState/EmptyState';
 import { useStudentsStore } from '@/store/students.store';
 import { useStudentSearch } from '@/hooks/useStudentSearch';
 import { type Student } from '@/types/api.types';
-import { useGetTags } from '@/query/tags.query';
-import { Logout } from '@/Icons/Logout';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
 import { modals } from '@mantine/modals';
 import { AddTagModal } from '@/components/common/modals/AddTagModal';
-import { type SelectDataWithFooter } from '@/types/common.types';
 import { AddStudentModal } from '@/components/common/modals/AddStudentModal';
-
-// TODO Fetch from BE
-// const data = [
-// 	{ label: 'INF_23-24', value: 'INF_23-24' },
-// 	{ label: 'INF_22-23', value: 'INF_22-23' },
-// 	{ label: 'INF_21-22', value: 'INF_21-22' },
-// 	{ label: 'INF_20-21', value: 'INF_20-21' },
-// 	{ label: 'INF_19-20', value: 'INF_19-20' },
-// ];
+import { semesters } from '@/data/common.data';
 
 export default function Students() {
 	const [isOpen, { toggle }] = useDisclosure(false);
 	const studentsColumnDefs = useStudentsTableData();
 	const searchValue = useStudentsStore((state) => state.searchValue);
-	const {
-		data: semesterTags,
-		isLoading: isTagsLoading,
-		isError: isTagsError,
-	} = useGetTags();
+	const [pagination, setPagination] = useState({
+		pageIndex: 0,
+		pageSize: 10,
+	});
+
 	const [semesterTag, setSemesterTag] = useState<string>();
 	const {
 		data: students,
 		isLoading: isStudentsLoading,
 		isError: isStudentsError,
-	} = useGetStudents(semesterTag || '');
-
-	const { filteredStudents, filterStudents } = useStudentSearch(
-		searchValue,
-		students,
+	} = useGetStudents(
+		semesterTag || '',
+		pagination.pageIndex,
+		pagination.pageSize,
 	);
+
+	const { filteredStudents } = useStudentSearch(searchValue, students?.content);
 	const t = useTranslations('Students');
+	const tModal = useTranslations('Modals');
 
-	const isLoading = isTagsLoading || isStudentsLoading;
-	const isError = isTagsError || isStudentsError;
-
-	useEffect(() => {
-		if (semesterTags && semesterTags.length > 0) {
-			filterStudents();
-		}
-	}, [semesterTags, filterStudents]);
+	const isLoading = isStudentsLoading;
+	const isError = isStudentsError;
 
 	const openModal = (type: 'TAG' | 'STUDENT') => {
 		modals.open({
 			title:
-				type === 'TAG' ? t('AddTagModal.title') : t('AddStudentModal.title'),
+				type === 'TAG'
+					? tModal('AddTagModal.title')
+					: tModal('AddStudentModal.title'),
 			centered: true,
 			styles(theme) {
 				return {
@@ -81,23 +68,6 @@ export default function Students() {
 		});
 	};
 
-	const tags: SelectDataWithFooter[] =
-		semesterTags?.map((tag) => ({
-			label: tag.name,
-			value: tag.subjectTagId.toString(),
-		})) || [];
-
-	tags.push({
-		label: t('Select.addTag'),
-		value: 'addTag',
-		footer: {
-			isFirst: true,
-			IconComp: <Logout />,
-			onClick: () => openModal('TAG'),
-			color: 'orange.0',
-		},
-	});
-
 	return (
 		<AppLayout>
 			<Flex direction='column' gap='lg'>
@@ -110,7 +80,8 @@ export default function Students() {
 						w={200}
 						placeholder={t('selectPlaceholder')}
 						value={semesterTag}
-						data={tags}
+						data={semesters}
+						variant='bigSelect'
 						itemComponent={SelectDropdownItem}
 						rightSection={
 							<Box
@@ -148,7 +119,10 @@ export default function Students() {
 						data={filteredStudents || []}
 						isLoading={isLoading}
 						isError={isError}
+						pagination={pagination}
+						setPagination={setPagination}
 						columns={studentsColumnDefs.columns}
+						pageCount={students?.totalPages}
 					/>
 				)}
 			</Flex>

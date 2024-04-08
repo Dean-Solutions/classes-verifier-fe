@@ -1,4 +1,3 @@
-import { useDeleteStudent } from '@/mutations/students.mutate';
 import { useTranslations } from 'next-intl';
 import { type ColumnDef } from '@tanstack/react-table';
 import { type Course } from '@/types/api.types';
@@ -7,10 +6,11 @@ import { Button, Flex, Text } from '@mantine/core';
 import { Trash } from '@/Icons/Trash';
 import { CLASSES_TABLE_COLUMNS } from '@/constants/classes.constants';
 import { Edit } from '@/Icons/Edit';
+import { useDeleteClass } from '@/mutations/classes.mutate';
 
 const useClassesTableData = () => {
 	const t = useTranslations('Classes.Table');
-	const { mutate } = useDeleteStudent();
+	const { mutate, isPending } = useDeleteClass();
 
 	const columns: ColumnDef<Course>[] = useMemo(
 		() => [
@@ -47,8 +47,9 @@ const useClassesTableData = () => {
 						<Button
 							radius={80}
 							color='orange.0'
+							loading={isPending}
 							onClick={() => {
-								mutate(props.row.original.id);
+								console.log('Edit');
 							}}
 						>
 							<Edit />
@@ -56,8 +57,9 @@ const useClassesTableData = () => {
 						<Button
 							radius={80}
 							color='error.4'
+							loading={isPending}
 							onClick={() => {
-								console.log('Edit');
+								mutate(props.row.original);
 							}}
 						>
 							<Trash />

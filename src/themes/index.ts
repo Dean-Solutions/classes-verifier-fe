@@ -10,6 +10,7 @@ import { Title } from './components/Title';
 import { Select } from './components/Select';
 import { TextInput } from './components/TextInput';
 import { NumberInput } from './components/NumberInput';
+import { MultiSelect } from './components/MultiSelect';
 
 const globalFont = 'Inter, sans-serif';
 
@@ -115,5 +116,6 @@ export const theme: MantineThemeOverride = {
 		Select,
 		NumberInput,
 		TextInput,
+		MultiSelect,
 	},
 };

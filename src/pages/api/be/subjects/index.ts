@@ -11,6 +11,6 @@ export default async function handler(
 	await serverFetcher({
 		req,
 		res,
-		path: `students` + (query ? `?${query}` : ''),
+		path: 'subjects' + (query ? `?${query}` : ''),
 	});
 }
