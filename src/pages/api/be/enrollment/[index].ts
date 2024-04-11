@@ -5,10 +5,13 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const id = req.query.id as string;
+	const query = new URLSearchParams(
+		req.query as Record<string, string>,
+	).toString();
+
 	await serverFetcher({
 		req,
 		res,
-		path: `students/${id}`,
+		path: 'enrollment/index' + (query ? `?${query}` : ''),
 	});
 }

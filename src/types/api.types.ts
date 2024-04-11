@@ -1,3 +1,6 @@
+import { type EnrollStatus } from './enrollments.types';
+import { type RequestEnrollment } from './request.types';
+
 export interface PagableWrapper<T> {
 	content: T;
 	pagable: any;
@@ -33,8 +36,24 @@ export interface Tag {
 
 export interface Enrollment {
 	enrollmentId: number;
-	enrollStatus: string;
-	enrollSubject: Course;
-	semester: any;
-	requestEnrollment: any[];
+	enrollStatus: EnrollStatus;
+	subject: Course;
+	semester: Semester;
+	user: Student;
+}
+
+export interface Semester {
+	deadline: string;
+	semesterId: number;
+	semesterType: string;
+	year: number;
+}
+
+export interface Request {
+	requestId: number;
+	senderId: number;
+	description: string;
+	submissionDate: string;
+	requestType: string;
+	requestEnrollments: RequestEnrollment[];
 }

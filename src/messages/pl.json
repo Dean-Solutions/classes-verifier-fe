@@ -99,7 +99,8 @@
 		"warningText": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr\n\nCzy wszystkie przedmioty zostały przypisane poprawnie?",
 		"emptyTitle": "Brak przedmiotów",
 		"emptyDescription": "Nie znaleziono żadnych przypisanych przedmiotów",
-		"studentNotFound": "Nie znaleziono Cię w bazie studentów"
+		"studentNotFound": "Nie znaleziono Cię w bazie studentów",
+		"standardRequest": "Ogólny request"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
@@ -109,7 +110,10 @@
 	"Requests": {
 		"headerTitle": "Zgłoszenia",
 		"searchPlaceholder": "Wyszukaj request",
-		"confirmButton": "Zrobione"
+		"confirmButton": "Zaakceptuj",
+		"rejectButton": "Odrzuć",
+		"emptyTitle": "Brak requestów",
+		"emptyDescription": "Nie znaleziono żadnych zgłoszonych requestów"
 	}
 	
 }

@@ -1,5 +1,8 @@
-import { getAllStudents, getStudentByIndex, getStudents } from '@/services/students.service';
-import { Student } from '@/types/api.types';
+import {
+	getAllStudents,
+	getStudentByIndex,
+	getStudents,
+} from '@/services/students.service';
 import { ONE_HOUR, QueryKeys } from '@/types/query.types';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
@@ -18,7 +21,7 @@ export const useGetAllStudents = () => {
 		queryKey: [QueryKeys.GET_STUDENTS],
 		queryFn: () => getAllStudents(),
 		staleTime: ONE_HOUR,
-		enabled: true
+		enabled: true,
 	});
 };
 

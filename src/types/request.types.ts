@@ -1,0 +1,24 @@
+import { type Course, type Student } from './api.types';
+
+export type UserRequest = {
+	description: string;
+	submissionDate: string;
+	requestType: string;
+	senderId: number;
+	requestEnrolls: RequestEnroll[];
+};
+
+export interface RequestEnroll {
+	requestEnrollId?: number;
+	semesterId?: number;
+	userId?: number;
+	subjectId?: number;
+	requestStatus?: string;
+}
+
+export interface RequestEnrollment {
+	requestEnrollId?: number;
+	requestStatus?: string;
+	user: Student;
+	subject: Course;
+}

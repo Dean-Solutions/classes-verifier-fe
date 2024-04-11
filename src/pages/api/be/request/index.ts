@@ -8,10 +8,9 @@ export default async function handler(
 	const query = new URLSearchParams(
 		req.query as Record<string, string>,
 	).toString();
-
 	await serverFetcher({
 		req,
 		res,
-		path: 'enrollment/index' + (query ? `?${query}` : ''),
+		path: `request` + (query ? `?${query}` : ''),
 	});
 }

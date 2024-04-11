@@ -1,15 +1,15 @@
-import { addEnrollment, editEnrollment } from '@/services/enrollment.service';
+import { addRequest, editRequest } from '@/services/request.service';
 import { QueryKeys } from '@/types/query.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const useAddEnrollment = () => {
+export const useAddRequest = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: addEnrollment,
+		mutationFn: addRequest,
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: [QueryKeys.GET_ENROLLMENT],
+				queryKey: [QueryKeys.GET_REQUESTS],
 			});
 		},
 		onError: (error: unknown) => {
@@ -18,14 +18,14 @@ export const useAddEnrollment = () => {
 	});
 };
 
-export const useEditEnrollment = () => {
+export const useEditRequest = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: editEnrollment,
+		mutationFn: editRequest,
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: [QueryKeys.GET_ENROLLMENT],
+				queryKey: [QueryKeys.GET_REQUESTS],
 			});
 		},
 		onError: (error: unknown) => {

@@ -17,17 +17,19 @@ export const getStudents = async ({
 };
 
 export const getAllStudents = async () => {
-	const {content} = await fetcher<PagableWrapper<Student[]>>
-	(`${Endpoints.STUDENTS}?page=${0}&size=${10_000}`);
+	const { content } = await fetcher<PagableWrapper<Student[]>>(
+		`${Endpoints.STUDENTS}?page=${0}&size=${10_000}`,
+	);
 	return content;
-}
+};
 
 export const getStudentByIndex = async (index: string) => {
-	const content = await fetcher<Student>
-	(`${Endpoints.STUDENTS}/index/${index}`);
+	const content = await fetcher<Student>(
+		`${Endpoints.STUDENTS}/index/${index}`,
+	);
 
 	return content;
-}
+};
 
 export const deleteStudent = (id: number) => {
 	return fetcher(`${Endpoints.STUDENTS}/${id}`, {

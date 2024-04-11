@@ -1,26 +1,38 @@
-import { fetcher } from "@/lib/fetcher";
-import { Enrollment } from "@/types/api.types";
-import { Endpoints } from "@/types/endpoints.types";
-import { Enroll } from "@/types/enrollments.types";
+import { fetcher } from '@/lib/fetcher';
+import { type PagableWrapper, type Enrollment } from '@/types/api.types';
+import { Endpoints } from '@/types/endpoints.types';
+import { type EnrollStatus, type PostEnroll } from '@/types/enrollments.types';
 
-
-export const getStudentEnrollments = async (index: string, semesterId?: number) => {
-	let content;
+export const getStudentEnrollments = async (
+	index: string,
+	userId?: number,
+	semesterId?: number,
+	enrollStatuses?: EnrollStatus[],
+) => {
+	let data;
+	let statuses = '';
+	if (enrollStatuses) {
+		statuses += `&statuses=${enrollStatuses[0]}`;
+		for (let i = 1; i < enrollStatuses.length; i++) {
+			statuses += `%2C${enrollStatuses[i]}`;
+		}
+	}
 	if (semesterId) {
-		content = await fetcher<Enrollment[]>(
-			`${Endpoints.ENROLLMENT}/index?index=${index}&semesterId=${semesterId}`,
+		data = await fetcher<PagableWrapper<Enrollment[]>>(
+			`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&indexNumber=${index}&semesterId=${semesterId}${statuses}`,
 		);
 	} else {
-		content = await fetcher<Enrollment[]>(
-			`${Endpoints.ENROLLMENT}/index?index=${index}`,
+		data = await fetcher<PagableWrapper<Enrollment[]>>(
+			`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&indexNumber=${index}${statuses}`,
 		);
 	}
+	const { content } = data;
 	return content;
 };
 
-export const addEnrollment = async (enrollment: Enroll) => {
+export const addEnrollment = async (enrollment: PostEnroll) => {
 	try {
-		return await fetcher<Enroll>(Endpoints.ENROLLMENT, {
+		return await fetcher<PostEnroll>(Endpoints.ENROLLMENT, {
 			method: 'POST',
 			body: enrollment,
 		});
@@ -29,8 +41,13 @@ export const addEnrollment = async (enrollment: Enroll) => {
 	}
 };
 
-export const deleteEnrollment = async (index: string) => {
-	return fetcher(`${Endpoints.ENROLLMENT}/index?index=${index}`, {
-		method: 'DELETE',
-	});
-}
+export const editEnrollment = async (enrollment: PostEnroll) => {
+	try {
+		return await fetcher<PostEnroll>(Endpoints.ENROLLMENT, {
+			method: 'PUT',
+			body: enrollment,
+		});
+	} catch (error) {
+		return Promise.reject(error);
+	}
+};

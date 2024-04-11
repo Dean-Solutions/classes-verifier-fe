@@ -3,4 +3,5 @@ export enum Endpoints {
 	STUDENTS = 'students',
 	SUBJECTS = 'subjects',
 	ENROLLMENT = 'enrollment',
+	REQUEST = 'request',
 }
