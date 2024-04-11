@@ -94,13 +94,16 @@
 		"searchPlaceholder": "Wyszukaj przedmiot",
 		"confirmButton": "Potwierdź poprawność",
 		"textPlaceholder": "Opisz krótko swój problem",
-		"errorButton": "Zgłoś błąd",
+		"errorButton": "Zgłoś poprawkę",
 		"warning": "Uwaga!",
 		"warningText": "Potwierdzasz poprawność przypisania przedmiotów na najbliższy semestr\n\nCzy wszystkie przedmioty zostały przypisane poprawnie?",
 		"emptyTitle": "Brak przedmiotów",
 		"emptyDescription": "Nie znaleziono żadnych przypisanych przedmiotów",
 		"studentNotFound": "Nie znaleziono Cię w bazie studentów",
-		"standardRequest": "Ogólny request"
+		"standardRequest": "Ogólny request",
+		"deleteCheckboxLabel": "Usuń ten przedmiot",
+		"setSubjectText": "Wymień przedmiot na:",
+		"addSubjectText": "Proszę o dodanie tego przedmiotu"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
@@ -113,7 +116,8 @@
 		"confirmButton": "Zaakceptuj",
 		"rejectButton": "Odrzuć",
 		"emptyTitle": "Brak requestów",
-		"emptyDescription": "Nie znaleziono żadnych zgłoszonych requestów"
+		"emptyDescription": "Nie znaleziono żadnych zgłoszonych requestów",
+		"rejectMessage": "Odrzucam prośbę",
+		"acceptMessage": "Zatwierdzam zgłoszenie"
 	}
-	
 }

@@ -11,7 +11,11 @@ export const useAddEnrollment = () => {
 			await queryClient.invalidateQueries({
 				queryKey: [QueryKeys.GET_ENROLLMENT],
 			});
+			await queryClient.invalidateQueries({
+				queryKey: [QueryKeys.GET_STUDENTS],
+			});
 		},
+
 		onError: (error: unknown) => {
 			console.log(error);
 		},

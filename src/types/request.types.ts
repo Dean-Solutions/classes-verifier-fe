@@ -1,6 +1,7 @@
 import { type Course, type Student } from './api.types';
 
 export type UserRequest = {
+	requestId?: number;
 	description: string;
 	submissionDate: string;
 	requestType: string;

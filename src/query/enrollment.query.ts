@@ -10,7 +10,7 @@ export const useGetStudentEnrollments = (
 	enrollStatuses?: EnrollStatus[],
 ) => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_CLASSES, { index }],
+		queryKey: [QueryKeys.GET_ENROLLMENT, { index }],
 		queryFn: () =>
 			getStudentEnrollments(index, userId, semesterId, enrollStatuses),
 		staleTime: ONE_HOUR,

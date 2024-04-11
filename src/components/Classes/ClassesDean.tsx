@@ -30,7 +30,15 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 	const [openedClass, setOpenedClass] = useState<string | null>(null);
 	const { mutate: editEnrollment } = useEditEnrollment();
 
-	const { data: classesStudents } = useGetClassesStudentsByTag(p.semesterTag);
+	const statusesToShow: EnrollStatus[] = [
+		EnrollStatus.ACCEPTED,
+		EnrollStatus.PENDING,
+		EnrollStatus.PROPOSED,
+	];
+	const { data: classesStudents } = useGetClassesStudentsByTag(
+		p.semesterTag,
+		statusesToShow,
+	);
 
 	const { data: studentData } = useGetAllStudents();
 	const studentNames =
@@ -102,10 +110,10 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 							<Accordion.Panel>
 								<Flex p='xs' direction='column'>
 									<ScrollArea h={200} ml={15} mr={15}>
-										{classStudents.students.map((student) => (
+										{classStudents.enrollments.map((enrollment) => (
 											<>
 												<Flex
-													key={student.userId}
+													key={enrollment.user.userId}
 													direction='row'
 													align='center'
 													justify='space-between'
@@ -113,7 +121,7 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 												>
 													<Flex>
 														<Text mr={10} fw={700} fz='md'>
-															{`${student.firstName} ${student.lastName} (${student.indexNumber})`}
+															{`${enrollment.user.firstName} ${enrollment.user.lastName} (${enrollment.user.indexNumber})`}
 														</Text>
 													</Flex>
 													<Button
@@ -123,7 +131,7 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 														mr={33}
 														onClick={() =>
 															handleTrashButton(
-																student.userId,
+																enrollment.user.userId,
 																classStudents.class.subjectId,
 																1,
 																EnrollStatus.REJECTED,
@@ -150,7 +158,16 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 												radius='lg'
 												limit={3}
 												miw={300}
-												data={studentNames}
+												data={studentNames.filter(
+													(name) =>
+														!classStudents.enrollments.some(
+															({
+																user: { firstName, lastName, indexNumber },
+															}) =>
+																`${firstName} ${lastName} ${indexNumber}` ===
+																name,
+														),
+												)}
 												value={nameIndexInput}
 												onChange={setNameIndexInput}
 											/>

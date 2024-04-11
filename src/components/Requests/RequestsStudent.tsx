@@ -10,38 +10,23 @@ import {
 } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { EmptyState } from '../EmptyState/EmptyState';
+import { getColor } from '@/utils/colors.util';
 
 export const RequestsStudent = () => {
 	const t = useTranslations('Requests');
 	const { data: userRequests } = useGetUserRequests(4);
 	console.log(userRequests);
 
-	type Map = Record<string, string | undefined>;
-
-	const colorMap: Map = {
-		ACCEPTED: 'green.0',
-		PENDING: 'yellow.0',
-		REJECTED: 'red.0',
-	};
-
-	const getColor = (status: string | undefined) => {
-		if (status === 'ACCEPTED') {
-			return colorMap.ACCEPTED;
-		} else if (status === 'PENDING') {
-			return colorMap.PENDING;
-		} else return colorMap.REJECTED;
-	};
-
 	return (
 		<>
-			{!userRequests?.content || userRequests?.content.length === 0 ? (
+			{!userRequests || userRequests.length === 0 ? (
 				<EmptyState
 					title={t('emptyTitle')}
 					description={t('emptyDescription')}
 				/>
 			) : (
 				<Grid p={8}>
-					{userRequests.content.map((request) => (
+					{userRequests.map((request) => (
 						<Grid.Col span={4} key={request.requestId}>
 							<Flex
 								h={300}

@@ -19,6 +19,13 @@ export const getClasses = async ({
 	return content;
 };
 
+export const getAllClasses = async () => {
+	const { content } = await fetcher<PagableWrapper<Course[]>>(
+		`${Endpoints.SUBJECTS}?page=${0}&size=${30}`,
+	);
+	return content;
+};
+
 export const getClassById = async (subjectId: number) => {
 	const content = await fetcher<Course>(`${Endpoints.SUBJECTS}/${subjectId}`);
 	return content;

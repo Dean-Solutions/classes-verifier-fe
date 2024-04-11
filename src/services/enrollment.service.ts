@@ -30,6 +30,23 @@ export const getStudentEnrollments = async (
 	return content;
 };
 
+export const getClassEnrollments = async (
+	subjectId: number,
+	enrollStatuses?: EnrollStatus[],
+) => {
+	let statuses = '';
+	if (enrollStatuses) {
+		statuses += `&statuses=${enrollStatuses[0]}`;
+		for (let i = 1; i < enrollStatuses.length; i++) {
+			statuses += `%2C${enrollStatuses[i]}`;
+		}
+	}
+	const { content } = await fetcher<PagableWrapper<Enrollment[]>>(
+		`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&subjectId=${subjectId}${statuses}`,
+	);
+	return content;
+};
+
 export const addEnrollment = async (enrollment: PostEnroll) => {
 	try {
 		return await fetcher<PostEnroll>(Endpoints.ENROLLMENT, {

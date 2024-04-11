@@ -1,9 +1,12 @@
 import {
+	getAllClasses,
 	getClassById,
 	getClassStudents,
 	getClasses,
 } from '@/services/classes.service';
-import { type Course, type Student } from '@/types/api.types';
+import { getClassEnrollments } from '@/services/enrollment.service';
+import { type Enrollment, type Course } from '@/types/api.types';
+import { type EnrollStatus } from '@/types/enrollments.types';
 import { ONE_HOUR, QueryKeys } from '@/types/query.types';
 import { useQuery } from '@tanstack/react-query';
 
@@ -13,6 +16,14 @@ export const useGetClasses = (page: number, size?: number, tag?: string) => {
 		queryFn: () => getClasses({ tag: tag || '', page, size }),
 		staleTime: ONE_HOUR,
 		enabled: !!tag,
+	});
+};
+
+export const useGetAllClasses = () => {
+	return useQuery({
+		queryKey: [QueryKeys.GET_CLASSES],
+		queryFn: () => getAllClasses(),
+		staleTime: ONE_HOUR,
 	});
 };
 
@@ -33,27 +44,35 @@ export const useGetClassStudents = (subjectId: number, semesterId?: number) => {
 	});
 };
 
-const getClassesStudentsByTag = async (semesterTag: string) => {
+const getClassesStudentsByTag = async (
+	semesterTag: string,
+	enrollStatuses?: EnrollStatus[],
+) => {
 	const classes = await getClasses({ tag: semesterTag, page: 0, size: 15 });
-	const map = new Map<Course, Student[]>();
+	const map = new Map<Course, Enrollment[]>();
 	const mappedData = classes || [];
 
 	for (const item of mappedData) {
-		const students = await getClassStudents(item.subjectId);
-		map.set(item, students);
+		const enrollments = await getClassEnrollments(
+			item.subjectId,
+			enrollStatuses,
+		);
+		map.set(item, enrollments);
 	}
 
-	return Array.from(map).map(([classes, students]) => ({
+	return Array.from(map).map(([classes, enrollments]) => ({
 		class: classes,
-		students,
+		enrollments,
 	}));
 };
 
-export const useGetClassesStudentsByTag = (semesterTag: string) => {
+export const useGetClassesStudentsByTag = (
+	semesterTag: string,
+	enrollStatuses?: EnrollStatus[],
+) => {
 	return useQuery({
 		queryKey: [QueryKeys.GET_STUDENTS, { semesterTag }],
-		queryFn: () => getClassesStudentsByTag(semesterTag),
+		queryFn: () => getClassesStudentsByTag(semesterTag, enrollStatuses),
 		staleTime: 100,
-		enabled: true,
 	});
 };

@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import { type AbstractIntlMessages, NextIntlClientProvider } from 'next-intl';
 import { useRouter } from 'next/router';
 import { getStaticProps } from '@/pages/index';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import '@/styles/globals.css';
 import { MantineProvider } from '@mantine/core';
@@ -32,6 +33,7 @@ const MyApp: AppType<{
 			withCSSVariables
 		>
 			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools />
 				<NextIntlClientProvider
 					locale={router.locale}
 					messages={messages}
