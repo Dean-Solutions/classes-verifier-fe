@@ -12,7 +12,7 @@ import {
 	AddClassFormSchema,
 	type AddClassFormType,
 } from '@/types/classes.types';
-import { useAddClass } from '@/mutations/classes.mutate';
+import { useAddClass, useEditClass } from '@/mutations/classes.mutate';
 import { useEffect, useMemo } from 'react';
 import { modals } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
@@ -21,14 +21,18 @@ import { useGetTags } from '@/query/tags.query';
 import CenteredLoader from '../molecules/Loader/CenteredLoader';
 import { DataFetchErrorReload } from '../molecules/DataFetchError/DataFetchError';
 import { type SelectDataWithFooter } from '@/types/common.types';
+import { type Course, type Tag } from '@/types/api.types';
 
-const AddClassModal = () => {
+const AddClassModal = (currentClass?: Course) => {
+	const preferedMutation = currentClass ? useEditClass : useAddClass;
+
 	const {
-		mutate: addClass,
+		mutate: classModifierFunc,
 		isPending: isAddClassPending,
 		isError: isAddClassError,
 		isSuccess: isAddClassSuccess,
-	} = useAddClass();
+	} = preferedMutation();
+
 	const {
 		data: tags,
 		isLoading: isTagsLoading,
@@ -38,10 +42,10 @@ const AddClassModal = () => {
 
 	const addClassForm = useForm<AddClassFormType>({
 		initialValues: {
-			subjectName: '',
+			subjectName: currentClass?.name ?? '',
 			subjectSemester: '1',
-			subjectDescription: '',
-			subjectTags: [],
+			subjectDescription: currentClass?.description ?? '',
+			subjectTags: currentClass?.subjectTags?.map((v: Tag) => v.name) ?? [],
 		},
 		validate: zodResolver(AddClassFormSchema),
 		validateInputOnChange: true,
@@ -68,7 +72,16 @@ const AddClassModal = () => {
 
 	const submitAddNewSubject = () => {
 		if (addClassForm.isValid() && addClassForm.isDirty()) {
-			addClass(addClassForm.values);
+			if (!currentClass) {
+				// @ts-expect-error if currentClass is null then classModifierFunc gets those arguments
+				classModifierFunc({ value: addClassForm.values });
+			} else {
+				// @ts-expect-error if currentClass is not null then classModifierFunc gets those arguments
+				classModifierFunc({
+					value: addClassForm.values,
+					subjectId: currentClass?.subjectId,
+				});
+			}
 		}
 	};
 
@@ -123,7 +136,7 @@ const AddClassModal = () => {
 					fullWidth
 					onClick={() => submitAddNewSubject()}
 				>
-					{t('addBtn')}
+					{currentClass ? t('editBtn') : t('addBtn')}
 				</Button>
 			</Group>
 		</Flex>

@@ -75,7 +75,8 @@
 			"classDescriptionPlaceholder": "Przykładowy opis przedmiotu",
 			"tagsLabel": "Wybierz tagi",
 			"tagsPlaceholder": "INF_24-25",
-			"addBtn": "Dodaj Przedmiot"
+			"addBtn": "Dodaj Przedmiot",
+			"editBtn": "Edytuj Przedmiot"
 		},
 		"Table": {
 			"name": "Nazwa",

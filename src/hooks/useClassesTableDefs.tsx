@@ -7,17 +7,46 @@ import { Trash } from '@/Icons/Trash';
 import { CLASSES_TABLE_COLUMNS } from '@/constants/classes.constants';
 import { Edit } from '@/Icons/Edit';
 import { useDeleteClass } from '@/mutations/classes.mutate';
+import { modals } from '@mantine/modals';
+import AddClassModal from '@/components/common/modals/AddClassModal';
+import { AddTagModal } from '@/components/common/modals/AddTagModal';
 
 const useClassesTableData = () => {
-	const t = useTranslations('Classes.Table');
+	const t = useTranslations('Classes');
 	const { mutate, isPending } = useDeleteClass();
+
+	const openModal = (c: Course) => {
+		modals.open({
+			title: t('addClassModal.title'),
+			centered: true,
+			styles(theme) {
+				return {
+					title: {
+						fontWeight: 700,
+						fontSize: theme.fontSizes.lg,
+					},
+					close: {
+						color: theme.colors.dark[7],
+					},
+				};
+			},
+			children: (
+				<AddClassModal
+					description={c.description}
+					name={c.name}
+					subjectId={c.subjectId}
+					subjectTags={c.subjectTags}
+				/>
+			),
+		});
+	};
 
 	const columns: ColumnDef<Course>[] = useMemo(
 		() => [
 			{
 				header: () => (
 					<Text fw={600} p='md' size='md'>
-						{t('name')}
+						{t('Table.name')}
 					</Text>
 				),
 
@@ -27,18 +56,22 @@ const useClassesTableData = () => {
 			{
 				header: () => (
 					<Text fw={600} p='md' size='md'>
-						{t('description')}
+						{t('Table.description')}
 					</Text>
 				),
 				accessorKey: CLASSES_TABLE_COLUMNS.DESCRIPTION,
-				cell: (props) => (
-					<Text>{props.row.original.description || t('noDescription')}</Text>
-				),
+				cell: (props) => {
+					return (
+						<Text>
+							{props.row.original.description || t('Table.noDescription')}
+						</Text>
+					);
+				},
 			},
 			{
 				header: () => (
 					<Text fw={600} p='md' size='md'>
-						{t('actions')}
+						{t('Table.actions')}
 					</Text>
 				),
 				accessorKey: CLASSES_TABLE_COLUMNS.ACTIONS,
@@ -49,7 +82,7 @@ const useClassesTableData = () => {
 							color='orange.0'
 							loading={isPending}
 							onClick={() => {
-								console.log('Edit');
+								openModal(props.row.original);
 							}}
 						>
 							<Edit />
