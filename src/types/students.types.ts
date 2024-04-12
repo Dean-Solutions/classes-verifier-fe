@@ -36,6 +36,8 @@ export const AddStudentFormSchema = z.object({
 				return { message: 'Numer indeksu musi być liczbą' };
 			},
 		})
+		.min(0, 'Numer indeksu musi być dodatni')
+		.max(999999)
 		.refine((value) => value.toString().length === 6, {
 			message: 'Numer indeksu musi mieć 6 cyfr',
 		}),
