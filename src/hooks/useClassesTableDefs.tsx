@@ -17,7 +17,7 @@ const useClassesTableData = () => {
 
 	const openModal = (c: Course) => {
 		modals.open({
-			title: t('addClassModal.title'),
+			title: t('addClassModal.titleEdit'),
 			centered: true,
 			styles(theme) {
 				return {

@@ -24,14 +24,19 @@ import { type SelectDataWithFooter } from '@/types/common.types';
 import { type Course, type Tag } from '@/types/api.types';
 
 const AddClassModal = (currentClass?: Course) => {
-	const preferedMutation = currentClass ? useEditClass : useAddClass;
-
 	const {
-		mutate: classModifierFunc,
+		mutate: addClass,
 		isPending: isAddClassPending,
 		isError: isAddClassError,
 		isSuccess: isAddClassSuccess,
-	} = preferedMutation();
+	} = useAddClass();
+
+	const {
+		mutate: editClass,
+		isPending: isEditClassPending,
+		isError: isEditClassError,
+		isSuccess: isEditClassSuccess,
+	} = useEditClass();
 
 	const {
 		data: tags,
@@ -65,19 +70,27 @@ const AddClassModal = (currentClass?: Course) => {
 	);
 
 	useEffect(() => {
-		if (isAddClassSuccess || isAddClassError) {
+		if (
+			isAddClassSuccess ||
+			isAddClassError ||
+			isEditClassSuccess ||
+			isEditClassError
+		) {
 			modals.closeAll();
 		}
-	}, [isAddClassSuccess, isAddClassError]);
+	}, [
+		isAddClassSuccess,
+		isAddClassError,
+		isEditClassSuccess,
+		isEditClassError,
+	]);
 
-	const submitAddNewSubject = () => {
+	const submitSubject = () => {
 		if (addClassForm.isValid() && addClassForm.isDirty()) {
 			if (!currentClass) {
-				// @ts-expect-error if currentClass is null then classModifierFunc gets those arguments
-				classModifierFunc({ value: addClassForm.values });
+				addClass(addClassForm.values);
 			} else {
-				// @ts-expect-error if currentClass is not null then classModifierFunc gets those arguments
-				classModifierFunc({
+				editClass({
 					value: addClassForm.values,
 					subjectId: currentClass?.subjectId,
 				});
@@ -132,9 +145,9 @@ const AddClassModal = (currentClass?: Course) => {
 			<Group position='center' mt='md'>
 				<Button
 					disabled={!addClassForm.isValid()}
-					loading={isAddClassPending}
+					loading={currentClass ? isEditClassPending : isAddClassPending}
 					fullWidth
-					onClick={() => submitAddNewSubject()}
+					onClick={() => submitSubject()}
 				>
 					{currentClass ? t('editBtn') : t('addBtn')}
 				</Button>

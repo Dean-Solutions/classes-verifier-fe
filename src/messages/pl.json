@@ -67,6 +67,7 @@
 		"addClass": "Dodaj przedmiot",
 		"addClassModal": {
 			"title": "Dodaj nowy przedmiot",
+			"titleEdit": "Edytuj przedmiot",
 			"classNameLabel": "Nazwa przedmiotu",
 			"classNamePlaceholder": "Przykładowa nazwa przedmiotu",
 			"semesterNumberLabel": "Numer semestru",
