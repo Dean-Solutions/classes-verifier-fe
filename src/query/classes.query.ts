@@ -46,7 +46,7 @@ export const useGetClassStudents = (subjectId: number, semesterId?: number) => {
 
 const getClassesStudentsByTag = async (
 	semesterTag: string,
-	enrollStatuses?: EnrollStatus[],
+	enrollStatuses: EnrollStatus[],
 ) => {
 	const classes = await getClasses({ tag: semesterTag, page: 0, size: 15 });
 	const map = new Map<Course, Enrollment[]>();
@@ -68,11 +68,11 @@ const getClassesStudentsByTag = async (
 
 export const useGetClassesStudentsByTag = (
 	semesterTag: string,
-	enrollStatuses?: EnrollStatus[],
+	enrollStatuses: EnrollStatus[],
 ) => {
 	return useQuery({
 		queryKey: [QueryKeys.GET_STUDENTS, { semesterTag }],
 		queryFn: () => getClassesStudentsByTag(semesterTag, enrollStatuses),
-		staleTime: 100,
+		staleTime: ONE_HOUR,
 	});
 };

@@ -42,7 +42,7 @@ export default function Home() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [tags, t]);
 	// MOCK STUDENT FOR NOW - LOGIN docelowo
-	const { data: student } = useGetStudentByIndex('101010');
+	const { data: student } = useGetStudentByIndex('123123');
 
 	if (isLoading) {
 		return <TableLoader />;

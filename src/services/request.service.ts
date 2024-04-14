@@ -26,7 +26,6 @@ export const getRequests = async (requestType?: string) => {
 };
 
 export const addRequest = async (userRequest: UserRequest) => {
-	console.log(userRequest);
 	try {
 		return await fetcher<Request>(Endpoints.REQUEST, {
 			method: 'POST',
@@ -38,7 +37,6 @@ export const addRequest = async (userRequest: UserRequest) => {
 };
 
 export const editRequest = async (userRequest: UserRequest) => {
-	console.log(userRequest);
 	try {
 		return await fetcher<Request>(Endpoints.REQUEST, {
 			method: 'PUT',

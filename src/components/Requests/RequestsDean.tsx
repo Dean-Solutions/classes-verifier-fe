@@ -10,14 +10,14 @@ import {
 import { useTranslations } from 'next-intl';
 import { useGetRequests } from '@/query/request.query';
 import { EmptyState } from '../EmptyState/EmptyState';
-import { type RequestEnroll, type UserRequest } from '@/types/request.types';
+import { RequestStatus, RequestType } from '@/types/request.types';
 import { useEditRequest } from '@/mutations/request.mutate';
 import { type Request } from '@/types/api.types';
 import {
 	useAddEnrollment,
 	useEditEnrollment,
 } from '@/mutations/enrollment.mutate';
-import { EnrollStatus, type PostEnroll } from '@/types/enrollments.types';
+import { EnrollStatus } from '@/types/enrollments.types';
 
 export const RequestsDean = () => {
 	const t = useTranslations('Requests');
@@ -31,60 +31,63 @@ export const RequestsDean = () => {
 		request: Request,
 		userId: number,
 		subjectId: number,
-		status: string,
-		requestEnrollId: number | undefined,
+		status: RequestStatus,
+		requestEnrollId: number,
 	) => {
 		const currentTime = new Date();
-		const requestEnrolls: RequestEnroll[] = [
-			{
-				requestEnrollId: requestEnrollId,
-				semesterId: 1,
-				requestStatus: status,
-				userId: userId,
-				subjectId: subjectId,
-			},
-		];
-		if (status === 'REJECTED') {
-			const changedRequest: UserRequest = {
+		if (status === RequestStatus.REJECTED) {
+			editRequest({
 				requestId: request.requestId,
 				description: t('rejectMessage'),
 				submissionDate: currentTime.toISOString(),
-				requestType: 'ACCEPT',
+				requestType: RequestType.ACCEPT,
 				// dziekan
-				senderId: 4,
-				requestEnrolls: requestEnrolls,
-			};
-			editRequest(changedRequest);
+				senderId: 1,
+				requestEnrolls: [
+					{
+						requestEnrollId: requestEnrollId,
+						semesterId: 1,
+						requestStatus: status,
+						userId: userId,
+						subjectId: subjectId,
+					},
+				],
+			});
 		}
 		if (status === 'ACCEPTED') {
-			const changedRequest: UserRequest = {
+			editRequest({
 				requestId: request.requestId,
 				description: t('acceptMessage'),
 				submissionDate: currentTime.toISOString(),
-				requestType: 'ACCEPT',
+				requestType: RequestType.ACCEPT,
 				// dziekan
-				senderId: 4,
-				requestEnrolls: requestEnrolls,
-			};
-			editRequest(changedRequest);
+				senderId: 1,
+				requestEnrolls: [
+					{
+						requestEnrollId: requestEnrollId,
+						semesterId: 1,
+						requestStatus: status,
+						userId: userId,
+						subjectId: subjectId,
+					},
+				],
+			});
 
 			if (request.requestType === 'ADD') {
-				const enrollment: PostEnroll = {
+				addEnrollment({
 					userId: userId,
 					subjectId: subjectId,
 					semesterId: 1,
 					enrollStatus: EnrollStatus.PROPOSED,
-				};
-				addEnrollment(enrollment);
+				});
 			}
 			if (request.requestType === 'DELETE') {
-				const enrollment: PostEnroll = {
+				editEnrollment({
 					userId: userId,
 					subjectId: subjectId,
 					semesterId: 1,
 					enrollStatus: EnrollStatus.REJECTED,
-				};
-				editEnrollment(enrollment);
+				});
 			}
 		}
 	};
@@ -141,7 +144,7 @@ export const RequestsDean = () => {
 														request,
 														re.user.userId,
 														re.subject.subjectId,
-														'ACCEPTED',
+														RequestStatus.ACCEPTED,
 														re.requestEnrollId,
 													)
 												}
@@ -159,7 +162,7 @@ export const RequestsDean = () => {
 														request,
 														re.user.userId,
 														re.subject.subjectId,
-														'REJECTED',
+														RequestStatus.REJECTED,
 														re.requestEnrollId,
 													)
 												}

@@ -14,8 +14,7 @@ import { getColor } from '@/utils/colors.util';
 
 export const RequestsStudent = () => {
 	const t = useTranslations('Requests');
-	const { data: userRequests } = useGetUserRequests(4);
-	console.log(userRequests);
+	const { data: userRequests } = useGetUserRequests(4); // TODO: getting current logged user ( stundent )
 
 	return (
 		<>

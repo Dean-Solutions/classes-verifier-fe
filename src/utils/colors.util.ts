@@ -1,3 +1,5 @@
+import { RequestStatus } from '@/types/request.types';
+
 type Map = Record<string, string | undefined>;
 
 const colorMap: Map = {
@@ -6,10 +8,10 @@ const colorMap: Map = {
 	REJECTED: 'red.0',
 };
 
-export const getColor = (status: string | undefined) => {
-	if (status === 'ACCEPTED') {
+export const getColor = (status: RequestStatus) => {
+	if (status === RequestStatus.ACCEPTED) {
 		return colorMap.ACCEPTED;
-	} else if (status === 'PENDING') {
+	} else if (status === RequestStatus.PENDING) {
 		return colorMap.PENDING;
 	} else return colorMap.REJECTED;
 };

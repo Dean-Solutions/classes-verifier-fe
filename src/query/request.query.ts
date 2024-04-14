@@ -7,7 +7,6 @@ export const useGetUserRequests = (userId: number) => {
 		queryKey: [QueryKeys.GET_REQUESTS, { userId }],
 		queryFn: () => getUserRequests(userId),
 		staleTime: ONE_HOUR,
-		enabled: true,
 	});
 };
 
@@ -16,6 +15,5 @@ export const useGetRequests = () => {
 		queryKey: [QueryKeys.GET_REQUESTS],
 		queryFn: () => getRequests(),
 		staleTime: ONE_HOUR,
-		enabled: true,
 	});
 };

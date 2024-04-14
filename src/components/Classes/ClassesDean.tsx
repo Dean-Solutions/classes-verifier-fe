@@ -2,7 +2,6 @@ import { useGetClassesStudentsByTag } from '@/query/classes.query';
 import {
 	Flex,
 	Accordion,
-	rem,
 	Text,
 	ScrollArea,
 	Divider,
@@ -17,12 +16,13 @@ import {
 	useAddEnrollment,
 	useEditEnrollment,
 } from '@/mutations/enrollment.mutate';
-import { EnrollStatus, type PostEnroll } from '@/types/enrollments.types';
+import { EnrollStatus } from '@/types/enrollments.types';
 import { EmptyState } from '../EmptyState/EmptyState';
+import { statusesToShow } from '@/utils/enrollment.utils';
 
 type ClassesDeanProps = { semesterTag: string };
 
-export const ClassesDean = (p: ClassesDeanProps) => {
+export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 	const d = useTranslations('HomeDean');
 	const t = useTranslations('Classes');
 	const [nameIndexInput, setNameIndexInput] = useState('');
@@ -30,22 +30,17 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 	const [openedClass, setOpenedClass] = useState<string | null>(null);
 	const { mutate: editEnrollment } = useEditEnrollment();
 
-	const statusesToShow: EnrollStatus[] = [
-		EnrollStatus.ACCEPTED,
-		EnrollStatus.PENDING,
-		EnrollStatus.PROPOSED,
-	];
 	const { data: classesStudents } = useGetClassesStudentsByTag(
-		p.semesterTag,
+		semesterTag,
 		statusesToShow,
 	);
 
 	const { data: studentData } = useGetAllStudents();
 	const studentNames =
-		studentData?.map(
-			({ firstName, lastName, indexNumber }) =>
-				`${firstName} ${lastName} ${indexNumber}`,
-		) || [];
+		studentData?.map(({ firstName, lastName, indexNumber }) => ({
+			value: indexNumber.toString(),
+			label: `${firstName} ${lastName} (${indexNumber})`,
+		})) || [];
 
 	const handleTrashButton = (
 		userId: number,
@@ -53,13 +48,12 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 		semesterId: number,
 		enrollStatus: EnrollStatus,
 	) => {
-		const enrollment: PostEnroll = {
+		editEnrollment({
 			userId: userId,
 			subjectId: subjectId,
 			semesterId: semesterId,
 			enrollStatus: enrollStatus,
-		};
-		editEnrollment(enrollment);
+		});
 	};
 
 	const handleStudentForm = () => {
@@ -67,13 +61,12 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 			(item) => item.indexNumber === nameIndexInput.split(' ').pop(),
 		);
 		if (student) {
-			const newEnrollment: PostEnroll = {
+			addEnrollment({
 				userId: student.userId,
 				subjectId: parseInt(openedClass || ''),
-				semesterId: 1,
+				semesterId: 1, // TODO after add semester modal
 				enrollStatus: EnrollStatus.PROPOSED,
-			};
-			addEnrollment(newEnrollment);
+			});
 		}
 	};
 
@@ -95,7 +88,7 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 							key={classStudents.class.subjectId}
 							value={classStudents.class.subjectId.toString()}
 							bg='neutral.0'
-							mih={rem(70)}
+							mih={70}
 							sx={(theme) => ({
 								boxShadow: theme.shadows.sm,
 								borderRightColor: theme.colors.neutral[3],
@@ -164,8 +157,8 @@ export const ClassesDean = (p: ClassesDeanProps) => {
 															({
 																user: { firstName, lastName, indexNumber },
 															}) =>
-																`${firstName} ${lastName} ${indexNumber}` ===
-																name,
+																`${firstName} ${lastName} (${indexNumber})` ===
+																name.label,
 														),
 												)}
 												value={nameIndexInput}

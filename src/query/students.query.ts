@@ -21,7 +21,6 @@ export const useGetAllStudents = () => {
 		queryKey: [QueryKeys.GET_STUDENTS],
 		queryFn: () => getAllStudents(),
 		staleTime: ONE_HOUR,
-		enabled: true,
 	});
 };
 

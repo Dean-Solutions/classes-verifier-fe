@@ -5,18 +5,14 @@ import { type EnrollStatus, type PostEnroll } from '@/types/enrollments.types';
 
 export const getStudentEnrollments = async (
 	index: string,
+	enrollStatuses: EnrollStatus[],
 	userId?: number,
 	semesterId?: number,
-	enrollStatuses?: EnrollStatus[],
 ) => {
 	let data;
-	let statuses = '';
-	if (enrollStatuses) {
-		statuses += `&statuses=${enrollStatuses[0]}`;
-		for (let i = 1; i < enrollStatuses.length; i++) {
-			statuses += `%2C${enrollStatuses[i]}`;
-		}
-	}
+	const statuses = enrollStatuses
+		? `&statuses=${enrollStatuses.join('%2C')}`
+		: '';
 	if (semesterId) {
 		data = await fetcher<PagableWrapper<Enrollment[]>>(
 			`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&indexNumber=${index}&semesterId=${semesterId}${statuses}`,
@@ -32,15 +28,12 @@ export const getStudentEnrollments = async (
 
 export const getClassEnrollments = async (
 	subjectId: number,
-	enrollStatuses?: EnrollStatus[],
+	enrollStatuses: EnrollStatus[],
 ) => {
-	let statuses = '';
-	if (enrollStatuses) {
-		statuses += `&statuses=${enrollStatuses[0]}`;
-		for (let i = 1; i < enrollStatuses.length; i++) {
-			statuses += `%2C${enrollStatuses[i]}`;
-		}
-	}
+	const statuses = enrollStatuses
+		? `&statuses=${enrollStatuses.join('%2C')}`
+		: '';
+
 	const { content } = await fetcher<PagableWrapper<Enrollment[]>>(
 		`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&subjectId=${subjectId}${statuses}`,
 	);

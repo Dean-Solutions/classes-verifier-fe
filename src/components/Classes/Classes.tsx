@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
 	Flex,
 	Accordion,
-	rem,
 	Button,
 	Textarea,
 	Text,
@@ -16,11 +15,12 @@ import { ConfirmModal } from '../common/modals/ConfirmModal';
 import { useGetStudentEnrollments } from '@/query/enrollment.query';
 import { type Student } from '@/types/api.types';
 import { EmptyState } from '../EmptyState/EmptyState';
-import { type RequestEnroll, type UserRequest } from '@/types/request.types';
-import { EnrollStatus, type PostEnroll } from '@/types/enrollments.types';
+import { RequestStatus, RequestType } from '@/types/request.types';
+import { EnrollStatus } from '@/types/enrollments.types';
 import { useAddRequest } from '@/mutations/request.mutate';
 import { useEditEnrollment } from '@/mutations/enrollment.mutate';
 import { useGetAllClasses } from '@/query/classes.query';
+import { type ClassWithId } from '@/types/classes.types';
 
 type ClassesProps = { student: Student };
 
@@ -29,20 +29,28 @@ export const Classes = (p: ClassesProps) => {
 	const c = useTranslations('Common');
 
 	const { data: classes } = useGetAllClasses();
-	const classNames =
-		classes?.map(({ name, subjectId }) => `${subjectId} ${name}`) || [];
+	const classNames: ClassWithId[] =
+		classes?.map(({ name, subjectId }) => ({
+			value: subjectId.toString(),
+			label: name,
+		})) || [];
 	const [openedClass, setOpenedClass] = useState<string | null>(null);
 	const [requestDescription, setRequestDescription] = useState('');
-	const [selectValue, setSelectValue] = useState<string | null>('');
+	const [selectValue, setSelectValue] = useState<ClassWithId | null>(null);
+
+	const handleSetSelectValue = (value: string | null) => {
+		const selected = classNames.find((item) => item.value === value);
+		setSelectValue(selected || null);
+	};
 
 	const { mutate: addRequest } = useAddRequest();
 	const { mutate: editEnrollment } = useEditEnrollment();
 
 	const { data: studentEnrollments } = useGetStudentEnrollments(
 		p.student.indexNumber,
+		[EnrollStatus.ACCEPTED, EnrollStatus.PENDING, EnrollStatus.PROPOSED],
 		p.student.userId,
 		1,
-		[EnrollStatus.ACCEPTED, EnrollStatus.PENDING, EnrollStatus.PROPOSED],
 	);
 
 	const handleConfirmButton = (
@@ -51,56 +59,53 @@ export const Classes = (p: ClassesProps) => {
 		semesterId: number,
 		enrollStatus: EnrollStatus,
 	) => {
-		const enrollment: PostEnroll = {
-			userId: userId,
-			subjectId: subjectId,
-			semesterId: semesterId,
-			enrollStatus: enrollStatus,
-		};
-		editEnrollment(enrollment);
+		editEnrollment({
+			userId,
+			subjectId,
+			semesterId,
+			enrollStatus,
+		});
 	};
 
-	const handleSendRequest = (
-		subjectIdAdd?: string | undefined,
-		subjectIdDelete?: number,
-		semesterId?: number,
-	) => {
+	const handleAddRequest = (semesterId: number, subjectIdAdd?: string) => {
 		const currentTime = new Date();
 		if (subjectIdAdd) {
-			const requestEnrollsAdd: RequestEnroll[] = [
-				{
-					semesterId: semesterId,
-					requestStatus: 'PENDING',
-					userId: p.student.userId,
-					subjectId: parseInt(subjectIdAdd),
-				},
-			];
-			const newRequestAdd: UserRequest = {
+			addRequest({
 				description: t('addSubjectText'),
 				submissionDate: currentTime.toISOString(),
-				requestType: 'ADD',
+				requestType: RequestType.ADD,
 				senderId: p.student.userId,
-				requestEnrolls: requestEnrollsAdd,
-			};
-			addRequest(newRequestAdd);
+				requestEnrolls: [
+					{
+						semesterId: semesterId,
+						requestStatus: RequestStatus.PENDING,
+						userId: p.student.userId,
+						subjectId: parseInt(subjectIdAdd),
+					},
+				],
+			});
 		}
+	};
+	const handleRemoveRequest = (
+		semesterId: number,
+		subjectIdDelete?: number,
+	) => {
+		const currentTime = new Date();
 		if (subjectIdDelete) {
-			const requestEnrollsDelete: RequestEnroll[] = [
-				{
-					semesterId: semesterId,
-					requestStatus: 'PENDING',
-					userId: p.student.userId,
-					subjectId: subjectIdDelete,
-				},
-			];
-			const newRequestDelete: UserRequest = {
+			addRequest({
 				description: requestDescription,
 				submissionDate: currentTime.toISOString(),
-				requestType: 'DELETE',
+				requestType: RequestType.DELETE,
 				senderId: p.student.userId,
-				requestEnrolls: requestEnrollsDelete,
-			};
-			addRequest(newRequestDelete);
+				requestEnrolls: [
+					{
+						semesterId: semesterId,
+						requestStatus: RequestStatus.PENDING,
+						userId: p.student.userId,
+						subjectId: subjectIdDelete,
+					},
+				],
+			});
 		}
 	};
 
@@ -115,13 +120,15 @@ export const Classes = (p: ClassesProps) => {
 			confirmProps: { color: 'green.0' },
 			cancelProps: { color: 'blue.5' },
 			onConfirm: () => {
-				studentEnrollments?.forEach((item) =>
-					handleConfirmButton(
-						p.student.userId,
-						item.subject.subjectId,
-						1,
-						EnrollStatus.ACCEPTED,
-					),
+				studentEnrollments?.forEach(
+					(item) =>
+						handleConfirmButton(
+							p.student.userId,
+							item.subject.subjectId,
+							1,
+							EnrollStatus.ACCEPTED,
+						),
+					// TODO fix after creating addSemesterModal
 				);
 			},
 		});
@@ -156,7 +163,7 @@ export const Classes = (p: ClassesProps) => {
 							key={enrollment.subject.subjectId}
 							value={enrollment.subject.name}
 							bg='neutral.0'
-							mih={rem(70)}
+							mih={70}
 							sx={(theme) => ({
 								boxShadow: theme.shadows.sm,
 								borderRightColor: theme.colors.neutral[3],
@@ -208,10 +215,11 @@ export const Classes = (p: ClassesProps) => {
 												<Select
 													placeholder={t('searchPlaceholder')}
 													ml={10}
-													w={200}
+													miw={200}
+													maw={350}
 													data={classNames}
-													value={selectValue}
-													onChange={setSelectValue}
+													value={selectValue ? selectValue.value : null}
+													onChange={handleSetSelectValue}
 													allowDeselect
 													searchable
 												/>
@@ -225,10 +233,13 @@ export const Classes = (p: ClassesProps) => {
 										m={8}
 										w={130}
 										onClick={() => {
-											handleSendRequest(
-												selectValue?.charAt(0),
-												enrollment.subject.subjectId,
+											handleAddRequest(
 												enrollment.semester.semesterId,
+												selectValue?.value,
+											);
+											handleRemoveRequest(
+												enrollment.semester.semesterId,
+												enrollment.subject.subjectId,
 											);
 										}}
 									>
@@ -238,10 +249,18 @@ export const Classes = (p: ClassesProps) => {
 							</Accordion.Panel>
 						</Accordion.Item>
 					))}
+
 					<Accordion.Item
 						value={t('standardRequest')}
 						bg='neutral.0'
-						mih={rem(70)}
+						styles={{
+							item: {
+								background:
+									'linear-gradient(135deg, #f0f0f0 25%, transparent 25%) -50px 0, linear-gradient(225deg, #f0f0f0 25%, transparent 25%) -50px 0, linear-gradient(315deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, #f0f0f0 25%, transparent 25%)',
+								backgroundColor: 'neutral.0',
+							},
+						}}
+						mih={70}
 						sx={(theme) => ({
 							boxShadow: theme.shadows.sm,
 							borderRightColor: theme.colors.neutral[3],
@@ -276,10 +295,11 @@ export const Classes = (p: ClassesProps) => {
 										<Select
 											placeholder={t('searchPlaceholder')}
 											ml={10}
-											w={200}
+											miw={200}
+											maw={350}
 											data={classNames}
-											value={selectValue}
-											onChange={setSelectValue}
+											value={selectValue ? selectValue.value : null}
+											onChange={handleSetSelectValue}
 											allowDeselect
 											searchable
 										/>
@@ -292,7 +312,7 @@ export const Classes = (p: ClassesProps) => {
 									m={8}
 									w={130}
 									onClick={() => {
-										handleSendRequest(selectValue?.charAt(0), undefined, 1);
+										handleAddRequest(1, selectValue?.value);
 									}}
 								>
 									{t('errorButton')}

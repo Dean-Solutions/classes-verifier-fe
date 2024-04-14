@@ -5,14 +5,14 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetStudentEnrollments = (
 	index: string,
+	enrollStatuses: EnrollStatus[],
 	userId?: number,
 	semesterId?: number,
-	enrollStatuses?: EnrollStatus[],
 ) => {
 	return useQuery({
 		queryKey: [QueryKeys.GET_ENROLLMENT, { index }],
 		queryFn: () =>
-			getStudentEnrollments(index, userId, semesterId, enrollStatuses),
+			getStudentEnrollments(index, enrollStatuses, userId, semesterId),
 		staleTime: ONE_HOUR,
 		enabled: true,
 	});
