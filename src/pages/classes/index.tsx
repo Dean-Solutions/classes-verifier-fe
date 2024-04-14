@@ -18,8 +18,8 @@ import { type SelectDataWithFooter } from '@/types/common.types';
 import { Logout } from '@/Icons/Logout';
 import { AddTagModal } from '@/components/common/modals/AddTagModal';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
-import { useStudentsStore } from '@/store/students.store';
 import { useClassesSearch } from '@/hooks/useClassesSearch';
+import { useFiltersStore } from '@/store/filters.store';
 
 export default function Classes() {
 	const t = useTranslations('Classes');
@@ -63,7 +63,7 @@ export default function Classes() {
 	} = useGetClasses(pagination.pageIndex, pagination.pageSize, semesterTag);
 	const classesColumnDefs = useClassesTableData();
 
-	const searchValue = useStudentsStore((state) => state.searchValue);
+	const searchValue = useFiltersStore((state) => state.searchValue);
 	const { filteredClasses } = useClassesSearch(searchValue, classes);
 
 	const openModal = (type: 'TAG' | 'CLASS') => {
