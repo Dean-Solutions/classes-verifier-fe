@@ -9,5 +9,6 @@ export default async function handler(
 		req,
 		res,
 		path: 'auth/register',
+		noAuth: true,
 	});
 }
