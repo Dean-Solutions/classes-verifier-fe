@@ -15,10 +15,9 @@ import { Home } from '@/Icons/Home';
 import { Bell } from '@/Icons/Bell';
 import { People } from '@/Icons/People';
 import { Study } from '@/Icons/Study';
-import { Piechart } from '@/Icons/Piechart';
-import { Logout } from '@/Icons/Logout';
 import { Logo } from '@/Icons/Logo';
 import { useStudentsStore } from '@/store/students.store';
+import { Logout } from '@/Icons/Logout';
 
 export const Navbar = () => {
 	const router = useRouter();
@@ -51,11 +50,6 @@ export const Navbar = () => {
 	const studentNavbarItems = navbarItems.slice(0, 2);
 
 	const bottomNavbarItems = [
-		{
-			label: t('settings'),
-			link: Routes.Settings,
-			icon: <Piechart />,
-		},
 		{
 			label: t('logout'),
 			link: Routes.Logout,
