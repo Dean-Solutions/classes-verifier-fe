@@ -8,6 +8,7 @@ type ServerFetcherParams = {
 	res: NextApiResponse;
 	path: string;
 	config?: RequestInit;
+	noAuth?: boolean;
 };
 
 export async function serverFetcher<T>({
@@ -15,10 +16,10 @@ export async function serverFetcher<T>({
 	res,
 	path,
 	config,
+	noAuth,
 }: ServerFetcherParams) {
 	const session = await getServerSession(req, res, authOptions);
-	// TODO fix on S2 with auth implementation
-	if (session || true) {
+	if (session || noAuth) {
 		const mergedConfig: RequestInit = {
 			...config,
 			method: req.method,
@@ -27,6 +28,14 @@ export async function serverFetcher<T>({
 				'content-type': 'application/json',
 			},
 		};
+
+		if (session) {
+			mergedConfig.headers = {
+				...mergedConfig.headers,
+				Authorization: `Bearer ${session.accessToken}`,
+			};
+		}
+
 		if (req.body) {
 			mergedConfig.body = req.body;
 		}

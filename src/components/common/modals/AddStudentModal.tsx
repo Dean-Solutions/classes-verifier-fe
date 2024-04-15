@@ -1,4 +1,4 @@
-import { Button, Flex, NumberInput, Select, TextInput } from '@mantine/core';
+import { Button, Flex, Select, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
@@ -20,7 +20,7 @@ export const AddStudentModal = () => {
 		initialValues: {
 			firstName: '',
 			lastName: '',
-			indexNumber: 1,
+			indexNumber: '',
 			semester: 1,
 			email: '',
 		},
@@ -52,7 +52,7 @@ export const AddStudentModal = () => {
 				withAsterisk
 				{...form.getInputProps('lastName')}
 			/>
-			<NumberInput
+			<TextInput
 				label={t('indexNumberLabel')}
 				placeholder={t('indexNumberPlaceholder')}
 				maxLength={6}
