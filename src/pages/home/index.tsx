@@ -3,12 +3,12 @@ import { Box, Flex, Select } from '@mantine/core';
 import { Classes } from '@/components/Classes/Classes';
 import { useTranslations } from 'next-intl';
 import Header from '@/components/Header/Header';
-import { useStudentsStore } from '@/store/students.store';
 import { ClassesDean } from '@/components/Classes/ClassesDean';
 import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
 import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
+import { useSession } from 'next-auth/react';
 
 const data = [
 	{ label: 'Semestr 1', value: 'Semestr 1' },
@@ -21,10 +21,10 @@ const data = [
 
 export default function Home() {
 	const t = useTranslations('Classes');
-
-	const { role } = useStudentsStore((state) => ({ role: state.role }));
+	const session = useSession();
 	const [isOpen, { toggle }] = useDisclosure(false);
 	const [semesterTag, setSemesterTag] = useState<string>(data[0]?.value || '');
+	const role = session.data?.user.role || 'STUDENT';
 
 	return (
 		<AppLayout>
@@ -33,7 +33,7 @@ export default function Home() {
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				{role === 'dean' ? (
+				{role === 'DEAN' ? (
 					<>
 						<Select
 							w={200}

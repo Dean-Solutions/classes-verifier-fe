@@ -17,16 +17,17 @@ export async function serverFetcher<T>({
 	config,
 }: ServerFetcherParams) {
 	const session = await getServerSession(req, res, authOptions);
-	// TODO fix on S2 with auth implementation
-	if (session || true) {
+	if (session) {
 		const mergedConfig: RequestInit = {
 			...config,
 			method: req.method,
 			cache: 'no-cache',
 			headers: {
 				'content-type': 'application/json',
+				Authorization: `Bearer ${session.accessToken}`,
 			},
 		};
+
 		if (req.body) {
 			mergedConfig.body = req.body;
 		}

@@ -17,6 +17,9 @@ import { useForm, zodResolver } from '@mantine/form';
 import { getServerAuthSession } from '@/server/auth';
 import { type GetServerSidePropsContext } from 'next';
 import { SignUpFormSchema, type SignUpFormType } from '@/types/login.types';
+import { useSignUp } from '@/mutations/login.mutate';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function SignUp() {
 	const form = useForm<SignUpFormType>({
@@ -31,7 +34,15 @@ export default function SignUp() {
 		},
 		validateInputOnBlur: true,
 	});
+	const { mutate: signUp, isPending, isSuccess } = useSignUp();
 	const t = useTranslations('Login');
+	const router = useRouter();
+
+	useEffect(() => {
+		if (isSuccess) {
+			void router.push(Routes.SignIn);
+		}
+	}, [isSuccess, router]);
 
 	return (
 		<Center mih='100vh'>
@@ -85,10 +96,9 @@ export default function SignUp() {
 						/>
 						<Button
 							type='button'
-							onClick={() => {
-								console.log('register');
-							}}
+							onClick={() => signUp(form.values)}
 							disabled={!form.isValid() || !form.isDirty()}
+							loading={isPending}
 						>
 							{t('register')}
 						</Button>
