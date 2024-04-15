@@ -38,6 +38,10 @@ const AddClassModal = (currentClass?: Course) => {
 		isSuccess: isEditClassSuccess,
 	} = useEditClass();
 
+	const isPending = isAddClassPending || isAddClassSuccess;
+	const isError = isAddClassError || isEditClassError;
+	const isSuccess = isAddClassSuccess || isEditClassSuccess;
+
 	const {
 		data: tags,
 		isLoading: isTagsLoading,
@@ -70,12 +74,7 @@ const AddClassModal = (currentClass?: Course) => {
 	);
 
 	useEffect(() => {
-		if (
-			isAddClassSuccess ||
-			isAddClassError ||
-			isEditClassSuccess ||
-			isEditClassError
-		) {
+		if (isSuccess || isError) {
 			modals.closeAll();
 		}
 	}, [
@@ -98,14 +97,11 @@ const AddClassModal = (currentClass?: Course) => {
 		}
 	};
 
-	const isLoading = isTagsLoading;
-	const isError = isTagsError;
-
-	if (isLoading) {
+	if (isTagsLoading) {
 		return <CenteredLoader />;
 	}
 
-	if (isError) {
+	if (isTagsError) {
 		return <DataFetchErrorReload />;
 	}
 
@@ -145,9 +141,9 @@ const AddClassModal = (currentClass?: Course) => {
 			<Group position='center' mt='md'>
 				<Button
 					disabled={!addClassForm.isValid()}
-					loading={currentClass ? isEditClassPending : isAddClassPending}
+					loading={isPending}
 					fullWidth
-					onClick={() => submitSubject()}
+					onClick={submitSubject}
 				>
 					{currentClass ? t('editBtn') : t('addBtn')}
 				</Button>
