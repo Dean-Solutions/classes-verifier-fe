@@ -1,4 +1,4 @@
-import { Button, Flex, Textarea, TextInput } from '@mantine/core';
+import { Button, Flex, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
@@ -39,17 +39,6 @@ export const AddTagModal = () => {
 				withAsterisk
 				{...form.getInputProps('name')}
 			/>
-			<Textarea
-				sx={{
-					'.mantine-Textarea-input': {
-						minHeight: 100,
-					},
-				}}
-				label={t('descriptionLabel')}
-				placeholder={t('descriptionPlaceholder')}
-				{...form.getInputProps('description')}
-			/>
-
 			<Button
 				disabled={!form.isValid() || !form.isDirty()}
 				fullWidth
