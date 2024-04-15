@@ -57,3 +57,8 @@ export interface Request {
 	requestType: string;
 	requestEnrollments: RequestEnrollment[];
 }
+
+export interface RefreshedTokens {
+	access_token: string;
+	refresh_token: string;
+}

@@ -11,15 +11,19 @@ export const getStudentEnrollments = async (
 ) => {
 	let data;
 	const statuses = enrollStatuses
-		? `&statuses=${enrollStatuses.join('%2C')}`
+		? `&statuses=${enrollStatuses.join(',')}`
 		: '';
 	if (semesterId) {
 		data = await fetcher<PagableWrapper<Enrollment[]>>(
-			`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&indexNumber=${index}&semesterId=${semesterId}${statuses}`,
+			encodeURIComponent(
+				`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&indexNumber=${index}&semesterId=${semesterId}${statuses}`,
+			),
 		);
 	} else {
 		data = await fetcher<PagableWrapper<Enrollment[]>>(
-			`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&indexNumber=${index}${statuses}`,
+			encodeURIComponent(
+				`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&indexNumber=${index}${statuses}`,
+			),
 		);
 	}
 	const { content } = data;
@@ -31,11 +35,13 @@ export const getClassEnrollments = async (
 	enrollStatuses: EnrollStatus[],
 ) => {
 	const statuses = enrollStatuses
-		? `&statuses=${enrollStatuses.join('%2C')}`
+		? `&statuses=${enrollStatuses.join(',')}`
 		: '';
 
 	const { content } = await fetcher<PagableWrapper<Enrollment[]>>(
-		`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&subjectId=${subjectId}${statuses}`,
+		encodeURIComponent(
+			`${Endpoints.ENROLLMENT}?page=${0}&size=${10000}&subjectId=${subjectId}${statuses}`,
+		),
 	);
 	return content;
 };

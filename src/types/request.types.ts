@@ -32,7 +32,7 @@ export interface RequestEnroll {
 
 export interface RequestEnrollment {
 	requestEnrollId: number;
-	requestStatus?: string;
+	requestStatus?: RequestStatus;
 	user: Student;
 	subject: Course;
 }

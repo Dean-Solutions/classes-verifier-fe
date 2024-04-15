@@ -1,14 +1,15 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
 import { Box, Flex, Select } from '@mantine/core';
-import { getStaticProps } from '@/pages/index';
 import { Classes } from '@/components/Classes/Classes';
 import { useTranslations } from 'next-intl';
 import Header from '@/components/Header/Header';
-import { useStudentsStore } from '@/store/students.store';
 import { ClassesDean } from '@/components/Classes/ClassesDean';
 import { useMemo, useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
+import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
+import { useSession } from 'next-auth/react';
+
 import { useGetTags } from '@/query/tags.query';
 import { type SelectDataWithFooter } from '@/types/common.types';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
@@ -21,8 +22,9 @@ import { DataFetchErrorReload } from '@/components/common/molecules/DataFetchErr
 export default function Home() {
 	const t = useTranslations('Classes');
 	const h = useTranslations('HomeStudent');
+	const session = useSession();
 
-	const { role } = useStudentsStore((state) => ({ role: state.role }));
+	const role = session.data?.user.role || 'STUDENT';
 	const [isOpen, { toggle }] = useDisclosure(false);
 	const [semesterTag, setSemesterTag] = useState<string | undefined>();
 	const {
@@ -59,7 +61,7 @@ export default function Home() {
 					title={h('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				{role === 'dean' ? (
+				{role === 'DEAN' ? (
 					<>
 						<Select
 							w={200}
@@ -105,4 +107,4 @@ export default function Home() {
 	);
 }
 
-export { getStaticProps };
+export { getServerSideProps };

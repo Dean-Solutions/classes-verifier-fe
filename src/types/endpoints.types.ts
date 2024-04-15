@@ -4,4 +4,6 @@ export enum Endpoints {
 	SUBJECTS = 'subjects',
 	ENROLLMENT = 'enrollment',
 	REQUEST = 'request',
+	LOGIN = 'auth/login',
+	REGISTER = 'auth/register',
 }
