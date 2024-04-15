@@ -1,5 +1,4 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
-import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { Box, Button, Flex, Select, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -18,6 +17,7 @@ import { AddTagModal } from '@/components/common/modals/AddTagModal';
 import { AddStudentModal } from '@/components/common/modals/AddStudentModal';
 import { semesters } from '@/data/common.data';
 import { useFiltersStore } from '@/store/filters.store';
+import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 
 export default function Students() {
 	const [isOpen, { toggle }] = useDisclosure(false);
@@ -130,4 +130,4 @@ export default function Students() {
 	);
 }
 
-export { getStaticProps };
+export { getServerSideProps };

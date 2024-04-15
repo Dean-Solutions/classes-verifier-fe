@@ -10,6 +10,24 @@
 			"pagination": "Strona {currentPage} z {pageCount}"
 		}
 	},
+	"Login": {
+		"title": "Classes Verifier",
+		"rePasswordLabel": "Powtórz hasło",
+		"emailLabel": "Podaj email",
+		"emailPlaceholder": "Email",
+		"passwordLabel": "Podaj hasło",
+		"passwordPlaceholder": "Hasło",
+		"login": "Zaloguj się",
+		"noAccount": "Nie masz konta?",
+		"haveAccount": "Masz konto?",
+		"register": "Zarejestruj się",
+		"firstNameLabel": "Imię",
+		"firstNamePlaceholder": "Jan",
+		"lastNameLabel": "Nazwisko",
+		"lastNamePlaceholder": "Kowalski",
+		"indexNumberLabel": "Numer albumu",
+		"indexNumberPlaceholder": "123456"
+	},
 	"Navigation": {
 		"AppName": "Classes Verifier",
 		"home": "Strona główna",

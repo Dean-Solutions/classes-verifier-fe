@@ -1,6 +1,5 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
 import { Box, Button, Flex, Select, Text } from '@mantine/core';
-import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
@@ -20,6 +19,7 @@ import { AddTagModal } from '@/components/common/modals/AddTagModal';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
 import { useClassesSearch } from '@/hooks/useClassesSearch';
 import { useFiltersStore } from '@/store/filters.store';
+import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 
 export default function Classes() {
 	const t = useTranslations('Classes');
@@ -153,4 +153,4 @@ export default function Classes() {
 	);
 }
 
-export { getStaticProps };
+export { getServerSideProps };

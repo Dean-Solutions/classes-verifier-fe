@@ -30,3 +30,8 @@ export interface Tag {
 	name: string;
 	description: string;
 }
+
+export interface RefreshedTokens {
+	access_token: string;
+	refresh_token: string;
+}
