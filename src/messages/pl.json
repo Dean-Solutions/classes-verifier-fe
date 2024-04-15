@@ -26,7 +26,9 @@
 		"lastNameLabel": "Nazwisko",
 		"lastNamePlaceholder": "Kowalski",
 		"indexNumberLabel": "Numer albumu",
-		"indexNumberPlaceholder": "123456"
+		"indexNumberPlaceholder": "123456",
+		"semesterLabel": "Semestr",
+		"semesterPlaceholder": "2"
 	},
 	"Navigation": {
 		"AppName": "Classes Verifier",

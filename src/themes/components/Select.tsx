@@ -55,14 +55,19 @@ export const Select: ThemeComponent & {
 				},
 				'&[data-selected]': {
 					backgroundColor: theme.colors.blue[3],
-					color: theme.white,
+					color: theme.colors.neutral[0],
 				},
 			},
 			rightSection: {
 				color: theme.colors.gray[5],
 			},
 			input: {
-				color: theme.colors.neutral[0],
+				color: `${theme.colors.textColor[0]} !important`,
+				backgroundColor: `${theme.colors.neutral[3]} !important`,
+
+				'&::placeholder': {
+					color: `${theme.colors.dark[3]} !important`,
+				},
 			},
 		}),
 		bigSelect: (theme) => ({
