@@ -16,13 +16,14 @@ import { Bell } from '@/Icons/Bell';
 import { People } from '@/Icons/People';
 import { Study } from '@/Icons/Study';
 import { Logo } from '@/Icons/Logo';
-import { useStudentsStore } from '@/store/students.store';
 import { Logout } from '@/Icons/Logout';
+import { useSession } from 'next-auth/react';
 
 export const Navbar = () => {
 	const router = useRouter();
 	const t = useTranslations('Navigation');
-	const { role } = useStudentsStore((state) => ({ role: state.role }));
+	const session = useSession();
+	const role = session.data?.user.role || 'STUDENT';
 
 	const navbarItems = [
 		{
@@ -99,7 +100,7 @@ export const Navbar = () => {
 					</Flex>
 					<Divider pb='xl' />
 					<Flex direction='column' align='center' gap='sm'>
-						{role === 'dean'
+						{role === 'DEAN'
 							? navbarItems.map((item) => (
 									<Link
 										key={item.link}

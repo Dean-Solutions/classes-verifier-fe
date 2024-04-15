@@ -30,6 +30,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				},
 			};
 		}
+
+		if (
+			session.user.role !== 'DEAN' &&
+			(context.resolvedUrl === Routes.Classes ||
+				context.resolvedUrl === Routes.Students)
+		) {
+			return {
+				redirect: { destination: Routes.Home },
+				props: {
+					messages: (await import(`/src/messages/${context.locale}.json`))
+						.default,
+				},
+			};
+		}
 	}
 
 	return {

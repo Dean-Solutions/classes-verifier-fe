@@ -1,11 +1,7 @@
-import {
-	type User,
-	type Session,
-	type Account,
-	type Awaitable,
-	type Profile,
-} from 'next-auth';
+import { type User, type Session, type Account, type Profile } from 'next-auth';
 import { type JWT } from 'next-auth/jwt';
+import { jwtDecode } from 'jwt-decode';
+import { refreshAccessToken } from './refreshAccessToken.util';
 
 export type ProcessSessionProps = {
 	session: Session;
@@ -34,36 +30,54 @@ export const shouldRefreshTokens = (...timestamps: number[]) => {
 	return false;
 };
 
-function isSessionValid(session: Session) {
-	return true; // TODO Implement
-}
-
-async function refreshSession(session: Session) {
-	try {
-		return Promise.resolve(session); // TODO Implement
-	} catch (error) {
-		console.error(error);
-	}
-}
-
 export async function processSession({ session, token }: ProcessSessionProps) {
-	return { ...session, ...token }; // TODO Implement
+	return { ...session, ...token };
 }
 
-export function handleJWTCallback({
+export async function handleJWTCallback({
 	token,
 	user,
-}: JWTCallbackProps): Awaitable<JWT> {
+}: JWTCallbackProps): Promise<JWT> {
 	if (user) {
+		const decodedToken = jwtDecode(user.access_token);
+		const decodedRefreshToken = jwtDecode(user.refresh_token);
+		if (
+			!decodedRefreshToken.exp ||
+			decodedRefreshToken.exp < Date.now() / 1000
+		) {
+			return { ...token, error: REFRESH_ACCESS_TOKEN_ERROR };
+		}
+
+		if (!decodedToken.exp || decodedToken.exp < Date.now() / 1000) {
+			const refreshedTokens = await refreshAccessToken(user);
+			const decodedRefreshedToken = jwtDecode(
+				refreshedTokens?.access_token ?? '',
+			);
+
+			if (!refreshedTokens || !decodedRefreshedToken?.exp) {
+				return { ...token, error: REFRESH_ACCESS_TOKEN_ERROR };
+			}
+
+			return {
+				...token,
+				user: {
+					...user,
+					access_token: refreshedTokens.access_token,
+					refresh_token: refreshedTokens.refresh_token,
+				},
+				accessToken: refreshedTokens.access_token,
+				refreshToken: refreshedTokens.refresh_token,
+				expires_at: decodedRefreshedToken.exp * 1000,
+			};
+		}
+
 		return {
 			...token,
 			user,
-			expires_at: Date.now() + 5 * 60 * 1000,
+			accessToken: user.access_token,
+			refreshToken: user.refresh_token,
+			expires_at: decodedToken.exp * 1000,
 		};
 	}
-	return {
-		...token,
-		expires_at: Date.now() + 5 * 60 * 1000,
-	};
-	// return { ...token, error: REFRESH_ACCESS_TOKEN_ERROR };
+	return token;
 }
