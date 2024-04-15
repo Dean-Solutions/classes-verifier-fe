@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { aghDomainRegex, indexNumberValidator } from './login.types';
 
 export const AddTagFormSchema = z.object({
 	name: z
@@ -25,28 +26,19 @@ export const AddStudentFormSchema = z.object({
 		})
 		.min(3, 'Nazwisko musi mieć przynajmniej 3 znaki')
 		.max(64, 'Nazwisko musi mieć mniej niż 64 znaki'),
-	indexNumber: z
-		.number({
-			errorMap: (error) => {
-				if (error.code === 'too_small') {
-					return { message: 'Numer indeksu musi mieć przynajmniej 6 znaków' };
-				} else if (error.code === 'too_big') {
-					return { message: 'Numer indeksu musi mieć mniej niż 6 znaków' };
-				}
-				return { message: 'Numer indeksu musi być liczbą' };
-			},
-		})
-		.min(0, 'Numer indeksu musi być dodatni')
-		.refine((value) => value.toString().length === 6, {
-			message: 'Numer indeksu musi mieć 6 cyfr',
-		}),
+	indexNumber: indexNumberValidator,
 	email: z
 		.string({
 			errorMap: () => {
 				return { message: 'Niepoprawny adres email' };
 			},
 		})
-		.email(),
+		.email({
+			message: 'Niepoprawny adres email',
+		})
+		.regex(aghDomainRegex, {
+			message: 'Adres email musi być z domeny AGH',
+		}),
 	semester: z.string().transform((value) => parseInt(value)),
 	status: z
 		.enum(['AKTYWNY', 'NIE AKTYWNY'])

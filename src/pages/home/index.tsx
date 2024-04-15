@@ -1,15 +1,14 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
 import { Box, Flex, Select } from '@mantine/core';
-import { getStaticProps } from '@/pages/index';
 import { Classes } from '@/components/Classes/Classes';
 import { useTranslations } from 'next-intl';
 import Header from '@/components/Header/Header';
 import { useStudentsStore } from '@/store/students.store';
 import { ClassesDean } from '@/components/Classes/ClassesDean';
 import { useState } from 'react';
-import { useGetClasses } from '@/query/classes.query';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
+import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 
 const data = [
 	{ label: 'Semestr 1', value: 'Semestr 1' },
@@ -22,7 +21,6 @@ const data = [
 
 export default function Home() {
 	const t = useTranslations('Classes');
-	const s = useTranslations('HomeStudent');
 
 	const { role } = useStudentsStore((state) => ({ role: state.role }));
 	const [isOpen, { toggle }] = useDisclosure(false);
@@ -40,6 +38,7 @@ export default function Home() {
 						<Select
 							w={200}
 							placeholder={t('selectPlaceholder')}
+							variant='bigSelect'
 							value={semesterTag}
 							data={data}
 							rightSection={
@@ -66,4 +65,4 @@ export default function Home() {
 	);
 }
 
-export { getStaticProps };
+export { getServerSideProps };

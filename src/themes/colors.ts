@@ -1,6 +1,6 @@
 export const customColors = {
 	primary: ['#1E6AFF'],
-	seaBlue: ['#175F69', '#083135', '#56A3AD'],
+	seaBlue: ['#175F69', '#083135', '#175869', '#56A3AD'],
 	bg: ['#F8F8F8'],
 	textColor: ['#170F49'],
 	black: ['#09090A'],

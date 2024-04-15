@@ -20,6 +20,22 @@ export const Select: ThemeComponent & {
 			},
 		}),
 	},
+	styles(theme) {
+		return {
+			input: {
+				backgroundColor: theme.colors.seaBlue[0],
+				color: theme.colors.neutral[1],
+
+				':hover:not(:focus):not([data-invalid]):not(:disabled)': {
+					borderColor: theme.colors.neutral[1],
+					background: theme.colors.seaBlue[2],
+				},
+				'::placeholder': {
+					color: theme.colors.neutral[1],
+				},
+			},
+		};
+	},
 	variants: {
 		default: (theme) => ({
 			dropdown: {
@@ -45,6 +61,9 @@ export const Select: ThemeComponent & {
 			rightSection: {
 				color: theme.colors.gray[5],
 			},
+			input: {
+				color: theme.colors.neutral[0],
+			},
 		}),
 		bigSelect: (theme) => ({
 			dropdown: {
@@ -54,7 +73,7 @@ export const Select: ThemeComponent & {
 			},
 			input: {
 				padding: `${rem(32)} ${rem(16)}`,
-				color: theme.colors.neutral[0],
+				color: theme.colors.neutral[1],
 				backgroundColor: theme.colors.seaBlue[0],
 				outline: 'none',
 				border: 'none',
@@ -78,11 +97,10 @@ export const Select: ThemeComponent & {
 				},
 
 				'&[data-hovered]': {
-					background: theme.colors.seaBlue[2],
+					background: theme.colors.seaBlue[3],
 				},
 			},
 			rightSection: {
-				marginRight: rem(10),
 				color: theme.colors.neutral[1],
 				pointerEvents: 'none',
 			},

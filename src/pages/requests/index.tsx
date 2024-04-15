@@ -2,12 +2,12 @@ import { AppLayout } from '@/components/common/Layout/AppLayout';
 import { Flex } from '@mantine/core';
 import { type NextPage } from 'next';
 import React from 'react';
-import { getStaticProps } from '@/pages/index';
 import Header from '@/components/Header/Header';
 import { useTranslations } from 'next-intl';
 import { RequestsStudent } from '@/components/Requests/RequestsStudent';
 import { RequestsDean } from '@/components/Requests/RequestsDean';
 import { useStudentsStore } from '@/store/students.store';
+import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 
 const RequestsPage: NextPage = () => {
 	const t = useTranslations('Requests');
@@ -26,6 +26,6 @@ const RequestsPage: NextPage = () => {
 	);
 };
 
-export { getStaticProps };
+export { getServerSideProps };
 
 export default RequestsPage;

@@ -4,5 +4,7 @@ export enum Routes {
 	Students = '/students',
 	Requests = '/requests',
 	Settings = '/settings',
-	Logout = '/logout',
+	SignIn = '/signin',
+	Logout = '/signout',
+	Signup = '/signup',
 }
