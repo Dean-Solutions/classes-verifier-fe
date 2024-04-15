@@ -9,26 +9,16 @@ type SearchProps = {
 };
 
 const Search = ({ placeholder }: SearchProps) => {
-	// Keeping it for now so components that use this still work
-	const { searchValue, clearSearchValue, setSearchValue } = useStudentsStore(
-		(state) => ({
+	const { isSearchEnabled, searchValue, clearSearchValue, setSearchValue } =
+		useFiltersStore((state) => ({
 			isSearchEnabled: state.isSearchEnabled,
 			searchValue: state.searchValue,
 			clearSearchValue: state.clearSearchValue,
 			setSearchValue: state.setSearchValue,
-		}),
-	);
-
-	const filterStore = useFiltersStore((state) => ({
-		isSearchEnabled: state.isSearchEnabled,
-		searchValue: state.searchValue,
-		clearSearchValue: state.clearSearchValue,
-		setSearchValue: state.setSearchValue,
-	}));
+		}));
 
 	const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value);
-		filterStore.setSearchValue(e.target.value);
 	};
 	return (
 		<>
@@ -60,7 +50,6 @@ const Search = ({ placeholder }: SearchProps) => {
 							variant='subtle'
 							onClick={() => {
 								clearSearchValue();
-								filterStore.clearSearchValue();
 							}}
 							size='xs'
 							color='dark.1'
