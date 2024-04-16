@@ -30,11 +30,6 @@ export default function SignIn() {
 	});
 	const t = useTranslations('Login');
 
-	const handleSignIn = async () => {
-		const res = await signIn('credentials', form.values);
-		console.log('xDD', res);
-	};
-
 	return (
 		<Center mih='100vh'>
 			<Paper w={400} mih={200} p={24} shadow='md'>
@@ -55,7 +50,7 @@ export default function SignIn() {
 
 					<Button
 						type='button'
-						onClick={() => handleSignIn()}
+						onClick={() => signIn('credentials', form.values)}
 						disabled={!form.isValid() || !form.isDirty()}
 					>
 						{t('login')}

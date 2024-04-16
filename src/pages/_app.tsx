@@ -11,6 +11,7 @@ import { MantineProvider } from '@mantine/core';
 import { theme } from '@/themes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ModalsProvider } from '@mantine/modals';
+import { DatesProvider } from '@mantine/dates';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -39,9 +40,11 @@ const MyApp: AppType<{
 				>
 					<SessionProvider session={session}>
 						<ModalsProvider>
-							<main className={inter.className}>
-								<Component {...pageProps} />
-							</main>
+							<DatesProvider settings={{ locale: 'pl' }}>
+								<main className={inter.className}>
+									<Component {...pageProps} />
+								</main>
+							</DatesProvider>
 						</ModalsProvider>
 					</SessionProvider>
 				</NextIntlClientProvider>
