@@ -21,6 +21,7 @@ import { useAddRequest } from '@/mutations/request.mutate';
 import { useEditEnrollment } from '@/mutations/enrollment.mutate';
 import { useGetAllClasses } from '@/query/classes.query';
 import { type ClassWithId } from '@/types/classes.types';
+import { useGetCurrentSemester } from '@/query/semesters.query';
 
 type ClassesProps = { student: Student };
 
@@ -29,6 +30,7 @@ export const Classes = (p: ClassesProps) => {
 	const c = useTranslations('Common');
 
 	const { data: classes } = useGetAllClasses();
+	const { data: currentSemester } = useGetCurrentSemester();
 	const classNames: ClassWithId[] =
 		classes?.map(({ name, subjectId }) => ({
 			value: subjectId.toString(),
@@ -51,7 +53,7 @@ export const Classes = (p: ClassesProps) => {
 		p.student.indexNumber,
 		[EnrollStatus.ACCEPTED, EnrollStatus.PENDING, EnrollStatus.PROPOSED],
 		p.student.userId,
-		1,
+		currentSemester?.semesterId,
 	);
 
 	const handleConfirmButton = (
@@ -142,15 +144,13 @@ export const Classes = (p: ClassesProps) => {
 			confirmProps: { color: 'green.0' },
 			cancelProps: { color: 'blue.5' },
 			onConfirm: () => {
-				studentEnrollments?.forEach(
-					(item) =>
-						handleConfirmButton(
-							p.student.userId,
-							item.subject.subjectId,
-							1,
-							EnrollStatus.ACCEPTED,
-						),
-					// TODO fix after creating addSemesterModal
+				studentEnrollments?.forEach((item) =>
+					handleConfirmButton(
+						p.student.userId,
+						item.subject.subjectId,
+						currentSemester?.semesterId || 1,
+						EnrollStatus.ACCEPTED,
+					),
 				);
 			},
 		});
@@ -339,7 +339,10 @@ export const Classes = (p: ClassesProps) => {
 									m={8}
 									w={130}
 									onClick={() => {
-										handleAddRequest(1, selectValue?.value);
+										handleAddRequest(
+											currentSemester?.semesterId || 1,
+											selectValue?.value,
+										);
 									}}
 								>
 									{t('errorButton')}

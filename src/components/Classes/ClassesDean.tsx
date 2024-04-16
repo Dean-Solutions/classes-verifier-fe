@@ -113,8 +113,8 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 										mah={300}
 										ml={15}
 										mr={15}
-										onPointerEnterCapture={null} // weird but needs to be here
-										onPointerLeaveCapture={null} // weird but needs to be here
+										onPointerEnterCapture={null}
+										onPointerLeaveCapture={null}
 									>
 										{classStudents.enrollments.map((enrollment) => (
 											<>
@@ -139,7 +139,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 															handleTrashButton(
 																enrollment.user.userId,
 																classStudents.class.subjectId,
-																1,
+																currentSemester?.semesterId || 1,
 																EnrollStatus.REJECTED,
 															)
 														}
