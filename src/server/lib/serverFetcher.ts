@@ -19,7 +19,7 @@ export async function serverFetcher<T>({
 	noAuth,
 }: ServerFetcherParams) {
 	const session = await getServerSession(req, res, authOptions);
-	if (session || noAuth) {
+	if (session || !!noAuth) {
 		const mergedConfig: RequestInit = {
 			...config,
 			method: req.method,
@@ -41,7 +41,6 @@ export async function serverFetcher<T>({
 		}
 		try {
 			path = path.startsWith('/') ? path.slice(1) : path;
-
 			const response = await fetch(
 				new URL(path, env.API_URL).href,
 				mergedConfig,

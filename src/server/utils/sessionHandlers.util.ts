@@ -79,5 +79,5 @@ export async function handleJWTCallback({
 			expires_at: decodedToken.exp * 1000,
 		};
 	}
-	return token;
+	return { ...token };
 }

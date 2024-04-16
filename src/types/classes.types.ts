@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+export type ClassWithId = {
+	value: string;
+	label: string;
+};
+
 export const AddClassFormSchema = z.object({
 	subjectName: z
 		.string()

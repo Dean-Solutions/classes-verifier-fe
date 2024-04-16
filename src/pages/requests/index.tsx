@@ -8,11 +8,14 @@ import { RequestsStudent } from '@/components/Requests/RequestsStudent';
 import { RequestsDean } from '@/components/Requests/RequestsDean';
 import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 import { useSession } from 'next-auth/react';
+import { useGetLoggedStudent } from '@/query/students.query';
 
 const RequestsPage: NextPage = () => {
 	const t = useTranslations('Requests');
 	const session = useSession();
 	const role = session.data?.user.role || 'STUDENT';
+	const { data: student } = useGetLoggedStudent();
+	const h = useTranslations('HomeStudent');
 
 	return (
 		<AppLayout>
@@ -21,7 +24,23 @@ const RequestsPage: NextPage = () => {
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
-				{role === 'DEAN' ? <RequestsDean /> : <RequestsStudent />}
+				{role === 'DEAN' ? (
+					<>
+						{!student ? (
+							<Flex justify='center'>{h('studentNotFound')}</Flex>
+						) : (
+							<RequestsDean dean={student} />
+						)}
+					</>
+				) : (
+					<>
+						{!student ? (
+							<Flex justify='center'>{h('studentNotFound')}</Flex>
+						) : (
+							<RequestsStudent student={student} />
+						)}
+					</>
+				)}
 			</Flex>
 		</AppLayout>
 	);

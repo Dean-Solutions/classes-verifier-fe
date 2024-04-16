@@ -20,6 +20,8 @@ import { SignUpFormSchema, type SignUpFormType } from '@/types/login.types';
 import { useSignUp } from '@/mutations/login.mutate';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Select } from '@mantine/core';
+import { semesters } from '@/data/common.data';
 
 export default function SignUp() {
 	const form = useForm<SignUpFormType>({
@@ -31,6 +33,7 @@ export default function SignUp() {
 			lastName: '',
 			indexNumber: '',
 			rePassword: '',
+			semester: 0,
 		},
 		validateInputOnBlur: true,
 	});
@@ -93,6 +96,14 @@ export default function SignUp() {
 							withAsterisk
 							maxLength={6}
 							{...form.getInputProps('indexNumber')}
+						/>
+						<Select
+							label={t('semesterLabel')}
+							placeholder={t('semesterPlaceholder')}
+							withAsterisk
+							data={semesters}
+							variant='default'
+							{...form.getInputProps('semester')}
 						/>
 						<Button
 							type='button'
