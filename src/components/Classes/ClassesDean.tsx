@@ -70,6 +70,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 				semesterId: currentSemester?.semesterId,
 				enrollStatus: EnrollStatus.PROPOSED,
 			});
+			setNameIndexInput('');
 		}
 	};
 
@@ -91,11 +92,13 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 							key={classStudents.class.subjectId}
 							value={classStudents.class.subjectId.toString()}
 							bg='neutral.0'
-							mih={70}
+							px='md'
+							py='lg'
 							sx={(theme) => ({
 								boxShadow: theme.shadows.sm,
 								borderRightColor: theme.colors.neutral[3],
 								alignContent: 'center',
+								borderRadius: 12,
 							})}
 						>
 							<Accordion.Control fz='md'>
@@ -105,7 +108,14 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 							</Accordion.Control>
 							<Accordion.Panel>
 								<Flex p='xs' direction='column'>
-									<ScrollArea h={200} ml={15} mr={15}>
+									<ScrollArea.Autosize
+										placeholder={<Text>{t('Table.emptyDescription')}</Text>}
+										mah={300}
+										ml={15}
+										mr={15}
+										onPointerEnterCapture={null} // weird but needs to be here
+										onPointerLeaveCapture={null} // weird but needs to be here
+									>
 										{classStudents.enrollments.map((enrollment) => (
 											<>
 												<Flex
@@ -140,12 +150,13 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 												<Divider w='96%' />
 											</>
 										))}
-									</ScrollArea>
+									</ScrollArea.Autosize>
 									<Flex
 										direction='row'
 										align='center'
 										justify='space-between'
-										p={15}
+										px={15}
+										pt={15}
 									>
 										<Flex>
 											<Autocomplete
