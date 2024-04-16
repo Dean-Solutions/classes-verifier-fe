@@ -12,6 +12,6 @@ export default async function handler(
 	await serverFetcher({
 		req,
 		res,
-		path: 'enrollment/index' + (query ? `?${query}` : ''),
+		path: 'enrollments/index' + (query ? `?${query}` : ''),
 	});
 }

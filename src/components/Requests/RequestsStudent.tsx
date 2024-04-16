@@ -11,10 +11,13 @@ import {
 import { useTranslations } from 'next-intl';
 import { EmptyState } from '../EmptyState/EmptyState';
 import { getColor } from '@/utils/colors.util';
+import { type Student } from '@/types/api.types';
 
-export const RequestsStudent = () => {
+type RequestsProps = { student: Student };
+
+export const RequestsStudent = (p: RequestsProps) => {
 	const t = useTranslations('Requests');
-	const { data: userRequests } = useGetUserRequests(4); // TODO: getting current logged user ( stundent )
+	const { data: userRequests } = useGetUserRequests(p.student.userId);
 
 	return (
 		<>

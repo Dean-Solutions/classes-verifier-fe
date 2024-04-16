@@ -1,4 +1,6 @@
 export enum QueryKeys {
+	GET_ALL_STUDENTS = 'getAllStudents',
+	GET_LOGGED_STUDENT = 'getLoggedStudent',
 	GET_STUDENTS = 'getStudents',
 	GET_CLASSES = 'getClasses',
 	GET_TAGS = 'getTags',

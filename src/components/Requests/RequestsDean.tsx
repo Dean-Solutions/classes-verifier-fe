@@ -12,20 +12,22 @@ import { useGetRequests } from '@/query/request.query';
 import { EmptyState } from '../EmptyState/EmptyState';
 import { RequestStatus, RequestType } from '@/types/request.types';
 import { useEditRequest } from '@/mutations/request.mutate';
-import { type Request } from '@/types/api.types';
+import { type Student, type Request } from '@/types/api.types';
 import {
 	useAddEnrollment,
-	useEditEnrollment,
+	useDeleteEnrollment,
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
 
-export const RequestsDean = () => {
+type RequestsProps = { dean: Student };
+
+export const RequestsDean = (p: RequestsProps) => {
 	const t = useTranslations('Requests');
 
 	const { data: studentsRequests } = useGetRequests();
 	const { mutate: editRequest } = useEditRequest();
-	const { mutate: editEnrollment } = useEditEnrollment();
 	const { mutate: addEnrollment } = useAddEnrollment();
+	const { mutate: deleteEnrollment } = useDeleteEnrollment();
 
 	const handleEditRequest = (
 		request: Request,
@@ -33,6 +35,7 @@ export const RequestsDean = () => {
 		subjectId: number,
 		status: RequestStatus,
 		requestEnrollId: number,
+		newSubjectId?: number,
 	) => {
 		const currentTime = new Date();
 		if (status === RequestStatus.REJECTED) {
@@ -41,8 +44,7 @@ export const RequestsDean = () => {
 				description: t('rejectMessage'),
 				submissionDate: currentTime.toISOString(),
 				requestType: RequestType.ACCEPT,
-				// dziekan
-				senderId: 1,
+				senderId: p.dean.userId,
 				requestEnrolls: [
 					{
 						requestEnrollId: requestEnrollId,
@@ -54,14 +56,13 @@ export const RequestsDean = () => {
 				],
 			});
 		}
-		if (status === 'ACCEPTED') {
+		if (status === RequestStatus.ACCEPTED) {
 			editRequest({
 				requestId: request.requestId,
 				description: t('acceptMessage'),
 				submissionDate: currentTime.toISOString(),
 				requestType: RequestType.ACCEPT,
-				// dziekan
-				senderId: 1,
+				senderId: p.dean.userId,
 				requestEnrolls: [
 					{
 						requestEnrollId: requestEnrollId,
@@ -73,16 +74,30 @@ export const RequestsDean = () => {
 				],
 			});
 
-			if (request.requestType === 'ADD') {
+			if (request.requestType === RequestType.ADD) {
 				addEnrollment({
 					userId: userId,
 					subjectId: subjectId,
 					semesterId: 1,
 					enrollStatus: EnrollStatus.PROPOSED,
 				});
-			}
-			if (request.requestType === 'DELETE') {
-				editEnrollment({
+			} else if (request.requestType === RequestType.DELETE) {
+				deleteEnrollment({
+					userId: userId,
+					subjectId: subjectId,
+					semesterId: 1,
+					enrollStatus: EnrollStatus.REJECTED,
+				});
+			} else if (request.requestType === RequestType.CHANGE_SUBJECT) {
+				if (newSubjectId) {
+					addEnrollment({
+						userId: userId,
+						subjectId: newSubjectId,
+						semesterId: 1,
+						enrollStatus: EnrollStatus.PROPOSED,
+					});
+				}
+				deleteEnrollment({
 					userId: userId,
 					subjectId: subjectId,
 					semesterId: 1,

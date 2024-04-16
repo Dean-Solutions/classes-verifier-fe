@@ -1,6 +1,6 @@
 import {
 	getAllStudents,
-	getStudentByIndex,
+	getLoggedStudent,
 	getStudents,
 } from '@/services/students.service';
 import { ONE_HOUR, QueryKeys } from '@/types/query.types';
@@ -18,16 +18,16 @@ export const useGetStudents = (tag: string, page: number, size?: number) => {
 
 export const useGetAllStudents = () => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_STUDENTS],
+		queryKey: [QueryKeys.GET_ALL_STUDENTS],
 		queryFn: () => getAllStudents(),
 		staleTime: ONE_HOUR,
 	});
 };
 
-export const useGetStudentByIndex = (index: string) => {
+export const useGetLoggedStudent = () => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_STUDENTS, { index }],
-		queryFn: () => getStudentByIndex(index),
+		queryKey: [QueryKeys.GET_LOGGED_STUDENT],
+		queryFn: () => getLoggedStudent(),
 		staleTime: ONE_HOUR,
 	});
 };

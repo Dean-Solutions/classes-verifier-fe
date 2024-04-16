@@ -28,6 +28,7 @@ export interface RequestEnroll {
 	userId: number;
 	subjectId: number;
 	requestStatus: RequestStatus;
+	newSubjectId?: number;
 }
 
 export interface RequestEnrollment {
@@ -35,4 +36,5 @@ export interface RequestEnrollment {
 	requestStatus?: RequestStatus;
 	user: Student;
 	subject: Course;
+	newSubjectId?: number;
 }

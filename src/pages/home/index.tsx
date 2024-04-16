@@ -15,7 +15,7 @@ import { type SelectDataWithFooter } from '@/types/common.types';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
 import { useGetClasses } from '@/query/classes.query';
 import { EmptyState } from '@/components/EmptyState/EmptyState';
-import { useGetStudentByIndex } from '@/query/students.query';
+import { useGetLoggedStudent } from '@/query/students.query';
 import { TableLoader } from '@/components/StudentsTable/TableLoader';
 import { DataFetchErrorReload } from '@/components/common/molecules/DataFetchError/DataFetchError';
 
@@ -44,7 +44,8 @@ export default function Home() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [tags, t]);
 	// MOCK STUDENT FOR NOW - LOGIN docelowo
-	const { data: student } = useGetStudentByIndex('123123');
+
+	const { data: student } = useGetLoggedStudent();
 
 	if (isLoading) {
 		return <TableLoader />;

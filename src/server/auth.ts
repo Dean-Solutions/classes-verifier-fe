@@ -23,10 +23,7 @@ declare module 'next-auth' {
 	type UserRole = 'DEAN' | 'STUDENT';
 
 	interface Session extends DefaultSession {
-		user: DefaultSession['user'] & {
-			id: string;
-			role: UserRole;
-		};
+		user: DefaultSession['user'] & User;
 		expires_at: number;
 		accessToken: string;
 		refreshToken: string;

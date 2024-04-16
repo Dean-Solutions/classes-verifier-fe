@@ -23,10 +23,8 @@ export const getAllStudents = async () => {
 	return content;
 };
 
-export const getStudentByIndex = async (index: string) => {
-	const content = await fetcher<Student>(
-		`${Endpoints.STUDENTS}/index/${index}`,
-	);
+export const getLoggedStudent = async () => {
+	const content = await fetcher<Student>(`${Endpoints.STUDENTS}/my-profile`);
 
 	return content;
 };

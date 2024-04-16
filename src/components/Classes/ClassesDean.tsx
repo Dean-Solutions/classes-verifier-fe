@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { useGetAllStudents } from '@/query/students.query';
 import {
 	useAddEnrollment,
-	useEditEnrollment,
+	useDeleteEnrollment,
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
 import { EmptyState } from '../EmptyState/EmptyState';
@@ -28,7 +28,8 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 	const [nameIndexInput, setNameIndexInput] = useState('');
 	const { mutate: addEnrollment } = useAddEnrollment();
 	const [openedClass, setOpenedClass] = useState<string | null>(null);
-	const { mutate: editEnrollment } = useEditEnrollment();
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+	const { mutate: deleteEnrollment } = useDeleteEnrollment();
 
 	const { data: classesStudents } = useGetClassesStudentsByTag(
 		semesterTag,
@@ -48,7 +49,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 		semesterId: number,
 		enrollStatus: EnrollStatus,
 	) => {
-		editEnrollment({
+		deleteEnrollment({
 			userId: userId,
 			subjectId: subjectId,
 			semesterId: semesterId,
@@ -154,11 +155,8 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 												data={studentNames.filter(
 													(name) =>
 														!classStudents.enrollments.some(
-															({
-																user: { firstName, lastName, indexNumber },
-															}) =>
-																`${firstName} ${lastName} (${indexNumber})` ===
-																name.label,
+															({ user: { indexNumber } }) =>
+																indexNumber === name.value,
 														),
 												)}
 												value={nameIndexInput}

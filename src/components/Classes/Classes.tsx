@@ -37,6 +37,7 @@ export const Classes = (p: ClassesProps) => {
 	const [openedClass, setOpenedClass] = useState<string | null>(null);
 	const [requestDescription, setRequestDescription] = useState('');
 	const [selectValue, setSelectValue] = useState<ClassWithId | null>(null);
+	const [checked, setChecked] = useState(false);
 
 	const handleSetSelectValue = (value: string | null) => {
 		const selected = classNames.find((item) => item.value === value);
@@ -86,16 +87,36 @@ export const Classes = (p: ClassesProps) => {
 			});
 		}
 	};
-	const handleRemoveRequest = (
+
+	const handleRemoveRequest = (semesterId: number, subjectIdDelete: number) => {
+		const currentTime = new Date();
+		addRequest({
+			description: requestDescription,
+			submissionDate: currentTime.toISOString(),
+			requestType: RequestType.DELETE,
+			senderId: p.student.userId,
+			requestEnrolls: [
+				{
+					semesterId: semesterId,
+					requestStatus: RequestStatus.PENDING,
+					userId: p.student.userId,
+					subjectId: subjectIdDelete,
+				},
+			],
+		});
+	};
+
+	const handleChangeSubjectRequest = (
 		semesterId: number,
-		subjectIdDelete?: number,
+		subjectIdDelete: number,
+		subjectIdAdd?: string,
 	) => {
 		const currentTime = new Date();
-		if (subjectIdDelete) {
+		if (subjectIdAdd) {
 			addRequest({
 				description: requestDescription,
 				submissionDate: currentTime.toISOString(),
-				requestType: RequestType.DELETE,
+				requestType: RequestType.CHANGE_SUBJECT,
 				senderId: p.student.userId,
 				requestEnrolls: [
 					{
@@ -103,6 +124,7 @@ export const Classes = (p: ClassesProps) => {
 						requestStatus: RequestStatus.PENDING,
 						userId: p.student.userId,
 						subjectId: subjectIdDelete,
+						newSubjectId: parseInt(subjectIdAdd),
 					},
 				],
 			});
@@ -171,11 +193,11 @@ export const Classes = (p: ClassesProps) => {
 							})}
 						>
 							<Accordion.Control fz='md'>
-								<Flex direction='row' justify='space-between'>
+								<Flex direction='row' justify='space-between' align='center'>
 									<Text fz='md' fw={700}>
 										{enrollment.subject.name}
 									</Text>
-									{enrollment.enrollStatus === EnrollStatus.ACCEPTED && (
+									{enrollment.enrollStatus === EnrollStatus.ACCEPTED ? (
 										<CheckIcon
 											color='lime'
 											style={{
@@ -183,6 +205,10 @@ export const Classes = (p: ClassesProps) => {
 												height: '20px',
 											}}
 										/>
+									) : (
+										<Text fz='xl' fw={1000} color='yellow.0'>
+											?
+										</Text>
 									)}
 								</Flex>
 							</Accordion.Control>
@@ -209,6 +235,10 @@ export const Classes = (p: ClassesProps) => {
 												color='red.0'
 												radius='md'
 												size='md'
+												checked={checked}
+												onChange={(event) =>
+													setChecked(event.currentTarget.checked)
+												}
 											/>
 											<Flex direction='row' mt={25} align='center'>
 												<Text fz='md'>{t('setSubjectText')}</Text>
@@ -233,14 +263,18 @@ export const Classes = (p: ClassesProps) => {
 										m={8}
 										w={130}
 										onClick={() => {
-											handleAddRequest(
-												enrollment.semester.semesterId,
-												selectValue?.value,
-											);
-											handleRemoveRequest(
-												enrollment.semester.semesterId,
-												enrollment.subject.subjectId,
-											);
+											if (checked && selectValue) {
+												handleChangeSubjectRequest(
+													enrollment.semester.semesterId,
+													enrollment.subject.subjectId,
+													selectValue?.value,
+												);
+											} else if (checked) {
+												handleRemoveRequest(
+													enrollment.semester.semesterId,
+													enrollment.subject.subjectId,
+												);
+											}
 										}}
 									>
 										{t('errorButton')}
@@ -253,13 +287,6 @@ export const Classes = (p: ClassesProps) => {
 					<Accordion.Item
 						value={t('standardRequest')}
 						bg='neutral.0'
-						styles={{
-							item: {
-								background:
-									'linear-gradient(135deg, #f0f0f0 25%, transparent 25%) -50px 0, linear-gradient(225deg, #f0f0f0 25%, transparent 25%) -50px 0, linear-gradient(315deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, #f0f0f0 25%, transparent 25%)',
-								backgroundColor: 'neutral.0',
-							},
-						}}
 						mih={70}
 						sx={(theme) => ({
 							boxShadow: theme.shadows.sm,
