@@ -18,6 +18,7 @@ import {
 	useDeleteEnrollment,
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
+import { useGetCurrentSemester } from '@/query/semesters.query';
 
 type RequestsProps = { dean: Student };
 
@@ -25,6 +26,7 @@ export const RequestsDean = (p: RequestsProps) => {
 	const t = useTranslations('Requests');
 
 	const { data: studentsRequests } = useGetRequests();
+	const { data: currentSemester } = useGetCurrentSemester();
 	const { mutate: editRequest } = useEditRequest();
 	const { mutate: addEnrollment } = useAddEnrollment();
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
@@ -48,7 +50,7 @@ export const RequestsDean = (p: RequestsProps) => {
 				requestEnrolls: [
 					{
 						requestEnrollId: requestEnrollId,
-						semesterId: 1,
+						semesterId: currentSemester?.semesterId || 1,
 						requestStatus: status,
 						userId: userId,
 						subjectId: subjectId,
@@ -66,7 +68,7 @@ export const RequestsDean = (p: RequestsProps) => {
 				requestEnrolls: [
 					{
 						requestEnrollId: requestEnrollId,
-						semesterId: 1,
+						semesterId: currentSemester?.semesterId || 1,
 						requestStatus: status,
 						userId: userId,
 						subjectId: subjectId,
@@ -78,14 +80,14 @@ export const RequestsDean = (p: RequestsProps) => {
 				addEnrollment({
 					userId: userId,
 					subjectId: subjectId,
-					semesterId: 1,
+					semesterId: currentSemester?.semesterId || 1,
 					enrollStatus: EnrollStatus.PROPOSED,
 				});
 			} else if (request.requestType === RequestType.DELETE) {
 				deleteEnrollment({
 					userId: userId,
 					subjectId: subjectId,
-					semesterId: 1,
+					semesterId: currentSemester?.semesterId || 1,
 					enrollStatus: EnrollStatus.REJECTED,
 				});
 			} else if (request.requestType === RequestType.CHANGE_SUBJECT) {
@@ -93,14 +95,14 @@ export const RequestsDean = (p: RequestsProps) => {
 					addEnrollment({
 						userId: userId,
 						subjectId: newSubjectId,
-						semesterId: 1,
+						semesterId: currentSemester?.semesterId || 1,
 						enrollStatus: EnrollStatus.PROPOSED,
 					});
 				}
 				deleteEnrollment({
 					userId: userId,
 					subjectId: subjectId,
-					semesterId: 1,
+					semesterId: currentSemester?.semesterId || 1,
 					enrollStatus: EnrollStatus.REJECTED,
 				});
 			}

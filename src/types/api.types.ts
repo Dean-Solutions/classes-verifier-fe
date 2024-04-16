@@ -62,3 +62,9 @@ export interface RefreshedTokens {
 	access_token: string;
 	refresh_token: string;
 }
+
+export interface Semester {
+	semesterType: string;
+	year: number;
+	deadline: string;
+}

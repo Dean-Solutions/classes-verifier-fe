@@ -57,6 +57,7 @@ export const SignUpFormSchema = z
 		firstName: z.string().min(3, 'Imię musi mieć przynajmniej 3 znaki'),
 		lastName: z.string().min(3, 'Nazwisko musi mieć przynajmniej 3 znaki'),
 		indexNumber: indexNumberValidator,
+		semester: z.string().transform((value) => parseInt(value)),
 	})
 	.refine((data) => data.password === data.rePassword, {
 		message: 'Hasła muszą być takie same',

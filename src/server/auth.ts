@@ -77,7 +77,6 @@ export const authOptions: NextAuthOptions = {
 				});
 
 				if (!res.ok) {
-					console.log('error');
 					return null;
 				}
 

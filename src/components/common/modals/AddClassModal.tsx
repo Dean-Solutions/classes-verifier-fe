@@ -12,7 +12,7 @@ import {
 	AddClassFormSchema,
 	type AddClassFormType,
 } from '@/types/classes.types';
-import { useAddClass } from '@/mutations/classes.mutate';
+import { useAddClass, useEditClass } from '@/mutations/classes.mutate';
 import { useEffect, useMemo } from 'react';
 import { modals } from '@mantine/modals';
 import { useTranslations } from 'next-intl';
@@ -21,14 +21,27 @@ import { useGetTags } from '@/query/tags.query';
 import CenteredLoader from '../molecules/Loader/CenteredLoader';
 import { DataFetchErrorReload } from '../molecules/DataFetchError/DataFetchError';
 import { type SelectDataWithFooter } from '@/types/common.types';
+import { type Course, type Tag } from '@/types/api.types';
 
-const AddClassModal = () => {
+const AddClassModal = (currentClass?: Course) => {
 	const {
 		mutate: addClass,
 		isPending: isAddClassPending,
 		isError: isAddClassError,
 		isSuccess: isAddClassSuccess,
 	} = useAddClass();
+
+	const {
+		mutate: editClass,
+		isPending: isEditClassPending,
+		isError: isEditClassError,
+		isSuccess: isEditClassSuccess,
+	} = useEditClass();
+
+	const isPending = isAddClassPending || isAddClassSuccess;
+	const isError = isAddClassError || isEditClassError;
+	const isSuccess = isAddClassSuccess || isEditClassSuccess;
+
 	const {
 		data: tags,
 		isLoading: isTagsLoading,
@@ -38,10 +51,10 @@ const AddClassModal = () => {
 
 	const addClassForm = useForm<AddClassFormType>({
 		initialValues: {
-			subjectName: '',
+			subjectName: currentClass?.name ?? '',
 			subjectSemester: '1',
-			subjectDescription: '',
-			subjectTags: [],
+			subjectDescription: currentClass?.description ?? '',
+			subjectTags: currentClass?.subjectTags?.map((v: Tag) => v.name) ?? [],
 		},
 		validate: zodResolver(AddClassFormSchema),
 		validateInputOnChange: true,
@@ -61,25 +74,34 @@ const AddClassModal = () => {
 	);
 
 	useEffect(() => {
-		if (isAddClassSuccess || isAddClassError) {
+		if (isSuccess || isError) {
 			modals.closeAll();
 		}
-	}, [isAddClassSuccess, isAddClassError]);
+	}, [
+		isAddClassSuccess,
+		isAddClassError,
+		isEditClassSuccess,
+		isEditClassError,
+	]);
 
-	const submitAddNewSubject = () => {
+	const submitSubject = () => {
 		if (addClassForm.isValid() && addClassForm.isDirty()) {
-			addClass(addClassForm.values);
+			if (!currentClass) {
+				addClass(addClassForm.values);
+			} else {
+				editClass({
+					value: addClassForm.values,
+					subjectId: currentClass?.subjectId,
+				});
+			}
 		}
 	};
 
-	const isLoading = isTagsLoading;
-	const isError = isTagsError;
-
-	if (isLoading) {
+	if (isTagsLoading) {
 		return <CenteredLoader />;
 	}
 
-	if (isError) {
+	if (isTagsError) {
 		return <DataFetchErrorReload />;
 	}
 
@@ -119,11 +141,11 @@ const AddClassModal = () => {
 			<Group position='center' mt='md'>
 				<Button
 					disabled={!addClassForm.isValid()}
-					loading={isAddClassPending}
+					loading={isPending}
 					fullWidth
-					onClick={() => submitAddNewSubject()}
+					onClick={submitSubject}
 				>
-					{t('addBtn')}
+					{currentClass ? t('editBtn') : t('addBtn')}
 				</Button>
 			</Group>
 		</Flex>

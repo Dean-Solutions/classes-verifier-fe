@@ -19,6 +19,7 @@ import {
 import { EnrollStatus } from '@/types/enrollments.types';
 import { EmptyState } from '../EmptyState/EmptyState';
 import { statusesToShow } from '@/utils/enrollment.utils';
+import { useGetCurrentSemester } from '@/query/semesters.query';
 
 type ClassesDeanProps = { semesterTag: string };
 
@@ -28,6 +29,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 	const [nameIndexInput, setNameIndexInput] = useState('');
 	const { mutate: addEnrollment } = useAddEnrollment();
 	const [openedClass, setOpenedClass] = useState<string | null>(null);
+	const { data: currentSemester } = useGetCurrentSemester();
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
 
@@ -65,7 +67,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 			addEnrollment({
 				userId: student.userId,
 				subjectId: parseInt(openedClass || ''),
-				semesterId: 1, // TODO after add semester modal
+				semesterId: currentSemester?.semesterId,
 				enrollStatus: EnrollStatus.PROPOSED,
 			});
 		}

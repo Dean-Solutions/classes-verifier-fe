@@ -26,7 +26,9 @@
 		"lastNameLabel": "Nazwisko",
 		"lastNamePlaceholder": "Kowalski",
 		"indexNumberLabel": "Numer albumu",
-		"indexNumberPlaceholder": "123456"
+		"indexNumberPlaceholder": "123456",
+		"semesterLabel": "Semestr",
+		"semesterPlaceholder": "2"
 	},
 	"Navigation": {
 		"AppName": "Classes Verifier",
@@ -60,6 +62,21 @@
 			"semesterLabel": "Semestr",
 			"semesterPlaceholder": "2",
 			"addBtn": "Dodaj studenta"
+		},
+		"AddSemesterModal": {
+			"title": "Dodaj semestr",
+			"semesterLabel": "Numer semestru",
+			"semesterPlaceholder": "2",
+			"semesterTypeLabel": "Typ semestru",
+			"semesterTypePlaceholder": "Zimowy",
+			"summer": "Letni",
+			"yearLabel": "Rok semestru",
+			"yearPlaceholder": "2024",
+			"winter": "Zimowy",
+			"addBtn": "Dodaj semestr",
+			"deadlineLabel": "Data zakończenia",
+			"deadlinePlaceholder": "2024-01-01",
+			"reminderBeforeDeadlineLabel": "Przypomnienie przed zakończeniem"
 		}
 	},
 	"Students": {
@@ -85,6 +102,7 @@
 		"addClass": "Dodaj przedmiot",
 		"addClassModal": {
 			"title": "Dodaj nowy przedmiot",
+			"titleEdit": "Edytuj przedmiot",
 			"classNameLabel": "Nazwa przedmiotu",
 			"classNamePlaceholder": "Przykładowa nazwa przedmiotu",
 			"semesterNumberLabel": "Numer semestru",
@@ -93,7 +111,8 @@
 			"classDescriptionPlaceholder": "Przykładowy opis przedmiotu",
 			"tagsLabel": "Wybierz tagi",
 			"tagsPlaceholder": "INF_24-25",
-			"addBtn": "Dodaj Przedmiot"
+			"addBtn": "Dodaj Przedmiot",
+			"editBtn": "Edytuj Przedmiot"
 		},
 		"Table": {
 			"name": "Nazwa",

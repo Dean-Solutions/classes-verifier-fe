@@ -1,5 +1,5 @@
 import { AppLayout } from '@/components/common/Layout/AppLayout';
-import { Box, Flex, Select } from '@mantine/core';
+import { Box, Button, Flex, Select, Text } from '@mantine/core';
 import { Classes } from '@/components/Classes/Classes';
 import { useTranslations } from 'next-intl';
 import Header from '@/components/Header/Header';
@@ -9,7 +9,6 @@ import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
 import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 import { useSession } from 'next-auth/react';
-
 import { useGetTags } from '@/query/tags.query';
 import { type SelectDataWithFooter } from '@/types/common.types';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
@@ -18,15 +17,19 @@ import { EmptyState } from '@/components/EmptyState/EmptyState';
 import { useGetLoggedStudent } from '@/query/students.query';
 import { TableLoader } from '@/components/StudentsTable/TableLoader';
 import { DataFetchErrorReload } from '@/components/common/molecules/DataFetchError/DataFetchError';
+import { semesters } from '@/data/common.data';
+import { modals } from '@mantine/modals';
+import { AddSemesterModal } from '@/components/common/modals/AddSemesterModal';
 
 export default function Home() {
 	const t = useTranslations('Classes');
+	const tModal = useTranslations('Modals');
 	const h = useTranslations('HomeStudent');
 	const session = useSession();
-
 	const role = session.data?.user.role || 'STUDENT';
 	const [isOpen, { toggle }] = useDisclosure(false);
 	const [semesterTag, setSemesterTag] = useState<string | undefined>();
+
 	const {
 		data: classes,
 		isLoading,
@@ -55,6 +58,25 @@ export default function Home() {
 		return <DataFetchErrorReload />;
 	}
 
+	const openModal = () => {
+		modals.open({
+			title: tModal('AddSemesterModal.title'),
+			centered: true,
+			styles(theme) {
+				return {
+					title: {
+						fontWeight: 700,
+						fontSize: theme.fontSizes.lg,
+					},
+					close: {
+						color: theme.colors.dark[7],
+					},
+				};
+			},
+			children: <AddSemesterModal />,
+		});
+	};
+
 	return (
 		<AppLayout>
 			<Flex direction='column' gap='lg'>
@@ -64,27 +86,45 @@ export default function Home() {
 				/>
 				{role === 'DEAN' ? (
 					<>
-						<Select
-							w={200}
-							placeholder={t('selectPlaceholder')}
-							value={semesterTag}
-							data={mappedTags}
-							itemComponent={SelectDropdownItem}
-							rightSection={
-								<Box
-									sx={{
-										transition: 'transform .2s',
-										transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
-									}}
-								>
-									<ChevronDown fill='var(--mantine-color-neutral-0)' />
-								</Box>
-							}
-							onChange={(value) => setSemesterTag(value || '')}
-							onDropdownOpen={toggle}
-							onDropdownClose={toggle}
-							variant='bigSelect'
-						/>
+						<Flex
+							direction='row'
+							gap='lg'
+							justify='space-between'
+							align='center'
+						>
+							<Select
+								w={200}
+								placeholder={t('selectPlaceholder')}
+								value={semesterTag}
+								data={mappedTags}
+								itemComponent={SelectDropdownItem}
+								rightSection={
+									<Box
+										sx={{
+											transition: 'transform .2s',
+											transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)',
+										}}
+									>
+										<ChevronDown fill='var(--mantine-color-neutral-0)' />
+									</Box>
+								}
+								onChange={(value) => setSemesterTag(value || '')}
+								onDropdownOpen={toggle}
+								onDropdownClose={toggle}
+								variant='bigSelect'
+							/>
+							<Button
+								onClick={() => openModal()}
+								radius='70rem'
+								py='xs'
+								px='md'
+								ml={40}
+								leftIcon={<Text fz='lg'>+</Text>}
+							>
+								{tModal('AddSemesterModal.addBtn')}
+							</Button>
+						</Flex>
+
 						{!classes || classes.length === 0 ? (
 							<EmptyState
 								title={t('Table.emptyTitle')}
