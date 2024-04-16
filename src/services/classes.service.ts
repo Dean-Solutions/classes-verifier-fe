@@ -31,18 +31,26 @@ export const addClass = async (values: AddClassFormType) => {
 	}
 };
 
-export const editClass = async (value: Course) => {
+export async function editClass(v: {
+	value: AddClassFormType;
+	subjectId: number;
+}) {
 	try {
-		const toSend = { name: value.name, description: value.description };
+		const toSend = {
+			name: v.value.subjectName,
+			description: v.value.subjectDescription,
+			semester: v.value.subjectSemester,
+			tagNames: v.value.subjectTags,
+		};
 
-		return await fetcher<Course>(`${Endpoints.SUBJECTS}/${value.subjectId}`, {
+		return await fetcher<Course>(`${Endpoints.SUBJECTS}/${v.subjectId}`, {
 			method: 'PUT',
 			body: toSend,
 		});
 	} catch (error) {
 		return Promise.reject(error);
 	}
-};
+}
 
 export const deleteClass = async (value: Course) => {
 	try {

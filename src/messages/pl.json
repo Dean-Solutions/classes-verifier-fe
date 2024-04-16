@@ -87,6 +87,7 @@
 		"addClass": "Dodaj przedmiot",
 		"addClassModal": {
 			"title": "Dodaj nowy przedmiot",
+			"titleEdit": "Edytuj przedmiot",
 			"classNameLabel": "Nazwa przedmiotu",
 			"classNamePlaceholder": "Przykładowa nazwa przedmiotu",
 			"semesterNumberLabel": "Numer semestru",
@@ -95,7 +96,8 @@
 			"classDescriptionPlaceholder": "Przykładowy opis przedmiotu",
 			"tagsLabel": "Wybierz tagi",
 			"tagsPlaceholder": "INF_24-25",
-			"addBtn": "Dodaj Przedmiot"
+			"addBtn": "Dodaj Przedmiot",
+			"editBtn": "Edytuj Przedmiot"
 		},
 		"Table": {
 			"name": "Nazwa",

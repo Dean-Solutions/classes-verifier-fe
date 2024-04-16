@@ -17,6 +17,8 @@ import { type SelectDataWithFooter } from '@/types/common.types';
 import { Logout } from '@/Icons/Logout';
 import { AddTagModal } from '@/components/common/modals/AddTagModal';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
+import { useStudentsStore } from '@/store/students.store';
+import { useClassesSearch } from '@/hooks/useClassesSearch';
 import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 
 export default function Classes() {
@@ -60,6 +62,9 @@ export default function Classes() {
 		isError: isClassesError,
 	} = useGetClasses(pagination.pageIndex, pagination.pageSize, semesterTag);
 	const classesColumnDefs = useClassesTableData();
+
+	const searchValue = useStudentsStore((state) => state.searchValue);
+	const { filteredClasses } = useClassesSearch(searchValue, classes);
 
 	const openModal = (type: 'TAG' | 'CLASS') => {
 		modals.open({
@@ -127,14 +132,15 @@ export default function Classes() {
 					</Button>
 				</Flex>
 
-				{(classes && classes.length === 0) || !classes ? (
+				{(filteredClasses && filteredClasses.length === 0) ||
+				!filteredClasses ? (
 					<EmptyState
 						title={t('Table.emptyTitle')}
 						description={t('Table.emptyDescription')}
 					/>
 				) : (
 					<Table<Course>
-						data={classes || []}
+						data={filteredClasses || []}
 						isLoading={isLoading}
 						isError={isError}
 						columns={classesColumnDefs.columns}
