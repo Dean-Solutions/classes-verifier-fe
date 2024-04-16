@@ -27,3 +27,11 @@ export const getSemesters = async () => {
 		return Promise.reject(error);
 	}
 };
+
+export const getCurrentSemester = async () => {
+	try {
+		return await fetcher<Semester>(`${Endpoints.SEMESTERS}/current`);
+	} catch (error) {
+		return Promise.reject(error);
+	}
+};

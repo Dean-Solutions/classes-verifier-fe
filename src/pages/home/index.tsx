@@ -4,11 +4,19 @@ import { Classes } from '@/components/Classes/Classes';
 import { useTranslations } from 'next-intl';
 import Header from '@/components/Header/Header';
 import { ClassesDean } from '@/components/Classes/ClassesDean';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from '@/Icons/ChevronDown';
 import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 import { useSession } from 'next-auth/react';
+import { useGetTags } from '@/query/tags.query';
+import { type SelectDataWithFooter } from '@/types/common.types';
+import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
+import { useGetClasses } from '@/query/classes.query';
+import { EmptyState } from '@/components/EmptyState/EmptyState';
+import { useGetLoggedStudent } from '@/query/students.query';
+import { TableLoader } from '@/components/StudentsTable/TableLoader';
+import { DataFetchErrorReload } from '@/components/common/molecules/DataFetchError/DataFetchError';
 import { semesters } from '@/data/common.data';
 import { modals } from '@mantine/modals';
 import { AddSemesterModal } from '@/components/common/modals/AddSemesterModal';
@@ -16,10 +24,39 @@ import { AddSemesterModal } from '@/components/common/modals/AddSemesterModal';
 export default function Home() {
 	const t = useTranslations('Classes');
 	const tModal = useTranslations('Modals');
+	const h = useTranslations('HomeStudent');
 	const session = useSession();
-	const [isOpen, { toggle }] = useDisclosure(false);
-	const [semesterTag, setSemesterTag] = useState<string>('');
 	const role = session.data?.user.role || 'STUDENT';
+	const [isOpen, { toggle }] = useDisclosure(false);
+	const [semesterTag, setSemesterTag] = useState<string | undefined>();
+
+	const {
+		data: classes,
+		isLoading,
+		isError,
+	} = useGetClasses(0, 15, semesterTag);
+	const { data: tags } = useGetTags();
+	const mappedTags: SelectDataWithFooter[] = useMemo(() => {
+		const data: SelectDataWithFooter[] =
+			tags?.map((tag) => ({
+				label: tag.name,
+				value: tag.name,
+			})) || [];
+
+		return data;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [tags, t]);
+	// MOCK STUDENT FOR NOW - LOGIN docelowo
+
+	const { data: student } = useGetLoggedStudent();
+
+	if (isLoading) {
+		return <TableLoader />;
+	}
+
+	if (isError) {
+		return <DataFetchErrorReload />;
+	}
 
 	const openModal = () => {
 		modals.open({
@@ -44,7 +81,7 @@ export default function Home() {
 		<AppLayout>
 			<Flex direction='column' gap='lg'>
 				<Header
-					title={t('headerTitle')}
+					title={h('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
 				/>
 				{role === 'DEAN' ? (
@@ -58,9 +95,9 @@ export default function Home() {
 							<Select
 								w={200}
 								placeholder={t('selectPlaceholder')}
-								variant='bigSelect'
 								value={semesterTag}
-								data={semesters}
+								data={mappedTags}
+								itemComponent={SelectDropdownItem}
 								rightSection={
 									<Box
 										sx={{
@@ -74,22 +111,37 @@ export default function Home() {
 								onChange={(value) => setSemesterTag(value || '')}
 								onDropdownOpen={toggle}
 								onDropdownClose={toggle}
+								variant='bigSelect'
 							/>
 							<Button
 								onClick={() => openModal()}
 								radius='70rem'
 								py='xs'
 								px='md'
+								ml={40}
 								leftIcon={<Text fz='lg'>+</Text>}
 							>
 								{tModal('AddSemesterModal.addBtn')}
 							</Button>
 						</Flex>
 
-						<ClassesDean />
+						{!classes || classes.length === 0 ? (
+							<EmptyState
+								title={t('Table.emptyTitle')}
+								description={t('Table.emptyDescription')}
+							/>
+						) : (
+							<ClassesDean semesterTag={semesterTag || ''} />
+						)}
 					</>
 				) : (
-					<Classes />
+					<>
+						{!student ? (
+							<Flex justify='center'>{h('studentNotFound')}</Flex>
+						) : (
+							<Classes student={student} />
+						)}
+					</>
 				)}
 			</Flex>
 		</AppLayout>
