@@ -20,7 +20,7 @@ import {
 import { EnrollStatus } from '@/types/enrollments.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
 import { useFiltersStore } from '@/store/filters.store';
-import { useRequestsSearch } from '@/hooks/useRequestsSearch';
+import { useDeanRequestsSearch } from '@/hooks/useDeanRequestsSearch';
 
 type RequestsProps = { dean: Student };
 
@@ -34,7 +34,10 @@ export const RequestsDean = (p: RequestsProps) => {
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
 
 	const searchValue = useFiltersStore((state) => state.searchValue);
-	const { filteredRequests } = useRequestsSearch(searchValue, studentsRequests);
+	const { filteredRequests } = useDeanRequestsSearch(
+		searchValue,
+		studentsRequests,
+	);
 
 	const handleEditRequest = (
 		request: Request,

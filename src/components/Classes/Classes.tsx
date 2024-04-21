@@ -65,8 +65,6 @@ export const Classes = (p: ClassesProps) => {
 		studentEnrollments,
 	);
 
-	console.log(filteredEnrollments);
-
 	const handleConfirmButton = (
 		userId: number,
 		subjectId: number,

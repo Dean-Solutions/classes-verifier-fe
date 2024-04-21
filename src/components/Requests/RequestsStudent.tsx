@@ -12,6 +12,8 @@ import { useTranslations } from 'next-intl';
 import { EmptyState } from '../EmptyState/EmptyState';
 import { getColor } from '@/utils/colors.util';
 import { type Student } from '@/types/api.types';
+import { useFiltersStore } from '@/store/filters.store';
+import { useStudentRequestsSearch } from '@/hooks/useStudentRequestSearch';
 
 type RequestsProps = { student: Student };
 
@@ -19,16 +21,22 @@ export const RequestsStudent = (p: RequestsProps) => {
 	const t = useTranslations('Requests');
 	const { data: userRequests } = useGetUserRequests(p.student.userId);
 
+	const searchValue = useFiltersStore((state) => state.searchValue);
+	const { filteredRequests } = useStudentRequestsSearch(
+		searchValue,
+		userRequests,
+	);
+
 	return (
 		<>
-			{!userRequests || userRequests.length === 0 ? (
+			{!filteredRequests || filteredRequests.length === 0 ? (
 				<EmptyState
 					title={t('emptyTitle')}
 					description={t('emptyDescription')}
 				/>
 			) : (
 				<Grid p={8}>
-					{userRequests.map((request) => (
+					{filteredRequests.map((request) => (
 						<Grid.Col span={4} key={request.requestId}>
 							<Flex
 								h={300}

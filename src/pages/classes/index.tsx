@@ -65,7 +65,6 @@ export default function Classes() {
 	const classesColumnDefs = useClassesTableData();
 
 	const searchValue = useFiltersStore((state) => state.searchValue);
-
 	const { filteredClasses } = useClassesSearch(searchValue, classes);
 
 	const openModal = (type: 'TAG' | 'CLASS') => {

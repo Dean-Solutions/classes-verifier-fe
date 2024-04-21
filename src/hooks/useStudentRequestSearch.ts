@@ -1,7 +1,7 @@
 import { type Request } from '@/types/api.types';
 import { useCallback, useEffect, useState } from 'react';
 
-export const useRequestsSearch = (
+export const useStudentRequestsSearch = (
 	searchValue: string,
 	requests?: Request[],
 ) => {
@@ -13,21 +13,10 @@ export const useRequestsSearch = (
 		if (!!searchValue && requests) {
 			const searchValueLower = searchValue.toLowerCase().trim();
 			const filtered = requests.filter((request) => {
-				return (
-					request.requestEnrollments[0]?.user.firstName
-						.replaceAll(' ', '')
-						.toLowerCase()
-						.includes(searchValueLower) ||
-					request.requestEnrollments[0]?.user.lastName
-						.replaceAll(' ', '')
-						.toLowerCase()
-						.includes(searchValueLower) ||
-					request.requestEnrollments[0]?.user.indexNumber
-						.toLowerCase()
-						.includes(searchValueLower) ||
-					'semestr ' + request.requestEnrollments[0]?.user.semester ===
-						searchValueLower
-				);
+				return request.requestEnrollments[0]?.subject.name
+					.replaceAll(' ', '')
+					.toLowerCase()
+					.includes(searchValueLower);
 			});
 			setFilteredRequests(filtered);
 		} else {
