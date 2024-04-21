@@ -23,6 +23,10 @@ import { DataFetchErrorReload } from '../molecules/DataFetchError/DataFetchError
 import { type SelectDataWithFooter } from '@/types/common.types';
 import { type Course, type Tag } from '@/types/api.types';
 
+const isObjectEmpty = (obj: object | undefined): boolean => {
+	return obj === undefined || Object.keys(obj).length === 0;
+};
+
 const AddClassModal = (currentClass?: Course) => {
 	const {
 		mutate: addClass,
@@ -38,7 +42,7 @@ const AddClassModal = (currentClass?: Course) => {
 		isSuccess: isEditClassSuccess,
 	} = useEditClass();
 
-	const isPending = isAddClassPending || isAddClassSuccess;
+	const isPending = isAddClassPending || isEditClassPending;
 	const isError = isAddClassError || isEditClassError;
 	const isSuccess = isAddClassSuccess || isEditClassSuccess;
 
@@ -77,20 +81,16 @@ const AddClassModal = (currentClass?: Course) => {
 		if (isSuccess || isError) {
 			modals.closeAll();
 		}
-	}, [
-		isAddClassSuccess,
-		isAddClassError,
-		isEditClassSuccess,
-		isEditClassError,
-	]);
+	}, [isSuccess, isError]);
 
 	const submitSubject = () => {
 		if (addClassForm.isValid() && addClassForm.isDirty()) {
-			if (!currentClass) {
+			if (isObjectEmpty(currentClass)) {
 				addClass(addClassForm.values);
 			} else {
 				editClass({
 					value: addClassForm.values,
+					// @ts-expect-error  isObjectEmpty handles the error
 					subjectId: currentClass?.subjectId,
 				});
 			}
@@ -145,7 +145,7 @@ const AddClassModal = (currentClass?: Course) => {
 					fullWidth
 					onClick={submitSubject}
 				>
-					{currentClass ? t('editBtn') : t('addBtn')}
+					{!isObjectEmpty(currentClass) ? t('editBtn') : t('addBtn')}
 				</Button>
 			</Group>
 		</Flex>
