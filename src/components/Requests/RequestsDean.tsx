@@ -19,6 +19,8 @@ import {
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
+import { useFiltersStore } from '@/store/filters.store';
+import { useRequestsSearch } from '@/hooks/useRequestsSearch';
 
 type RequestsProps = { dean: Student };
 
@@ -30,6 +32,9 @@ export const RequestsDean = (p: RequestsProps) => {
 	const { mutate: editRequest } = useEditRequest();
 	const { mutate: addEnrollment } = useAddEnrollment();
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
+
+	const searchValue = useFiltersStore((state) => state.searchValue);
+	const { filteredRequests } = useRequestsSearch(searchValue, studentsRequests);
 
 	const handleEditRequest = (
 		request: Request,
@@ -111,14 +116,14 @@ export const RequestsDean = (p: RequestsProps) => {
 
 	return (
 		<>
-			{!studentsRequests || studentsRequests.length === 0 ? (
+			{!filteredRequests || filteredRequests.length === 0 ? (
 				<EmptyState
 					title={t('emptyTitle')}
 					description={t('emptyDescription')}
 				/>
 			) : (
 				<Grid p={8}>
-					{studentsRequests.map((request, index) => (
+					{filteredRequests.map((request, index) => (
 						<Grid.Col span={4} key={index}>
 							<Flex
 								h={300}
