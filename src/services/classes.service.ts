@@ -64,21 +64,16 @@ export const addClass = async (values: AddClassFormType) => {
 	}
 };
 
-export async function editClass(v: {
-	value: AddClassFormType;
-	subjectId: number;
-}) {
+export async function editClass(subjectId: number, value: AddClassFormType) {
 	try {
-		const toSend = {
-			name: v.value.subjectName,
-			description: v.value.subjectDescription,
-			semester: v.value.subjectSemester,
-			tagNames: v.value.subjectTags,
-		};
-
-		return await fetcher<Course>(`${Endpoints.SUBJECTS}/${v.subjectId}`, {
+		return await fetcher<Course>(`${Endpoints.SUBJECTS}/${subjectId}`, {
 			method: 'PUT',
-			body: toSend,
+			body: {
+				name: value.subjectName,
+				description: value.subjectDescription,
+				semester: value.subjectSemester,
+				tagNames: value.subjectTags,
+			},
 		});
 	} catch (error) {
 		return Promise.reject(error);

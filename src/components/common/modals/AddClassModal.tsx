@@ -21,13 +21,13 @@ import { useGetTags } from '@/query/tags.query';
 import CenteredLoader from '../molecules/Loader/CenteredLoader';
 import { DataFetchErrorReload } from '../molecules/DataFetchError/DataFetchError';
 import { type SelectDataWithFooter } from '@/types/common.types';
-import { type Course, type Tag } from '@/types/api.types';
+import { type Course } from '@/types/api.types';
 
-const isObjectEmpty = (obj: object | undefined): boolean => {
-	return obj === undefined || Object.keys(obj).length === 0;
+type AddClassModalProps = {
+	currentClass?: Course;
 };
 
-const AddClassModal = (currentClass?: Course) => {
+const AddClassModal = ({ currentClass }: AddClassModalProps) => {
 	const {
 		mutate: addClass,
 		isPending: isAddClassPending,
@@ -58,7 +58,7 @@ const AddClassModal = (currentClass?: Course) => {
 			subjectName: currentClass?.name ?? '',
 			subjectSemester: '1',
 			subjectDescription: currentClass?.description ?? '',
-			subjectTags: currentClass?.subjectTags?.map((v: Tag) => v.name) ?? [],
+			subjectTags: currentClass?.subjectTags.map((tag) => tag.name) ?? [],
 		},
 		validate: zodResolver(AddClassFormSchema),
 		validateInputOnChange: true,
@@ -85,14 +85,13 @@ const AddClassModal = (currentClass?: Course) => {
 
 	const submitSubject = () => {
 		if (addClassForm.isValid() && addClassForm.isDirty()) {
-			if (isObjectEmpty(currentClass)) {
-				addClass(addClassForm.values);
-			} else {
+			if (currentClass) {
 				editClass({
-					value: addClassForm.values,
-					// @ts-expect-error  isObjectEmpty handles the error
-					subjectId: currentClass?.subjectId,
+					...currentClass,
+					...addClassForm.values,
 				});
+			} else {
+				addClass(addClassForm.values);
 			}
 		}
 	};
@@ -145,7 +144,7 @@ const AddClassModal = (currentClass?: Course) => {
 					fullWidth
 					onClick={submitSubject}
 				>
-					{!isObjectEmpty(currentClass) ? t('editBtn') : t('addBtn')}
+					{!!currentClass ? t('editBtn') : t('addBtn')}
 				</Button>
 			</Group>
 		</Flex>
