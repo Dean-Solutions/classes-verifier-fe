@@ -55,7 +55,6 @@ export const addClass = async (values: AddClassFormType) => {
 			description: values.subjectDescription,
 			tagNames: values.subjectTags,
 		};
-		console.log(Endpoints.SUBJECTS);
 		return await fetcher<Course>(Endpoints.SUBJECTS, {
 			method: 'POST',
 			body: toSend,
