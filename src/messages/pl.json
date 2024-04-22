@@ -142,8 +142,10 @@
 		"deleteCheckboxLabel": "Usuń ten przedmiot",
 		"setSubjectText": "Wymień przedmiot na:",
 		"addSubjectText": "Proszę o dodanie tego przedmiotu",
-		"notificationTitle": "Poszło!",
-		"notificationMessage": "Twoje zgłoszenie zostało wysłane"
+		"notificationTitleSuccess": "Poszło!",
+		"notificationMessageSuccess": "Twoje zgłoszenie zostało wysłane",
+		"notificationTitleError": "Ajć!",
+		"notificationMessageError": "Nie udało się wysłać zgłoszenia"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
