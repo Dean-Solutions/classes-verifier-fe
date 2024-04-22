@@ -159,7 +159,9 @@
 		"emptyTitle": "Brak requestów",
 		"emptyDescription": "Nie znaleziono żadnych zgłoszonych requestów",
 		"rejectMessage": "Odrzucam prośbę",
-		"acceptMessage": "Zatwierdzam zgłoszenie"
+		"acceptMessage": "Zatwierdzam zgłoszenie",
+		"pendingRequests": "Oczekujące zgłoszenia",
+		"finishedRequests": "Zakończone zgłoszenia"
 	},
 	"Settings": {
 		"headerTitle": "Ustawienia",
