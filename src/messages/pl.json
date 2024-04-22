@@ -3,6 +3,7 @@
 		"loading": "Ładowanie...",
 		"noData": "Brak danych",
 		"error": "Wystąpił błąd",
+		"errorMessage": "Coś poszło nie tak przy wykonaniu tej operacji. Spróbuj ponownie później.",
 		"retry": "Spróbuj ponownie",
 		"cancel": "Anuluj",
 		"confirm": "Potwierdź",
@@ -156,5 +157,22 @@
 		"emptyDescription": "Nie znaleziono żadnych zgłoszonych requestów",
 		"rejectMessage": "Odrzucam prośbę",
 		"acceptMessage": "Zatwierdzam zgłoszenie"
+	},
+	"Settings": {
+		"headerTitle": "Ustawienia",
+		"changePassword": "Zmień hasło",
+		"oldPasswordLabel": "Stare hasło",
+		"oldPasswordPlaceholder": "Stare hasło",
+		"newPasswordLabel": "Nowe hasło",
+		"newPasswordPlaceholder": "Nowe hasło",
+		"rePasswordLabel": "Powtórz nowe hasło",
+		"rePasswordPlaceholder": "Powtórz nowe hasło",
+		"changePasswordButton": "Zmień hasło",
+		"newPasswordConf": "Powtórz Nowe hasło",
+		"newPasswordConfPlaceholder": "Hasło",
+		"Notification": {
+			"success": "Hurra!",
+			"successMessage": "Hasło zostało zmienione pomyślnie. Zaloguj się ponownie."
+		}
 	}
 }

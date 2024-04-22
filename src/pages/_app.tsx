@@ -12,6 +12,7 @@ import { theme } from '@/themes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ModalsProvider } from '@mantine/modals';
 import { DatesProvider } from '@mantine/dates';
+import { Notifications } from '@mantine/notifications';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -42,6 +43,7 @@ const MyApp: AppType<{
 						<ModalsProvider>
 							<DatesProvider settings={{ locale: 'pl' }}>
 								<main className={inter.className}>
+									<Notifications autoClose={3500} />
 									<Component {...pageProps} />
 								</main>
 							</DatesProvider>

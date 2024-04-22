@@ -4,23 +4,25 @@ import Search from '../Search/Search';
 
 type HeaderProps = {
 	title: string;
-	searchPlaceholder: string;
+	searchPlaceholder?: string;
+	showSearch?: boolean;
 };
 
-const Header = ({ title, searchPlaceholder }: HeaderProps) => {
+const Header = ({ title, searchPlaceholder, showSearch }: HeaderProps) => {
 	return (
 		<Flex
 			align='center'
-			justify='center'
 			sx={(theme) => ({
 				borderBottom: `0.5px solid ${theme.colors.neutral[4]}`,
 				paddingBlock: theme.spacing.md,
 			})}
 		>
 			<Title>{title}</Title>
-			<Flex ml='auto' align='center' gap='md'>
-				<Search placeholder={searchPlaceholder} />
-			</Flex>
+			{!!showSearch && searchPlaceholder && (
+				<Flex ml='auto' align='center' gap='md'>
+					<Search placeholder={searchPlaceholder} />
+				</Flex>
+			)}
 		</Flex>
 	);
 };
