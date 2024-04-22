@@ -18,6 +18,7 @@ import { Study } from '@/Icons/Study';
 import { Logo } from '@/Icons/Logo';
 import { Logout } from '@/Icons/Logout';
 import { useSession } from 'next-auth/react';
+import { Piechart } from '@/Icons/Piechart';
 
 export const Navbar = () => {
 	const router = useRouter();
@@ -51,6 +52,11 @@ export const Navbar = () => {
 	const studentNavbarItems = navbarItems.slice(0, 2);
 
 	const bottomNavbarItems = [
+		{
+			label: t('settings'),
+			link: Routes.Settings,
+			icon: <Piechart />,
+		},
 		{
 			label: t('logout'),
 			link: Routes.Logout,
@@ -239,10 +245,26 @@ export const Navbar = () => {
 									w={'100%'}
 								>
 									<Flex align='center'>
-										<ActionIcon variant='transparent' color='black.0' size={24}>
+										<ActionIcon
+											variant='transparent'
+											size={24}
+											{...(isActive(item.link)
+												? activeStyles
+												: {
+														color: 'black.0',
+													})}
+										>
 											{item.icon}
 										</ActionIcon>
-										<Text color='black.0' ml='md' size='lg'>
+										<Text
+											ml='md'
+											size='lg'
+											{...(isActive(item.link)
+												? activeStyles
+												: {
+														color: 'black.0',
+													})}
+										>
 											{item.label}
 										</Text>
 									</Flex>
