@@ -19,16 +19,20 @@ export const RequestsStudent = (p: RequestsProps) => {
 	const t = useTranslations('Requests');
 	const { data: userRequests } = useGetUserRequests(p.student.userId);
 
+	const fillteredRequests = userRequests?.filter(
+		(request) => request.requestEnrollments.length > 0,
+	);
+
 	return (
 		<>
-			{!userRequests || userRequests.length === 0 ? (
+			{!fillteredRequests || fillteredRequests.length === 0 ? (
 				<EmptyState
 					title={t('emptyTitle')}
 					description={t('emptyDescription')}
 				/>
 			) : (
 				<Grid p={8}>
-					{userRequests.map((request) => (
+					{fillteredRequests.map((request) => (
 						<Grid.Col span={4} key={request.requestId}>
 							<Flex
 								h={300}

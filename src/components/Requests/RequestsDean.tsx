@@ -34,9 +34,7 @@ export const RequestsDean = (p: RequestsProps) => {
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
 
 	const fillteredRequests = studentsRequests?.filter(
-		(request) =>
-			request.requestEnrollments.length > 0 &&
-			request.requestEnrollments[0]!.requestStatus === RequestStatus.PENDING,
+		(request) => request.requestEnrollments.length > 0,
 	);
 
 	const handleEditRequest = (
@@ -154,16 +152,14 @@ export const RequestsDean = (p: RequestsProps) => {
 												' semestr'}
 										</Text>
 										<Badge
-											color={getColor(
-												request.requestEnrollments[0]?.requestStatus,
-											)}
+											color={getColor(re.requestStatus)}
 											size='md'
 											radius='lg'
 											variant='filled'
 											ml={15}
 											w={100}
 										>
-											{request.requestEnrollments[0]?.requestStatus}
+											{re.requestStatus}
 										</Badge>
 										<Divider pb='xs' w='90%' ml='5%' mt={15} />
 										<ScrollArea h={175} ml={15} mr={15}>
