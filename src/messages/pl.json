@@ -145,7 +145,8 @@
 		"notificationTitleSuccess": "Poszło!",
 		"notificationMessageSuccess": "Twoje zgłoszenie zostało wysłane",
 		"notificationTitleError": "Ajć!",
-		"notificationMessageError": "Nie udało się wysłać zgłoszenia"
+		"notificationMessageError": "Nie udało się wysłać zgłoszenia",
+		"notificationMessageDeleteSubject": "Kliknij opcję 'Usuń ten przedmiot'"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
@@ -163,7 +164,8 @@
 		"rejectMessage": "Odrzucam prośbę",
 		"acceptMessage": "Zatwierdzam zgłoszenie",
 		"pendingRequests": "Oczekujące zgłoszenia",
-		"finishedRequests": "Zakończone zgłoszenia"
+		"finishedRequests": "Zakończone zgłoszenia",
+		"deleteRequestButton": "Usuń request"
 	},
 	"Settings": {
 		"headerTitle": "Ustawienia",
