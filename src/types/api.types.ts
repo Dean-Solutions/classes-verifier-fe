@@ -25,7 +25,7 @@ export interface Course {
 	subjectId: number;
 	name: string;
 	description: string;
-	subjectTags: [];
+	subjectTags: Tag[];
 }
 
 export interface Tag {

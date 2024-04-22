@@ -21,9 +21,13 @@ import { useGetTags } from '@/query/tags.query';
 import CenteredLoader from '../molecules/Loader/CenteredLoader';
 import { DataFetchErrorReload } from '../molecules/DataFetchError/DataFetchError';
 import { type SelectDataWithFooter } from '@/types/common.types';
-import { type Course, type Tag } from '@/types/api.types';
+import { type Course } from '@/types/api.types';
 
-const AddClassModal = (currentClass?: Course) => {
+type AddClassModalProps = {
+	currentClass?: Course;
+};
+
+const AddClassModal = ({ currentClass }: AddClassModalProps) => {
 	const {
 		mutate: addClass,
 		isPending: isAddClassPending,
@@ -38,7 +42,7 @@ const AddClassModal = (currentClass?: Course) => {
 		isSuccess: isEditClassSuccess,
 	} = useEditClass();
 
-	const isPending = isAddClassPending || isAddClassSuccess;
+	const isPending = isAddClassPending || isEditClassPending;
 	const isError = isAddClassError || isEditClassError;
 	const isSuccess = isAddClassSuccess || isEditClassSuccess;
 
@@ -54,7 +58,7 @@ const AddClassModal = (currentClass?: Course) => {
 			subjectName: currentClass?.name ?? '',
 			subjectSemester: '1',
 			subjectDescription: currentClass?.description ?? '',
-			subjectTags: currentClass?.subjectTags?.map((v: Tag) => v.name) ?? [],
+			subjectTags: currentClass?.subjectTags.map((tag) => tag.name) ?? [],
 		},
 		validate: zodResolver(AddClassFormSchema),
 		validateInputOnChange: true,
@@ -77,22 +81,17 @@ const AddClassModal = (currentClass?: Course) => {
 		if (isSuccess || isError) {
 			modals.closeAll();
 		}
-	}, [
-		isAddClassSuccess,
-		isAddClassError,
-		isEditClassSuccess,
-		isEditClassError,
-	]);
+	}, [isSuccess, isError]);
 
 	const submitSubject = () => {
 		if (addClassForm.isValid() && addClassForm.isDirty()) {
-			if (!currentClass) {
-				addClass(addClassForm.values);
-			} else {
+			if (currentClass) {
 				editClass({
-					value: addClassForm.values,
-					subjectId: currentClass?.subjectId,
+					...currentClass,
+					...addClassForm.values,
 				});
+			} else {
+				addClass(addClassForm.values);
 			}
 		}
 	};
@@ -145,7 +144,7 @@ const AddClassModal = (currentClass?: Course) => {
 					fullWidth
 					onClick={submitSubject}
 				>
-					{currentClass ? t('editBtn') : t('addBtn')}
+					{!!currentClass ? t('editBtn') : t('addBtn')}
 				</Button>
 			</Group>
 		</Flex>

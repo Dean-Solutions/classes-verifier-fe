@@ -9,7 +9,6 @@ import { Edit } from '@/Icons/Edit';
 import { useDeleteClass } from '@/mutations/classes.mutate';
 import { modals } from '@mantine/modals';
 import AddClassModal from '@/components/common/modals/AddClassModal';
-import { AddTagModal } from '@/components/common/modals/AddTagModal';
 
 const useClassesTableData = () => {
 	const t = useTranslations('Classes');
@@ -30,14 +29,7 @@ const useClassesTableData = () => {
 					},
 				};
 			},
-			children: (
-				<AddClassModal
-					description={c.description}
-					name={c.name}
-					subjectId={c.subjectId}
-					subjectTags={c.subjectTags}
-				/>
-			),
+			children: <AddClassModal currentClass={c} />,
 		});
 	};
 

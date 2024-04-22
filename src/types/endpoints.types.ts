@@ -7,4 +7,5 @@ export enum Endpoints {
 	LOGIN = 'auth/login',
 	REGISTER = 'auth/register',
 	SEMESTERS = 'semesters',
+	CHANGE_PASSWORD = 'students/change-password',
 }

@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryKeys } from '@/types/query.types';
 import { addClass, deleteClass, editClass } from '@/services/classes.service';
+import { type Course } from '@/types/api.types';
+import { type AddClassFormType } from '@/types/classes.types';
 
 export const useAddClass = () => {
 	const queryClient = useQueryClient();
@@ -21,17 +23,19 @@ export const useAddClass = () => {
 export const useEditClass = () => {
 	const queryClient = useQueryClient();
 
-	return useMutation({
-		mutationFn: editClass,
-		onSuccess: async () => {
-			await queryClient.invalidateQueries({
-				queryKey: [QueryKeys.GET_CLASSES],
-			});
+	return useMutation<Course, unknown, AddClassFormType & { subjectId: number }>(
+		{
+			mutationFn: (item) => editClass(item.subjectId, item),
+			onSuccess: async () => {
+				await queryClient.invalidateQueries({
+					queryKey: [QueryKeys.GET_CLASSES],
+				});
+			},
+			onError: (error: unknown) => {
+				console.log(error);
+			},
 		},
-		onError: (error: unknown) => {
-			console.log(error);
-		},
-	});
+	);
 };
 
 export const useDeleteClass = () => {
