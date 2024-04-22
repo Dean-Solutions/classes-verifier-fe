@@ -135,7 +135,7 @@ export const RequestsDean = (p: RequestsProps) => {
 				<Flex direction='column' w='100%'>
 					<Accordion
 						w='100%'
-						bg='neutral.0'
+						bg='brown.0'
 						sx={(theme) => ({
 							borderRadius: rem(6),
 							boxShadow: theme.shadows.sm,
@@ -162,7 +162,7 @@ export const RequestsDean = (p: RequestsProps) => {
 											<Grid.Col span={4} key={index}>
 												<Flex
 													h={300}
-													bg='brown.1'
+													bg='neutral.0 '
 													direction='column'
 													sx={(theme) => ({
 														boxShadow: theme.shadows.md,
@@ -271,7 +271,7 @@ export const RequestsDean = (p: RequestsProps) => {
 											<Grid.Col span={4} key={index}>
 												<Flex
 													h={300}
-													bg='brown.1'
+													bg='neutral.0 '
 													direction='column'
 													sx={(theme) => ({
 														boxShadow: theme.shadows.md,

@@ -22,7 +22,6 @@ import { useEditEnrollment } from '@/mutations/enrollment.mutate';
 import { useGetAllClasses } from '@/query/classes.query';
 import { type ClassWithId } from '@/types/classes.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
-import { notifications } from '@mantine/notifications';
 
 type ClassesProps = { student: Student };
 
@@ -71,16 +70,6 @@ export const Classes = (p: ClassesProps) => {
 		});
 	};
 
-	const showRequestNotification = () => {
-		notifications.show({
-			title: t('notificationTitle'),
-			message: t('notificationMessage'),
-			withCloseButton: true,
-			autoClose: 3000,
-			color: 'green.0',
-		});
-	};
-
 	const handleAddRequest = (semesterId: number, subjectIdAdd?: string) => {
 		const currentTime = new Date();
 		if (subjectIdAdd) {
@@ -98,7 +87,6 @@ export const Classes = (p: ClassesProps) => {
 					},
 				],
 			});
-			showRequestNotification();
 		}
 	};
 
@@ -118,7 +106,6 @@ export const Classes = (p: ClassesProps) => {
 				},
 			],
 		});
-		showRequestNotification();
 	};
 
 	const handleChangeSubjectRequest = (
@@ -143,7 +130,6 @@ export const Classes = (p: ClassesProps) => {
 					},
 				],
 			});
-			showRequestNotification();
 		}
 	};
 

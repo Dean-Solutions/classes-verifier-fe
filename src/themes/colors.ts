@@ -34,6 +34,7 @@ export const customColors = {
 		'#1B151E',
 	],
 	brown: [
+		'#ededed',
 		'#F1ECEA',
 		'#f9f4ef',
 		'#D3C4BD',
