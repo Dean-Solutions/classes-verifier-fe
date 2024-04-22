@@ -7,7 +7,7 @@ export const customColors = {
 	metalic: ['#292B32'],
 	orange: ['#FFB931'],
 	green: ['#32CD32'],
-	yellow: ['#FFD833'],
+	yellow: ['#FFC100'],
 	red: ['#EE0A0A'],
 	blue: [
 		'#E6EFFF',
@@ -34,7 +34,9 @@ export const customColors = {
 		'#1B151E',
 	],
 	brown: [
+		'#ededed',
 		'#F1ECEA',
+		'#f9f4ef',
 		'#D3C4BD',
 		'#BEA79D',
 		'#A17F70',
@@ -46,6 +48,7 @@ export const customColors = {
 		'#301B12',
 	],
 	nautical: [
+		'#edf2f7',
 		'#E6F0F1',
 		'#B0CFD3',
 		'#8AB8BE',

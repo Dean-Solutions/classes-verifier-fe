@@ -138,15 +138,21 @@
 		"emptyTitle": "Brak przedmiotów",
 		"emptyDescription": "Nie znaleziono żadnych przypisanych przedmiotów",
 		"studentNotFound": "Nie znaleziono Cię w bazie studentów",
-		"standardRequest": "Dodaj przedmiot",
+		"standardRequest": "Miejsce na zgłoszenie ogólne",
 		"deleteCheckboxLabel": "Usuń ten przedmiot",
 		"setSubjectText": "Wymień przedmiot na:",
-		"addSubjectText": "Proszę o dodanie tego przedmiotu"
+		"addSubjectText": "Proszę o dodanie tego przedmiotu",
+		"notificationTitleSuccess": "Poszło!",
+		"notificationMessageSuccess": "Twoje zgłoszenie zostało wysłane",
+		"notificationTitleError": "Ajć!",
+		"notificationMessageError": "Nie udało się wysłać zgłoszenia",
+		"notificationMessageDeleteSubject": "Kliknij opcję 'Usuń ten przedmiot'"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
 		"searchPlaceholder": "Wyszukaj przedmiot",
-		"nameIndexInput": "Imię, nazwisko i nr Indeksu"
+		"nameIndexInput": "Imię, nazwisko i nr Indeksu",
+		"enrollmentQuantityText": "studentów"
 	},
 	"Requests": {
 		"headerTitle": "Zgłoszenia",
@@ -156,7 +162,10 @@
 		"emptyTitle": "Brak requestów",
 		"emptyDescription": "Nie znaleziono żadnych zgłoszonych requestów",
 		"rejectMessage": "Odrzucam prośbę",
-		"acceptMessage": "Zatwierdzam zgłoszenie"
+		"acceptMessage": "Zatwierdzam zgłoszenie",
+		"pendingRequests": "Oczekujące zgłoszenia",
+		"finishedRequests": "Zakończone zgłoszenia",
+		"deleteRequestButton": "Usuń request"
 	},
 	"Settings": {
 		"headerTitle": "Ustawienia",

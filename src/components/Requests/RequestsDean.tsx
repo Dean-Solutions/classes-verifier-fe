@@ -6,6 +6,8 @@ import {
 	Text,
 	Divider,
 	ScrollArea,
+	Badge,
+	Accordion,
 } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { useGetRequests } from '@/query/request.query';
@@ -19,6 +21,7 @@ import {
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
+import { getColor } from '@/utils/colors.util';
 
 type RequestsProps = { dean: Student };
 
@@ -30,6 +33,18 @@ export const RequestsDean = (p: RequestsProps) => {
 	const { mutate: editRequest } = useEditRequest();
 	const { mutate: addEnrollment } = useAddEnrollment();
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
+
+	const pendingRequests = studentsRequests?.filter(
+		(request) =>
+			request.requestEnrollments.length > 0 &&
+			request.requestEnrollments[0]!.requestStatus === RequestStatus.PENDING,
+	);
+
+	const finishedRequests = studentsRequests?.filter(
+		(request) =>
+			request.requestEnrollments.length > 0 &&
+			request.requestEnrollments[0]!.requestStatus !== RequestStatus.PENDING,
+	);
 
 	const handleEditRequest = (
 		request: Request,
@@ -117,82 +132,195 @@ export const RequestsDean = (p: RequestsProps) => {
 					description={t('emptyDescription')}
 				/>
 			) : (
-				<Grid p={8}>
-					{studentsRequests.map((request, index) => (
-						<Grid.Col span={4} key={index}>
-							<Flex
-								h={300}
-								bg='neutral.0'
-								direction='column'
-								sx={(theme) => ({
-									boxShadow: theme.shadows.md,
-									borderRightColor: theme.colors.neutral[3],
-									borderRadius: rem(10),
-								})}
+				<Flex direction='column' w='100%'>
+					<Accordion
+						w='100%'
+						bg='brown.0'
+						sx={(theme) => ({
+							borderRadius: rem(6),
+							boxShadow: theme.shadows.sm,
+							overflow: 'hidden',
+						})}
+						defaultValue='1'
+					>
+						<Accordion.Item value='1'>
+							<Accordion.Control
+								sx={{
+									':hover': {
+										backgroundColor: 'brown.1',
+									},
+								}}
 							>
-								{request.requestEnrollments.map((re) => (
-									<>
-										<Text fz='xl' mt='2%' ml='5%'>
-											{re.subject.name}
-										</Text>
-										<Text fz='xs' ml='5%'>
-											{re.user.firstName +
-												' ' +
-												re.user.lastName +
-												' | ' +
-												re.user.indexNumber +
-												' | ' +
-												re.user.semester +
-												' semestr'}
-										</Text>
-										<Divider pb='xs' w='90%' ml='5%' />
-										<ScrollArea h={175} ml={15} mr={15}>
-											<Text fz='s'>{request.description}</Text>
-										</ScrollArea>
-										<Flex justify='center' align='center' direction='row'>
-											<Button
-												color='green.0'
-												radius='md'
-												size='xs'
-												m={10}
-												mb={10}
-												onClick={() =>
-													handleEditRequest(
-														request,
-														re.user.userId,
-														re.subject.subjectId,
-														RequestStatus.ACCEPTED,
-														re.requestEnrollId,
-													)
-												}
-											>
-												{t('confirmButton')}
-											</Button>
-											<Button
-												color='red.0'
-												radius='md'
-												size='xs'
-												m={10}
-												mb={10}
-												onClick={() =>
-													handleEditRequest(
-														request,
-														re.user.userId,
-														re.subject.subjectId,
-														RequestStatus.REJECTED,
-														re.requestEnrollId,
-													)
-												}
-											>
-												{t('rejectButton')}
-											</Button>
-										</Flex>
-									</>
-								))}
-							</Flex>
-						</Grid.Col>
-					))}
-				</Grid>
+								<Text w='100%' fw='bold' fz='lg'>
+									{t('pendingRequests')}
+								</Text>
+							</Accordion.Control>
+							<Accordion.Panel>
+								{pendingRequests && pendingRequests.length > 0 && (
+									<Grid p={8}>
+										{pendingRequests.map((request, index) => (
+											<Grid.Col span={4} key={index}>
+												<Flex
+													h={300}
+													bg='neutral.0 '
+													direction='column'
+													sx={(theme) => ({
+														boxShadow: theme.shadows.md,
+														borderRightColor: theme.colors.neutral[3],
+														borderRadius: rem(10),
+													})}
+												>
+													{request.requestEnrollments.map((re) => (
+														<>
+															<Text fz='xl' mt='2%' ml='5%'>
+																{re.subject.name}
+															</Text>
+															<Text fz='xs' ml='5%' mb={5}>
+																{re.user.firstName +
+																	' ' +
+																	re.user.lastName +
+																	' | ' +
+																	re.user.indexNumber +
+																	' | ' +
+																	re.user.semester +
+																	' semestr'}
+															</Text>
+															<Badge
+																color={getColor(
+																	request.requestEnrollments[0]?.requestStatus,
+																)}
+																size='md'
+																radius='lg'
+																variant='filled'
+																ml={15}
+																w={100}
+															>
+																{request.requestEnrollments[0]?.requestStatus}
+															</Badge>
+															<Divider pb='xs' w='90%' ml='5%' mt={15} />
+															<ScrollArea h={175} ml={15} mr={15}>
+																<Text fz='s'>{request.description}</Text>
+															</ScrollArea>
+															<Flex
+																justify='center'
+																align='center'
+																direction='row'
+															>
+																<Button
+																	color='green.0'
+																	radius='md'
+																	size='xs'
+																	m={10}
+																	mb={10}
+																	onClick={() =>
+																		handleEditRequest(
+																			request,
+																			re.user.userId,
+																			re.subject.subjectId,
+																			RequestStatus.ACCEPTED,
+																			re.requestEnrollId,
+																		)
+																	}
+																>
+																	{t('confirmButton')}
+																</Button>
+																<Button
+																	color='red.0'
+																	radius='md'
+																	size='xs'
+																	m={10}
+																	mb={10}
+																	onClick={() =>
+																		handleEditRequest(
+																			request,
+																			re.user.userId,
+																			re.subject.subjectId,
+																			RequestStatus.REJECTED,
+																			re.requestEnrollId,
+																		)
+																	}
+																>
+																	{t('rejectButton')}
+																</Button>
+															</Flex>
+														</>
+													))}
+												</Flex>
+											</Grid.Col>
+										))}
+									</Grid>
+								)}
+							</Accordion.Panel>
+						</Accordion.Item>
+						<Accordion.Item value='2'>
+							<Accordion.Control
+								sx={{
+									':hover': {
+										backgroundColor: 'brown.1',
+									},
+								}}
+							>
+								<Text w='100%' fw='bold' fz='lg'>
+									{t('finishedRequests')}
+								</Text>
+							</Accordion.Control>
+							<Accordion.Panel>
+								{finishedRequests && finishedRequests.length > 0 && (
+									<Grid p={8}>
+										{finishedRequests.map((request, index) => (
+											<Grid.Col span={4} key={index}>
+												<Flex
+													h={300}
+													bg='neutral.0 '
+													direction='column'
+													sx={(theme) => ({
+														boxShadow: theme.shadows.md,
+														borderRightColor: theme.colors.neutral[3],
+														borderRadius: rem(10),
+													})}
+												>
+													{request.requestEnrollments.map((re) => (
+														<>
+															<Text fz='xl' mt='2%' ml='5%'>
+																{re.subject.name}
+															</Text>
+															<Text fz='xs' ml='5%' mb={5}>
+																{re.user.firstName +
+																	' ' +
+																	re.user.lastName +
+																	' | ' +
+																	re.user.indexNumber +
+																	' | ' +
+																	re.user.semester +
+																	' semestr'}
+															</Text>
+															<Badge
+																color={getColor(
+																	request.requestEnrollments[0]?.requestStatus,
+																)}
+																size='md'
+																radius='lg'
+																variant='filled'
+																ml={15}
+																w={100}
+															>
+																{request.requestEnrollments[0]?.requestStatus}
+															</Badge>
+															<Divider pb='xs' w='90%' ml='5%' mt={15} />
+															<ScrollArea h={175} ml={15} mr={15}>
+																<Text fz='s'>{request.description}</Text>
+															</ScrollArea>
+														</>
+													))}
+												</Flex>
+											</Grid.Col>
+										))}
+									</Grid>
+								)}
+							</Accordion.Panel>
+						</Accordion.Item>
+					</Accordion>
+				</Flex>
 			)}
 		</>
 	);
