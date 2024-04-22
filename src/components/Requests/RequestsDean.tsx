@@ -6,6 +6,7 @@ import {
 	Text,
 	Divider,
 	ScrollArea,
+	Badge,
 } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import { useGetRequests } from '@/query/request.query';
@@ -19,6 +20,7 @@ import {
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
+import { getColor } from '@/utils/colors.util';
 
 type RequestsProps = { dean: Student };
 
@@ -135,7 +137,7 @@ export const RequestsDean = (p: RequestsProps) => {
 										<Text fz='xl' mt='2%' ml='5%'>
 											{re.subject.name}
 										</Text>
-										<Text fz='xs' ml='5%'>
+										<Text fz='xs' ml='5%' mb={5}>
 											{re.user.firstName +
 												' ' +
 												re.user.lastName +
@@ -145,7 +147,19 @@ export const RequestsDean = (p: RequestsProps) => {
 												re.user.semester +
 												' semestr'}
 										</Text>
-										<Divider pb='xs' w='90%' ml='5%' />
+										<Badge
+											color={getColor(
+												request.requestEnrollments[0]?.requestStatus,
+											)}
+											size='md'
+											radius='lg'
+											variant='filled'
+											ml={15}
+											w={100}
+										>
+											{request.requestEnrollments[0]?.requestStatus}
+										</Badge>
+										<Divider pb='xs' w='90%' ml='5%' mt={15} />
 										<ScrollArea h={175} ml={15} mr={15}>
 											<Text fz='s'>{request.description}</Text>
 										</ScrollArea>
