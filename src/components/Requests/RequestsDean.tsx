@@ -33,6 +33,12 @@ export const RequestsDean = (p: RequestsProps) => {
 	const { mutate: addEnrollment } = useAddEnrollment();
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
 
+	const fillteredRequests = studentsRequests?.filter(
+		(request) =>
+			request.requestEnrollments.length > 0 &&
+			request.requestEnrollments[0]!.requestStatus === RequestStatus.PENDING,
+	);
+
 	const handleEditRequest = (
 		request: Request,
 		userId: number,
@@ -113,14 +119,14 @@ export const RequestsDean = (p: RequestsProps) => {
 
 	return (
 		<>
-			{!studentsRequests || studentsRequests.length === 0 ? (
+			{!fillteredRequests || fillteredRequests.length === 0 ? (
 				<EmptyState
 					title={t('emptyTitle')}
 					description={t('emptyDescription')}
 				/>
 			) : (
 				<Grid p={8}>
-					{studentsRequests.map((request, index) => (
+					{fillteredRequests.map((request, index) => (
 						<Grid.Col span={4} key={index}>
 							<Flex
 								h={300}
