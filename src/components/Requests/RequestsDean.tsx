@@ -21,6 +21,8 @@ import {
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
+import { useFiltersStore } from '@/store/filters.store';
+import { useDeanRequestsSearch } from '@/hooks/useDeanRequestsSearch';
 import { getColor } from '@/utils/colors.util';
 
 type RequestsProps = { dean: Student };
@@ -34,13 +36,19 @@ export const RequestsDean = (p: RequestsProps) => {
 	const { mutate: addEnrollment } = useAddEnrollment();
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
 
-	const pendingRequests = studentsRequests?.filter(
+	const searchValue = useFiltersStore((state) => state.searchValue);
+	const { filteredRequests } = useDeanRequestsSearch(
+		searchValue,
+		studentsRequests,
+	);
+
+	const pendingRequests = filteredRequests?.filter(
 		(request) =>
 			request.requestEnrollments.length > 0 &&
 			request.requestEnrollments[0]!.requestStatus === RequestStatus.PENDING,
 	);
 
-	const finishedRequests = studentsRequests?.filter(
+	const finishedRequests = filteredRequests?.filter(
 		(request) =>
 			request.requestEnrollments.length > 0 &&
 			request.requestEnrollments[0]!.requestStatus !== RequestStatus.PENDING,
@@ -126,7 +134,7 @@ export const RequestsDean = (p: RequestsProps) => {
 
 	return (
 		<>
-			{!studentsRequests || studentsRequests.length === 0 ? (
+			{!filteredRequests || filteredRequests.length === 0 ? (
 				<EmptyState
 					title={t('emptyTitle')}
 					description={t('emptyDescription')}

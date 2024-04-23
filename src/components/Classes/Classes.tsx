@@ -23,6 +23,8 @@ import { useGetAllClasses } from '@/query/classes.query';
 import { type ClassWithId } from '@/types/classes.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
 import { notifications } from '@mantine/notifications';
+import { useEnrollmentSearch } from '@/hooks/useEnrollmentSearch';
+import { useFiltersStore } from '@/store/filters.store';
 
 type ClassesProps = { student: Student };
 
@@ -55,6 +57,13 @@ export const Classes = (p: ClassesProps) => {
 		[EnrollStatus.ACCEPTED, EnrollStatus.PROPOSED],
 		p.student.userId,
 		currentSemester?.semesterId,
+	);
+
+	const searchValue = useFiltersStore((state) => state.searchValue);
+
+	const { filteredEnrollments } = useEnrollmentSearch(
+		searchValue,
+		studentEnrollments,
 	);
 
 	const handleConfirmButton = (
@@ -188,7 +197,7 @@ export const Classes = (p: ClassesProps) => {
 					{t('confirmButton')}
 				</Button>
 			</Flex>
-			{!studentEnrollments || studentEnrollments.length === 0 ? (
+			{!filteredEnrollments || filteredEnrollments.length === 0 ? (
 				<EmptyState
 					title={t('emptyTitle')}
 					description={t('emptyDescription')}
@@ -199,7 +208,7 @@ export const Classes = (p: ClassesProps) => {
 					value={openedClass}
 					onChange={setOpenedClass}
 				>
-					{studentEnrollments.map((enrollment) => (
+					{filteredEnrollments.map((enrollment) => (
 						<Accordion.Item
 							key={enrollment.subject.subjectId}
 							value={enrollment.subject.name}

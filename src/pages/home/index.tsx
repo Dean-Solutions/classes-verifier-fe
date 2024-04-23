@@ -82,6 +82,7 @@ export default function Home() {
 				<Header
 					title={h('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
+					showSearch={true}
 				/>
 				{role === 'DEAN' ? (
 					<>

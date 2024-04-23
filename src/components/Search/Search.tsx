@@ -1,21 +1,22 @@
 import { SearchIcon } from '@/Icons/SearchIcon';
-import { useStudentsStore } from '@/store/students.store';
 import { CloseButton, Input } from '@mantine/core';
 import React from 'react';
+import { useFiltersStore } from '@/store/filters.store';
+import { useStudentsStore } from '@/store/students.store';
 
 type SearchProps = {
 	placeholder: string;
 };
 
 const Search = ({ placeholder }: SearchProps) => {
-	const { searchValue, clearSearchValue, setSearchValue } = useStudentsStore(
-		(state) => ({
+	const { isSearchEnabled, searchValue, clearSearchValue, setSearchValue } =
+		useFiltersStore((state) => ({
 			isSearchEnabled: state.isSearchEnabled,
 			searchValue: state.searchValue,
 			clearSearchValue: state.clearSearchValue,
 			setSearchValue: state.setSearchValue,
-		}),
-	);
+		}));
+
 	const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value);
 	};
@@ -47,7 +48,9 @@ const Search = ({ placeholder }: SearchProps) => {
 					searchValue && (
 						<CloseButton
 							variant='subtle'
-							onClick={clearSearchValue}
+							onClick={() => {
+								clearSearchValue();
+							}}
 							size='xs'
 							color='dark.1'
 							sx={(theme) => ({

@@ -9,7 +9,6 @@ import Table from '@/components/Table/Table';
 import useStudentsTableData from '@/hooks/useStudentsTableDefs';
 import { useGetStudents } from '@/query/students.query';
 import { EmptyState } from '@/components/EmptyState/EmptyState';
-import { useStudentsStore } from '@/store/students.store';
 import { useStudentSearch } from '@/hooks/useStudentSearch';
 import { type Student } from '@/types/api.types';
 import { SelectDropdownItem } from '@/components/common/molecules/SelectDropdownItem/SelectDropdownItem';
@@ -17,12 +16,13 @@ import { modals } from '@mantine/modals';
 import { AddTagModal } from '@/components/common/modals/AddTagModal';
 import { AddStudentModal } from '@/components/common/modals/AddStudentModal';
 import { semesters } from '@/data/common.data';
+import { useFiltersStore } from '@/store/filters.store';
 import { getServerSideProps } from '@/server/utils/protectedServerSide.util';
 
 export default function Students() {
 	const [isOpen, { toggle }] = useDisclosure(false);
 	const studentsColumnDefs = useStudentsTableData();
-	const searchValue = useStudentsStore((state) => state.searchValue);
+	const searchValue = useFiltersStore((state) => state.searchValue);
 	const [pagination, setPagination] = useState({
 		pageIndex: 0,
 		pageSize: 10,

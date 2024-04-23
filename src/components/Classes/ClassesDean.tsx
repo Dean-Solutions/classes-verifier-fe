@@ -20,6 +20,8 @@ import { EnrollStatus } from '@/types/enrollments.types';
 import { EmptyState } from '../EmptyState/EmptyState';
 import { statusesToShow } from '@/utils/enrollment.utils';
 import { useGetCurrentSemester } from '@/query/semesters.query';
+import { useFiltersStore } from '@/store/filters.store';
+import { useDeanClassesSearch } from '@/hooks/useDeanClassesSearch';
 
 type ClassesDeanProps = { semesterTag: string };
 
@@ -36,6 +38,12 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 	const { data: classesStudents } = useGetClassesStudentsByTag(
 		semesterTag,
 		statusesToShow,
+	);
+
+	const searchValue = useFiltersStore((state) => state.searchValue);
+	const { filteredClasses } = useDeanClassesSearch(
+		searchValue,
+		classesStudents,
 	);
 
 	const { data: studentData } = useGetAllStudents();
@@ -75,7 +83,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 
 	return (
 		<Flex direction='column' p={8}>
-			{!classesStudents ? (
+			{!filteredClasses || filteredClasses.length == 0 ? (
 				<EmptyState
 					title={t('Table.emptyTitle')}
 					description={t('Table.emptyDescription')}
@@ -86,7 +94,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 					value={openedClass}
 					onChange={setOpenedClass}
 				>
-					{classesStudents.map((classStudents) => (
+					{filteredClasses.map((classStudents) => (
 						<Accordion.Item
 							key={classStudents.class.subjectId}
 							value={classStudents.class.subjectId.toString()}
