@@ -42,13 +42,13 @@ export const RequestsDean = (p: RequestsProps) => {
 		studentsRequests,
 	);
 
-	const pendingRequests = studentsRequests?.filter(
+	const pendingRequests = filteredRequests?.filter(
 		(request) =>
 			request.requestEnrollments.length > 0 &&
 			request.requestEnrollments[0]!.requestStatus === RequestStatus.PENDING,
 	);
 
-	const finishedRequests = studentsRequests?.filter(
+	const finishedRequests = filteredRequests?.filter(
 		(request) =>
 			request.requestEnrollments.length > 0 &&
 			request.requestEnrollments[0]!.requestStatus !== RequestStatus.PENDING,

@@ -25,6 +25,10 @@ export const useDeanRequestsSearch = (
 					request.requestEnrollments[0]?.user.indexNumber
 						.toLowerCase()
 						.includes(searchValueLower) ||
+					request.requestEnrollments[0]?.user.firstName
+						.concat(request.requestEnrollments[0]?.user.lastName)
+						.toLowerCase()
+						.includes(searchValueLower) ||
 					'semestr ' + request.requestEnrollments[0]?.user.semester ===
 						searchValueLower
 				);

@@ -23,6 +23,7 @@ const RequestsPage: NextPage = () => {
 				<Header
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
+					showSearch={true}
 				/>
 				{role === 'DEAN' ? (
 					<>
