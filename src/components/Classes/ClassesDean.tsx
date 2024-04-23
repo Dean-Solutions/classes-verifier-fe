@@ -67,7 +67,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 				userId: student.userId,
 				subjectId: parseInt(openedClass || ''),
 				semesterId: currentSemester?.semesterId,
-				enrollStatus: EnrollStatus.PROPOSED,
+				enrollStatus: EnrollStatus.PENDING,
 			});
 			setNameIndexInput('');
 		}

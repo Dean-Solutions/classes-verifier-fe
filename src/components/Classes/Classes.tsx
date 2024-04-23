@@ -47,12 +47,14 @@ export const Classes = (p: ClassesProps) => {
 		setSelectValue(selected || null);
 	};
 
-	const { mutate: addRequest } = useAddRequest();
-	const { mutate: editEnrollment } = useEditEnrollment();
+	const { mutate: addRequest, isPending: isAddRequestPending } =
+		useAddRequest();
+	const { mutate: editEnrollment, isPending: isEditEnrollmentPending } =
+		useEditEnrollment();
 
 	const { data: studentEnrollments } = useGetStudentEnrollments(
 		p.student.indexNumber,
-		[EnrollStatus.ACCEPTED, EnrollStatus.PROPOSED],
+		[EnrollStatus.ACCEPTED, EnrollStatus.PENDING],
 		p.student.userId,
 		currentSemester?.semesterId,
 	);
@@ -75,7 +77,7 @@ export const Classes = (p: ClassesProps) => {
 		const currentTime = new Date();
 		if (subjectIdAdd) {
 			addRequest({
-				description: t('addSubjectText'),
+				description: requestDescription,
 				submissionDate: currentTime.toISOString(),
 				requestType: RequestType.ADD,
 				senderId: p.student.userId,
@@ -88,37 +90,36 @@ export const Classes = (p: ClassesProps) => {
 					},
 				],
 			});
-			editEnrollment({
-				userId: p.student.userId,
-				subjectId: parseInt(subjectIdAdd),
-				semesterId: semesterId,
-				enrollStatus: EnrollStatus.PENDING,
-			});
 		}
 	};
 
 	const handleRemoveRequest = (semesterId: number, subjectIdDelete: number) => {
 		const currentTime = new Date();
-		addRequest({
-			description: requestDescription,
-			submissionDate: currentTime.toISOString(),
-			requestType: RequestType.DELETE,
-			senderId: p.student.userId,
-			requestEnrolls: [
-				{
-					semesterId: semesterId,
-					requestStatus: RequestStatus.PENDING,
-					userId: p.student.userId,
-					subjectId: subjectIdDelete,
-				},
-			],
-		});
-		editEnrollment({
-			userId: p.student.userId,
-			subjectId: subjectIdDelete,
-			semesterId: semesterId,
-			enrollStatus: EnrollStatus.PENDING,
-		});
+		addRequest(
+			{
+				description: requestDescription,
+				submissionDate: currentTime.toISOString(),
+				requestType: RequestType.DELETE,
+				senderId: p.student.userId,
+				requestEnrolls: [
+					{
+						semesterId: semesterId,
+						requestStatus: RequestStatus.PENDING,
+						userId: p.student.userId,
+						subjectId: subjectIdDelete,
+					},
+				],
+			},
+			{
+				onSuccess: () =>
+					editEnrollment({
+						userId: p.student.userId,
+						subjectId: subjectIdDelete,
+						semesterId: semesterId,
+						enrollStatus: EnrollStatus.PROPOSED,
+					}),
+			},
+		);
 	};
 
 	const handleChangeSubjectRequest = (
@@ -128,27 +129,32 @@ export const Classes = (p: ClassesProps) => {
 	) => {
 		const currentTime = new Date();
 		if (subjectIdAdd) {
-			addRequest({
-				description: requestDescription,
-				submissionDate: currentTime.toISOString(),
-				requestType: RequestType.CHANGE_SUBJECT,
-				senderId: p.student.userId,
-				requestEnrolls: [
-					{
-						semesterId: semesterId,
-						requestStatus: RequestStatus.PENDING,
-						userId: p.student.userId,
-						subjectId: subjectIdDelete,
-						newSubjectId: parseInt(subjectIdAdd),
-					},
-				],
-			});
-			editEnrollment({
-				userId: p.student.userId,
-				subjectId: subjectIdDelete,
-				semesterId: semesterId,
-				enrollStatus: EnrollStatus.PENDING,
-			});
+			addRequest(
+				{
+					description: requestDescription,
+					submissionDate: currentTime.toISOString(),
+					requestType: RequestType.CHANGE_SUBJECT,
+					senderId: p.student.userId,
+					requestEnrolls: [
+						{
+							semesterId: semesterId,
+							requestStatus: RequestStatus.PENDING,
+							userId: p.student.userId,
+							subjectId: subjectIdDelete,
+							newSubjectId: parseInt(subjectIdAdd),
+						},
+					],
+				},
+				{
+					onSuccess: () =>
+						editEnrollment({
+							userId: p.student.userId,
+							subjectId: subjectIdDelete,
+							semesterId: semesterId,
+							enrollStatus: EnrollStatus.PROPOSED,
+						}),
+				},
+			);
 		}
 	};
 
@@ -281,6 +287,7 @@ export const Classes = (p: ClassesProps) => {
 										size='sm'
 										m={8}
 										w={130}
+										loading={isAddRequestPending || isEditEnrollmentPending}
 										onClick={() => {
 											if (checked && selectValue) {
 												handleChangeSubjectRequest(
@@ -366,6 +373,7 @@ export const Classes = (p: ClassesProps) => {
 									size='sm'
 									m={8}
 									w={130}
+									loading={isAddRequestPending}
 									onClick={() => {
 										handleAddRequest(
 											currentSemester?.semesterId || 1,

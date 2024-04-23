@@ -16,8 +16,9 @@ import { RequestStatus, RequestType } from '@/types/request.types';
 import { useEditRequest } from '@/mutations/request.mutate';
 import { type Student, type Request } from '@/types/api.types';
 import {
-	useAddEnrollment,
 	useDeleteEnrollment,
+	useEditEnrollment,
+	useAddEnrollment,
 } from '@/mutations/enrollment.mutate';
 import { EnrollStatus } from '@/types/enrollments.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
@@ -31,8 +32,9 @@ export const RequestsDean = (p: RequestsProps) => {
 	const { data: studentsRequests } = useGetRequests();
 	const { data: currentSemester } = useGetCurrentSemester();
 	const { mutate: editRequest } = useEditRequest();
-	const { mutate: addEnrollment } = useAddEnrollment();
+	const { mutate: editEnrollment } = useEditEnrollment();
 	const { mutate: deleteEnrollment } = useDeleteEnrollment();
+	const { mutate: addEnrollment } = useAddEnrollment();
 
 	const pendingRequests = studentsRequests?.filter(
 		(request) =>
@@ -56,71 +58,107 @@ export const RequestsDean = (p: RequestsProps) => {
 	) => {
 		const currentTime = new Date();
 		if (status === RequestStatus.REJECTED) {
-			editRequest({
-				requestId: request.requestId,
-				description: t('rejectMessage'),
-				submissionDate: currentTime.toISOString(),
-				requestType: RequestType.ACCEPT,
-				senderId: p.dean.userId,
-				requestEnrolls: [
-					{
-						requestEnrollId: requestEnrollId,
-						semesterId: currentSemester?.semesterId || 1,
-						requestStatus: status,
-						userId: userId,
-						subjectId: subjectId,
+			editRequest(
+				{
+					requestId: request.requestId,
+					description: t('rejectMessage'),
+					submissionDate: currentTime.toISOString(),
+					requestType: request.requestType,
+					senderId: p.dean.userId,
+					requestEnrolls: [
+						{
+							requestEnrollId: requestEnrollId,
+							semesterId: currentSemester?.semesterId || 1,
+							requestStatus: status,
+							userId: userId,
+							subjectId: subjectId,
+							newSubjectId: newSubjectId || undefined,
+						},
+					],
+				},
+				{
+					onSuccess: () => {
+						if (request.requestType === RequestType.ADD) {
+							deleteEnrollment({
+								userId: userId,
+								subjectId: subjectId,
+								semesterId: currentSemester?.semesterId || 1,
+								enrollStatus: EnrollStatus.REJECTED,
+							});
+						} else if (request.requestType === RequestType.DELETE) {
+							editEnrollment({
+								userId: userId,
+								subjectId: subjectId,
+								semesterId: currentSemester?.semesterId || 1,
+								enrollStatus: EnrollStatus.PENDING,
+							});
+						} else if (request.requestType === RequestType.CHANGE_SUBJECT) {
+							editEnrollment({
+								userId: userId,
+								subjectId: subjectId,
+								semesterId: currentSemester?.semesterId || 1,
+								enrollStatus: EnrollStatus.PENDING,
+							});
+						}
 					},
-				],
-			});
+				},
+			);
 		}
 		if (status === RequestStatus.ACCEPTED) {
-			editRequest({
-				requestId: request.requestId,
-				description: t('acceptMessage'),
-				submissionDate: currentTime.toISOString(),
-				requestType: RequestType.ACCEPT,
-				senderId: p.dean.userId,
-				requestEnrolls: [
-					{
-						requestEnrollId: requestEnrollId,
-						semesterId: currentSemester?.semesterId || 1,
-						requestStatus: status,
-						userId: userId,
-						subjectId: subjectId,
+			editRequest(
+				{
+					requestId: request.requestId,
+					description: t('acceptMessage'),
+					submissionDate: currentTime.toISOString(),
+					requestType: RequestType.ACCEPT,
+					senderId: p.dean.userId,
+					requestEnrolls: [
+						{
+							requestEnrollId: requestEnrollId,
+							semesterId: currentSemester?.semesterId || 1,
+							requestStatus: status,
+							userId: userId,
+							subjectId: subjectId,
+							newSubjectId: newSubjectId || undefined,
+						},
+					],
+				},
+				{
+					onSuccess: () => {
+						if (request.requestType === RequestType.ADD) {
+							editEnrollment({
+								userId: userId,
+								subjectId: subjectId,
+								semesterId: currentSemester?.semesterId || 1,
+								enrollStatus: EnrollStatus.PENDING,
+							});
+						} else if (request.requestType === RequestType.DELETE) {
+							deleteEnrollment({
+								userId: userId,
+								subjectId: subjectId,
+								semesterId: currentSemester?.semesterId || 1,
+								enrollStatus: EnrollStatus.REJECTED,
+							});
+						} else if (request.requestType === RequestType.CHANGE_SUBJECT) {
+							if (newSubjectId) {
+								addEnrollment({
+									userId: userId,
+									subjectId: newSubjectId,
+									semesterId: currentSemester?.semesterId || 1,
+									enrollStatus: EnrollStatus.PENDING,
+								});
+								console.log('Added: ' + newSubjectId);
+							}
+							deleteEnrollment({
+								userId: userId,
+								subjectId: subjectId,
+								semesterId: currentSemester?.semesterId || 1,
+								enrollStatus: EnrollStatus.REJECTED,
+							});
+						}
 					},
-				],
-			});
-
-			if (request.requestType === RequestType.ADD) {
-				addEnrollment({
-					userId: userId,
-					subjectId: subjectId,
-					semesterId: currentSemester?.semesterId || 1,
-					enrollStatus: EnrollStatus.PROPOSED,
-				});
-			} else if (request.requestType === RequestType.DELETE) {
-				deleteEnrollment({
-					userId: userId,
-					subjectId: subjectId,
-					semesterId: currentSemester?.semesterId || 1,
-					enrollStatus: EnrollStatus.REJECTED,
-				});
-			} else if (request.requestType === RequestType.CHANGE_SUBJECT) {
-				if (newSubjectId) {
-					addEnrollment({
-						userId: userId,
-						subjectId: newSubjectId,
-						semesterId: currentSemester?.semesterId || 1,
-						enrollStatus: EnrollStatus.PROPOSED,
-					});
-				}
-				deleteEnrollment({
-					userId: userId,
-					subjectId: subjectId,
-					semesterId: currentSemester?.semesterId || 1,
-					enrollStatus: EnrollStatus.REJECTED,
-				});
-			}
+				},
+			);
 		}
 	};
 
@@ -186,16 +224,14 @@ export const RequestsDean = (p: RequestsProps) => {
 																	' semestr'}
 															</Text>
 															<Badge
-																color={getColor(
-																	request.requestEnrollments[0]?.requestStatus,
-																)}
+																color={getColor(re.requestStatus)}
 																size='md'
 																radius='lg'
 																variant='filled'
 																ml={15}
 																w={100}
 															>
-																{request.requestEnrollments[0]?.requestStatus}
+																{re.requestStatus}
 															</Badge>
 															<Divider pb='xs' w='90%' ml='5%' mt={15} />
 															<ScrollArea h={175} ml={15} mr={15}>
@@ -219,6 +255,7 @@ export const RequestsDean = (p: RequestsProps) => {
 																			re.subject.subjectId,
 																			RequestStatus.ACCEPTED,
 																			re.requestEnrollId,
+																			re.newSubjectId,
 																		)
 																	}
 																>
@@ -237,6 +274,7 @@ export const RequestsDean = (p: RequestsProps) => {
 																			re.subject.subjectId,
 																			RequestStatus.REJECTED,
 																			re.requestEnrollId,
+																			re.newSubjectId,
 																		)
 																	}
 																>
