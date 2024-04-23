@@ -3,6 +3,7 @@
 		"loading": "Ładowanie...",
 		"noData": "Brak danych",
 		"error": "Wystąpił błąd",
+		"errorMessage": "Coś poszło nie tak przy wykonaniu tej operacji. Spróbuj ponownie później.",
 		"retry": "Spróbuj ponownie",
 		"cancel": "Anuluj",
 		"confirm": "Potwierdź",
@@ -137,15 +138,21 @@
 		"emptyTitle": "Brak przedmiotów",
 		"emptyDescription": "Nie znaleziono żadnych przypisanych przedmiotów",
 		"studentNotFound": "Nie znaleziono Cię w bazie studentów",
-		"standardRequest": "Dodaj przedmiot",
+		"standardRequest": "Miejsce na zgłoszenie ogólne",
 		"deleteCheckboxLabel": "Usuń ten przedmiot",
 		"setSubjectText": "Wymień przedmiot na:",
-		"addSubjectText": "Proszę o dodanie tego przedmiotu"
+		"addSubjectText": "Proszę o dodanie tego przedmiotu",
+		"notificationTitleSuccess": "Poszło!",
+		"notificationMessageSuccess": "Twoje zgłoszenie zostało wysłane",
+		"notificationTitleError": "Ajć!",
+		"notificationMessageError": "Nie udało się wysłać zgłoszenia",
+		"notificationMessageDeleteSubject": "Kliknij opcję 'Usuń ten przedmiot'"
 	},
 	"HomeDean": {
 		"headerTitle": "Strona główna",
 		"searchPlaceholder": "Wyszukaj przedmiot",
-		"nameIndexInput": "Imię, nazwisko i nr Indeksu"
+		"nameIndexInput": "Imię, nazwisko i nr Indeksu",
+		"enrollmentQuantityText": "studentów"
 	},
 	"Requests": {
 		"headerTitle": "Zgłoszenia",
@@ -155,6 +162,26 @@
 		"emptyTitle": "Brak requestów",
 		"emptyDescription": "Nie znaleziono żadnych zgłoszonych requestów",
 		"rejectMessage": "Odrzucam prośbę",
-		"acceptMessage": "Zatwierdzam zgłoszenie"
+		"acceptMessage": "Zatwierdzam zgłoszenie",
+		"pendingRequests": "Oczekujące zgłoszenia",
+		"finishedRequests": "Zakończone zgłoszenia",
+		"deleteRequestButton": "Usuń request"
+	},
+	"Settings": {
+		"headerTitle": "Ustawienia",
+		"changePassword": "Zmień hasło",
+		"oldPasswordLabel": "Stare hasło",
+		"oldPasswordPlaceholder": "Stare hasło",
+		"newPasswordLabel": "Nowe hasło",
+		"newPasswordPlaceholder": "Nowe hasło",
+		"rePasswordLabel": "Powtórz nowe hasło",
+		"rePasswordPlaceholder": "Powtórz nowe hasło",
+		"changePasswordButton": "Zmień hasło",
+		"newPasswordConf": "Powtórz Nowe hasło",
+		"newPasswordConfPlaceholder": "Hasło",
+		"Notification": {
+			"success": "Hurra!",
+			"successMessage": "Hasło zostało zmienione pomyślnie. Zaloguj się ponownie."
+		}
 	}
 }

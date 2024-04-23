@@ -98,6 +98,7 @@ export default function Classes() {
 				<Header
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
+					showSearch
 				/>
 				<Flex direction='row' gap='lg' justify='space-between' align='center'>
 					<Select

@@ -49,8 +49,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 	const { data: studentData } = useGetAllStudents();
 	const studentNames =
 		studentData?.map(({ firstName, lastName, indexNumber }) => ({
-			value: indexNumber.toString(),
-			label: `${firstName} ${lastName} (${indexNumber})`,
+			value: `${firstName} ${lastName} ${indexNumber}`,
 		})) || [];
 
 	const handleTrashButton = (
@@ -101,7 +100,7 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 							value={classStudents.class.subjectId.toString()}
 							bg='neutral.0'
 							px='md'
-							py='lg'
+							py='md'
 							sx={(theme) => ({
 								boxShadow: theme.shadows.sm,
 								borderRightColor: theme.colors.neutral[3],
@@ -110,9 +109,14 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 							})}
 						>
 							<Accordion.Control fz='md'>
-								<Text fz='md' fw={700}>
-									{classStudents.class.name}
-								</Text>
+								<Flex direction='row' justify='space-between'>
+									<Text fz='md' fw={700}>
+										{classStudents.class.name}
+									</Text>
+									<Text fz='md'>
+										{`${classStudents.enrollments.length} ${d('enrollmentQuantityText')}`}
+									</Text>
+								</Flex>
 							</Accordion.Control>
 							<Accordion.Panel>
 								<Flex p='xs' direction='column'>
@@ -176,8 +180,11 @@ export const ClassesDean = ({ semesterTag }: ClassesDeanProps) => {
 												data={studentNames.filter(
 													(name) =>
 														!classStudents.enrollments.some(
-															({ user: { indexNumber } }) =>
-																indexNumber === name.value,
+															({
+																user: { firstName, lastName, indexNumber },
+															}) =>
+																`${firstName} ${lastName} ${indexNumber}` ===
+																name.value,
 														),
 												)}
 												value={nameIndexInput}

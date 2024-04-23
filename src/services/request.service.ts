@@ -1,7 +1,7 @@
 import { fetcher } from '@/lib/fetcher';
 import { type PagableWrapper, type Request } from '@/types/api.types';
 import { Endpoints } from '@/types/endpoints.types';
-import { type UserRequest } from '@/types/request.types';
+import { type RequestType, type UserRequest } from '@/types/request.types';
 
 export const getUserRequests = async (userId: number) => {
 	const { content } = await fetcher<PagableWrapper<Request[]>>(
@@ -10,11 +10,11 @@ export const getUserRequests = async (userId: number) => {
 	return content;
 };
 
-export const getRequests = async (requestType?: string) => {
+export const getRequests = async (requestType?: RequestType) => {
 	let data;
 	if (requestType) {
 		data = await fetcher<PagableWrapper<Request[]>>(
-			`${Endpoints.REQUEST}?page=${0}&size=${10_000}&requestType=${requestType}`,
+			`${Endpoints.REQUEST}?page=${0}&size=${10_000}&requestTypes=${requestType}`,
 		);
 	} else {
 		data = await fetcher<PagableWrapper<Request[]>>(

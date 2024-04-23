@@ -74,6 +74,7 @@ export default function Students() {
 				<Header
 					title={t('headerTitle')}
 					searchPlaceholder={t('searchPlaceholder')}
+					showSearch
 				/>
 				<Flex justify='space-between' align='center'>
 					<Select

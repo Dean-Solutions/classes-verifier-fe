@@ -10,10 +10,9 @@ export const useGetStudentEnrollments = (
 	semesterId?: number,
 ) => {
 	return useQuery({
-		queryKey: [QueryKeys.GET_ENROLLMENT, { index }],
+		queryKey: [QueryKeys.GET_ENROLLMENT],
 		queryFn: () =>
 			getStudentEnrollments(index, enrollStatuses, userId, semesterId),
 		staleTime: ONE_HOUR,
-		enabled: true,
 	});
 };

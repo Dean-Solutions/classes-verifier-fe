@@ -22,6 +22,7 @@ import { useEditEnrollment } from '@/mutations/enrollment.mutate';
 import { useGetAllClasses } from '@/query/classes.query';
 import { type ClassWithId } from '@/types/classes.types';
 import { useGetCurrentSemester } from '@/query/semesters.query';
+import { notifications } from '@mantine/notifications';
 import { useEnrollmentSearch } from '@/hooks/useEnrollmentSearch';
 import { useFiltersStore } from '@/store/filters.store';
 
@@ -53,7 +54,7 @@ export const Classes = (p: ClassesProps) => {
 
 	const { data: studentEnrollments } = useGetStudentEnrollments(
 		p.student.indexNumber,
-		[EnrollStatus.ACCEPTED, EnrollStatus.PENDING, EnrollStatus.PROPOSED],
+		[EnrollStatus.ACCEPTED, EnrollStatus.PROPOSED],
 		p.student.userId,
 		currentSemester?.semesterId,
 	);
@@ -96,6 +97,12 @@ export const Classes = (p: ClassesProps) => {
 					},
 				],
 			});
+			editEnrollment({
+				userId: p.student.userId,
+				subjectId: parseInt(subjectIdAdd),
+				semesterId: semesterId,
+				enrollStatus: EnrollStatus.PENDING,
+			});
 		}
 	};
 
@@ -114,6 +121,12 @@ export const Classes = (p: ClassesProps) => {
 					subjectId: subjectIdDelete,
 				},
 			],
+		});
+		editEnrollment({
+			userId: p.student.userId,
+			subjectId: subjectIdDelete,
+			semesterId: semesterId,
+			enrollStatus: EnrollStatus.PENDING,
 		});
 	};
 
@@ -138,6 +151,12 @@ export const Classes = (p: ClassesProps) => {
 						newSubjectId: parseInt(subjectIdAdd),
 					},
 				],
+			});
+			editEnrollment({
+				userId: p.student.userId,
+				subjectId: subjectIdDelete,
+				semesterId: semesterId,
+				enrollStatus: EnrollStatus.PENDING,
 			});
 		}
 	};
@@ -283,6 +302,14 @@ export const Classes = (p: ClassesProps) => {
 													enrollment.semester.semesterId,
 													enrollment.subject.subjectId,
 												);
+											} else {
+												notifications.show({
+													title: t('notificationTitleError'),
+													message: t('notificationMessageDeleteSubject'),
+													withCloseButton: true,
+													autoClose: 3000,
+													color: 'red.0',
+												});
 											}
 										}}
 									>
@@ -295,22 +322,23 @@ export const Classes = (p: ClassesProps) => {
 
 					<Accordion.Item
 						value={t('standardRequest')}
-						bg='neutral.0'
+						mt={20}
 						mih={70}
+						bg='blue.1'
 						sx={(theme) => ({
 							boxShadow: theme.shadows.sm,
 							borderRightColor: theme.colors.neutral[3],
 							alignContent: 'center',
 						})}
 					>
-						<Accordion.Control fz='md'>
+						<Accordion.Control bg='blue.0'>
 							<Flex direction='row' justify='space-between'>
 								<Text fz='md' fw={700}>
 									{t('standardRequest')}
 								</Text>
 							</Flex>
 						</Accordion.Control>
-						<Accordion.Panel>
+						<Accordion.Panel bg='blue.0'>
 							<Flex direction='column'>
 								<Flex direction='row' align='center'>
 									<Textarea

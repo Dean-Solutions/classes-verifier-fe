@@ -17,7 +17,6 @@ import { EmptyState } from '@/components/EmptyState/EmptyState';
 import { useGetLoggedStudent } from '@/query/students.query';
 import { TableLoader } from '@/components/StudentsTable/TableLoader';
 import { DataFetchErrorReload } from '@/components/common/molecules/DataFetchError/DataFetchError';
-import { semesters } from '@/data/common.data';
 import { modals } from '@mantine/modals';
 import { AddSemesterModal } from '@/components/common/modals/AddSemesterModal';
 
